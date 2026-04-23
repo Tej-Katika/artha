@@ -1,0 +1,1001 @@
+Artha Eval Report — Condition D
+Date: 20260423_112254
+Overall: 28.3% pass, 1.64/5 avg
+
+[FAIL] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's spending question.
+  Latency: 0.49s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message with no financial data, insights, actions, or coverage of the user's situation.
+  Latency: 5.19s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[PASS] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=5 AC=5 CO=4
+  Judge: The response uses specific dollar amounts, dates, and percentages for both goals, provides sound reasoning with a clear plan to redirect emergency fund contributions to retirement, and offers concrete next steps like increasing monthly savings by $216; slight deduction on completeness as it doesn't address other potential signals like investment returns or tax-advantaged account optimization for a high earner.
+  Latency: 12.7s
+  Response (first 500 chars):
+    Here's a full picture of where you stand on your **2 active goals**:
+
+---
+
+### 🏦 Emergency Fund — ✅ On Track (Ahead of Schedule!)
+| | Planned | Actual (based on real savings) |
+|---|---|---|
+| Progress | 25% ($2,500 / $10,000) | ✅ |
+| Monthly Contribution | $500/mo | **$948/mo actual** |
+| Completion | March 2026 | **August 2025** (7 months early!) |
+
+**Great news** — you're saving nearly double what you planned. Best case, you hit this by **July 2025**; worst case, **October 2025** — either way
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=2 AC=2 CO=1
+  Judge: The agent declined to perform anomaly detection and provided no actual transaction data, merchant names, or amounts, offering only generic follow-up options without surfacing any specific suspicious patterns.
+  Latency: 6.21s
+  Response (first 500 chars):
+    Unfortunately, anomaly detection is currently **unavailable** — the system requires an enrichment layer to compare your transactions against per-merchant baselines, and that layer appears to be bypassed right now.
+
+Here's what I can suggest instead:
+
+1. **Review recent transactions manually** — I can pull up your last 20–30 transactions so you can scan them yourself. Just say "show me my recent transactions."
+2. **Check a specific category** — If something feels off (e.g., a strange charge on di
+------------------------------------------------------------
+
+[FAIL] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to provide any actual subscription data due to a claimed system limitation, offering only generic fallback options without citing any specific charges, amounts, or patterns from the user's financial data.
+  Latency: 5.65s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently **unavailable** due to a system limitation — the recurring-bill detection pipeline is bypassed at the moment.
+
+Here's what you can do in the meantime:
+
+1. **Browse your recent transactions** — I can pull up your transaction history and we can manually spot recurring charges together. Just say the word!
+2. **Check a specific category** — If you suspect charges in a particular area (e.g., entertainment, software, utilitie
+------------------------------------------------------------
+
+[PASS] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=4 CO=4
+  Judge: The response cites specific dollar amounts, percentages, and dates with strong behavioral pattern analysis (post-payday splurging, impulse clusters) appropriate for a high-earner/saver, though it lacks specific merchant names and some actions are category-level rather than transaction-specific.
+  Latency: 21.04s
+  Response (first 500 chars):
+    Here's a comprehensive breakdown of your worst spending habits and money leaks:
+
+---
+
+## 🚨 Your Worst Spending Habits
+
+### 1. 🎯 Post-Payday Splurging *(Medium Risk)*
+You spend **78% more in the 5 days after each paycheck** — $1,010/day vs. your normal $567/day. This is the #1 behavioral pattern dragging your savings down.
+
+> **Fix:** Set up an automatic transfer to savings the *same day* your paycheck hits. Pay yourself first, before the urge to splurge kicks in.
+
+---
+
+### 2. 💥 Impulse Spending 
+------------------------------------------------------------
+
+[PASS] overspender_spending_summary
+  Archetype: Lifestyle Overspender
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with strong archetype-relevant insights (negative cash flow, shopping dominance), but stops short of concrete next steps like specific budget targets or merchant-level drill-downs, instead offering to explore further.
+  Latency: 7.68s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛍️ Shopping | $4,108.11 | 45.2% |
+| 🍔 Food & Drink | $1,401.86 | 15.4% |
+| ✈️ Travel | $1,089.72 | 12.0% |
+| 🛒 Groceries | $1,006.90 | 11.1% |
+| 🎭 Entertainment | $557.65 | 6.1% |
+| 💡 Bills & Utilities | $485.33 | 5.3% |
+| 💅 Personal Care | $445.36 | 4.9% |
+| **Total Spent** | **$9,094.93** | |
+
+### ⚠️ A Few Things to Flag:
+- **You spent more than you earned this month.** Your income was $7,
+------------------------------------------------------------
+
+[FAIL] overspender_financial_health
+  Archetype: Lifestyle Overspender
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific monthly income/spending figures and goal progress, but lacks category-level breakdown expected for a Lifestyle Overspender archetype, offers only vague next steps (e.g., 'set category budgets') without naming specific spending culprits, and defers the actual diagnostic work to a follow-up question.
+  Latency: 11.95s
+  Response (first 500 chars):
+    Here's your financial snapshot — I want to be straightforward with you because the numbers need attention:
+
+---
+
+## 📊 Overall Health Score: 32/100 — Grade F (Critical)
+
+**The core issue: You're spending more than you earn every single month.**
+
+---
+
+### 💸 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Net |
+|-------|--------|----------|-----|
+| October | $9,741 | $12,362 | **-$2,620** |
+| November | $9,167 | $10,604 | **-$1,437** |
+| December | $7,488 | $9,095 | **-$1,607** |
+------------------------------------------------------------
+
+[PASS] overspender_goal_tracking
+  Archetype: Lifestyle Overspender
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response cites specific dollar amounts for income, spending, and goal progress with clear projections, but actionable steps remain somewhat generic (no specific spending categories or merchants to cut), and it misses surfacing concrete overspending patterns typical of a Lifestyle Overspender archetype.
+  Latency: 12.05s
+  Response (first 500 chars):
+    Here's an honest picture of where you stand — and it needs some attention. 📊
+
+---
+
+## ⚠️ Overall Financial Health: 32/100 (F — Critical)
+
+You're currently **spending more than you earn** — a gap of **-$1,606.76 this month** (income: $7,488 vs. spending: $9,095). This trend is also getting worse (-21.5% savings rate vs. -15.7% last month).
+
+---
+
+## 🎯 Goal Progress
+
+| Goal | Progress | Saved | Target | Projected Date | On Track? |
+|---|---|---|---|---|---|
+| 🚨 Emergency Fund | 25% | $2,500 | $10,0
+------------------------------------------------------------
+
+[FAIL] overspender_anomaly_detection
+  Archetype: Lifestyle Overspender
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=2 AC=2 CO=1
+  Judge: The response cites no actual financial data, provides no specific insights about the user's spending patterns or archetype, offers only generic follow-up options rather than concrete actions, and fails to surface any real transaction signals due to claimed tool unavailability.
+  Latency: 6.43s
+  Response (first 500 chars):
+    Unfortunately, anomaly detection is currently **unavailable** due to a technical limitation — the system that compares your transactions against merchant-specific baselines isn't active right now.
+
+Here's what you can do in the meantime:
+
+1. **Review your recent transactions yourself** — I can pull up your last 20 transactions so you can eyeball anything that looks off. Just say "show me my recent transactions."
+2. **Check a specific category** — If something feels suspicious (e.g., an unexpecte
+------------------------------------------------------------
+
+[FAIL] overspender_subscription_audit
+  Archetype: Lifestyle Overspender
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to retrieve any subscription data due to a tool error and provided no specific merchants, amounts, or insights; it only offered generic retry options without addressing the Lifestyle Overspender's need to identify wasteful recurring charges.
+  Latency: 6.71s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently unavailable — the system returned an error indicating that the recurring-bill detection pipeline is bypassed at the moment.
+
+Here's what you can try:
+
+1. **Refresh and retry** — I can attempt a fresh scan of your transactions to detect subscriptions:
+   > *"Can you refresh my subscriptions?"*
+
+2. **Browse your transactions manually** — I can pull up your recent transactions so you can spot recurring charges yourself:
+  
+------------------------------------------------------------
+
+[PASS] overspender_behavioral_analysis
+  Archetype: Lifestyle Overspender
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=4 CO=3
+  Judge: The response cites specific daily averages, dates, and transaction amounts with sound reasoning and concrete fixes like weekly envelopes and a 24-hour pause rule, but it acknowledges missing subscription and anomaly data and doesn't break down spending by category (dining, shopping, etc.) which is critical for a Lifestyle Overspender archetype.
+  Latency: 14.59s
+  Response (first 500 chars):
+    Here's what your spending data reveals about your worst habits:
+
+---
+
+## 🚨 Your Worst Spending Habits
+
+### 1. 🔴 Month-End Cash Squeeze (HIGH SEVERITY)
+This is your biggest problem. Your spending pattern looks like this:
+| Time of Month | Avg Daily Spend |
+|---|---|
+| Early (Days 1–10) | **$790/day** |
+| Mid-month | **$577/day** |
+| Late month | **$463/day** |
+
+You're burning through cash fast at the start of the month and running on fumes by the end. This cycle can force you into overdrafts, mis
+------------------------------------------------------------
+
+[PASS] high_debt_spending_summary
+  Archetype: High Debt Load
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides specific dollar amounts and percentages with clear category breakdowns and flags the negative savings rate and high loan burden relevant to a high-debt user, but stops short of concrete prioritized actions (e.g., specific refinancing steps or target spending cuts) and offers follow-ups rather than immediate recommendations.
+  Latency: 9.24s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spent: **$6,772.39**
+Your income this month was **$6,625.52**, meaning you're currently **in the red by $146.87** (-2.22% savings rate). That's worth addressing!
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏦 Loan Payments | $3,307.49 | 48.8% |
+| 🔌 Bills & Utilities | $1,341.42 | 19.8% |
+| 🚗 Transportation | $952.38 | 14.1% |
+| 🛒 Groceries | $776.39 | 11.5% |
+| 🍔 Food & Drink | $394.71
+------------------------------------------------------------
+
+[FAIL] high_debt_financial_health
+  Archetype: High Debt Load
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=4 IQ=3 AC=2 CO=2
+  Judge: The response cites specific monthly income/spending figures and goal progress, but for a High Debt Load archetype it notably fails to mention debt balances, interest rates, or minimum payments, and offers only vague next steps ('find where overspend is happening') rather than concrete category-level cuts or debt payoff strategies.
+  Latency: 14.08s
+  Response (first 500 chars):
+    Here's your full financial picture — and I want to be upfront with you: **there are some real concerns to address.**
+
+---
+
+## 📊 Financial Health Score: 32/100 — Grade F
+
+### 🔴 The Core Problem: You're Spending More Than You Earn
+Over the last **2 months**, you've been in a deficit:
+
+| Month | Income | Spending | Net |
+|-------|--------|----------|-----|
+| October | $5,174 | $4,720 | **+$454 ✅** |
+| November | $5,653 | $5,785 | **-$132 ❌** |
+| December | $6,625 | $6,772 | **-$147 ❌** |
+
+Even thou
+------------------------------------------------------------
+
+[PASS] high_debt_goal_tracking
+  Archetype: High Debt Load
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response cites specific goal amounts, progress percentages, and calculates meaningful shortfalls based on the negative savings rate, but it stops short of naming specific spending categories, debts, or merchants (critical for a High Debt Load archetype) and offers to investigate rather than providing concrete actions like specific cuts or debt payoff strategies.
+  Latency: 12.78s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and the picture needs some attention. ⚠️
+
+---
+
+## 📊 Goal Progress Summary
+
+| Goal | Saved | Target | Progress | Target Date | Status |
+|---|---|---|---|---|---|
+| 🛡️ Emergency Fund | $2,500 | $10,000 | 25% | Dec 2025 | ❌ Off Track |
+| 🏦 Retirement | $15,000 | $100,000 | 15% | Dec 2030 | ❌ Off Track |
+
+---
+
+## 🚨 The Critical Issue: Negative Savings Rate
+
+Your actual average savings over the last 3 months is **-$805.68/month** — meaning you're **spending 
+------------------------------------------------------------
+
+[FAIL] high_debt_anomaly_detection
+  Archetype: High Debt Load
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=3 CO=2
+  Judge: The response only cites a transaction count (22) with no specific charges, amounts, or merchants, offers generic next steps rather than analysis tailored to a high-debt user, and fails to surface any actual suspicious patterns due to the tool failure.
+  Latency: 7.32s
+  Response (first 500 chars):
+    Unfortunately, I'm unable to run the full anomaly detection right now. Here's what I can tell you:
+
+- **22 transactions were scanned** over the past 30 days.
+- The advanced detection system that compares charges against your per-merchant spending history is currently **unavailable** due to a technical limitation with the data enrichment layer.
+
+### What you can do in the meantime:
+1. **Review your recent transactions manually** — I can pull up your last 20 transactions so you can scan them yours
+------------------------------------------------------------
+
+[FAIL] high_debt_subscription_audit
+  Archetype: High Debt Load
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent declined to answer due to a claimed system limitation, providing no actual subscription data, no user-specific insights, and only generic fallback suggestions rather than identifying recurring charges relevant to a high-debt user.
+  Latency: 6.81s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently unavailable due to a system limitation — the recurring-bill detection pipeline is bypassed right now, so I'm not able to automatically identify your subscriptions at this time.
+
+Here's what you can do in the meantime:
+
+1. **Check your transactions manually** — I can pull up your recent transactions and you can scan for recurring charges. Just say "show me my recent transactions" and we can look together.
+2. **Try again 
+------------------------------------------------------------
+
+[PASS] high_debt_behavioral_analysis
+  Archetype: High Debt Load
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=4 CO=4
+  Judge: The response cites specific dollar amounts and percentages, identifies archetype-relevant issues like the 57.8% debt burden and low savings rate, and provides prioritized actions, though some suggestions (refinancing, weekend budget) could be more concrete with specific numbers.
+  Latency: 18.86s
+  Response (first 500 chars):
+    This paints a very clear picture. Here's a full breakdown of your worst spending habits and where money may be slipping away:
+
+---
+
+## 🔍 Your Spending Analysis (Last 3 Months)
+
+### 🚨 #1 — Debt is Consuming Your Income
+| | |
+|---|---|
+| **Loan Payments** | **$9,993** (57.8% of all spending!) |
+| **Total Income** | $17,454 |
+| **Net Savings** | **$176 total — just 1% savings rate** |
+
+This is your biggest issue. Over half of every dollar you earn goes straight to loan payments. With only a 1% savi
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_spending_summary
+  Archetype: Paycheck to Paycheck
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise category breakdowns with percentages and correctly flags the negative cash flow critical for a paycheck-to-paycheck user, but stops short of recommending specific dollar-amount cuts or concrete next steps, instead asking what the user wants to explore next.
+  Latency: 7.87s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Housing | $853.60 | 31.4% |
+| 🍽️ Food & Drink | $763.72 | 28.1% |
+| 🛒 Groceries | $662.21 | 24.3% |
+| 💆 Personal Care | $178.92 | 6.6% |
+| 🚗 Transportation | $144.48 | 5.3% |
+| 💡 Bills & Utilities | $117.61 | 4.3% |
+| **Total Spending** | **$2,720.54** | |
+
+### ⚠️ A Few Things to Note:
+- **You spent more than you earned this month.** Your income was **$2,571.59**, leaving you with a **-$14
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_financial_health
+  Archetype: Paycheck to Paycheck
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=3 CO=3
+  Judge: The response uses specific dollar amounts and percentages for income, spending, and goal progress, and correctly identifies the worsening trend for a paycheck-to-paycheck user, but it lacks concrete category-level actions (no named categories or merchants to cut) and doesn't surface subscription details or specific spending drivers that would complete the picture.
+  Latency: 13.44s
+  Response (first 500 chars):
+    Here's a full picture of where you stand. I'll be straight with you — there are some things to address:
+
+---
+
+## 📊 Financial Health Score: 32/100 (F — Critical)
+
+---
+
+### 💸 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Net |
+|-------|--------|----------|-----|
+| October | $3,901 | $3,866 | +$35 ✅ |
+| November | $3,168 | $3,137 | +$31 ✅ |
+| **December** | **$2,572** | **$2,721** | **-$149 ⚠️** |
+
+The trend is concerning — you've gone from barely breaking even to spending **$1
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_goal_tracking
+  Archetype: Paycheck to Paycheck
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response cites specific dollar amounts for goals, gaps, and deficit with clear math, and correctly identifies the critical paycheck-to-paycheck issue of spending exceeding income, but it stops short of naming specific spending categories or concrete cuts, instead offering to do that analysis in a follow-up.
+  Latency: 11.43s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and the picture needs attention. ⚠️
+
+---
+
+## 📊 Goal Progress Summary
+
+| Goal | Saved | Target | Progress | Target Date | Status |
+|---|---|---|---|---|---|
+| Emergency Fund | $2,500 | $10,000 | 25% | Dec 2025 | ❌ Off Track |
+| Retirement | $15,000 | $100,000 | 15% | Dec 2030 | ❌ Off Track |
+
+---
+
+## 🚨 The Big Issue: You're Spending More Than You Earn
+
+Over the last 3 months, your **actual savings rate is -$1,328/month** — meaning you're running a defici
+------------------------------------------------------------
+
+[FAIL] paycheck_to_paycheck_anomaly_detection
+  Archetype: Paycheck to Paycheck
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=2 AC=2 CO=1
+  Judge: The agent declined to perform the analysis citing a technical limitation and provided no specific transaction data, dollar amounts, or merchant names, offering only generic follow-up options rather than actually surfacing suspicious activity relevant to a paycheck-to-paycheck user.
+  Latency: 7.84s
+  Response (first 500 chars):
+    Unfortunately, anomaly detection is currently **unavailable** due to a technical limitation — the system requires enriched transaction data (per-merchant baselines) to flag unusual charges, and that layer isn't active right now.
+
+Here's what you can do in the meantime:
+
+1. **Browse your recent transactions yourself** — I can pull up your last 30 days of transactions so you can eyeball anything that looks off.
+2. **Check a specific category** — If something feels suspicious (e.g., an unexpected c
+------------------------------------------------------------
+
+[FAIL] paycheck_to_paycheck_subscription_audit
+  Archetype: Paycheck to Paycheck
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to provide any actual subscription data, citing a tool limitation, and offered only generic fallback suggestions without any user-specific financial details or archetype-aware insights.
+  Latency: 6.26s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently unavailable — the system returned a message saying it's operating in a limited mode that bypasses the recurring-bill detection pipeline.
+
+Here's what you can do in the meantime:
+
+1. **Ask me to search your transactions** — I can look through your recent transaction history by category or merchant name to help identify potential recurring charges manually.
+2. **Try refreshing** — I can attempt a re-scan of your transacti
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_behavioral_analysis
+  Archetype: Paycheck to Paycheck
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=4 CO=4
+  Judge: The response provides specific dollar amounts, percentages, and category breakdowns with strong archetype-relevant insights (highlighting the 0% savings rate and deficit spending critical for paycheck-to-paycheck users), though actionability could be stronger with specific transaction-level recommendations rather than offers to drill down further.
+  Latency: 21.44s
+  Response (first 500 chars):
+    Here's a clear breakdown of your spending habits and where money may be slipping away:
+
+---
+
+## 🔍 Your Spending Habits: The Honest Picture
+
+### ⚠️ The Big Problem: You're Spending More Than You Earn
+Over the last 3 months, you spent **$9,723** on **$9,641** in income — a **net loss of $83**. December was the worst month with a **-$149 deficit**. You have essentially a **0% savings rate**, which is the most critical issue.
+
+---
+
+### 💸 Where Your Money Is Going (Last 3 Months)
+
+| Category | Total 
+------------------------------------------------------------
+
+[FAIL] freelancer_spending_summary
+  Archetype: Freelancer
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=3 AC=2 CO=3
+  Judge: The response provides precise dollar amounts and percentages with a clear category breakdown, but insights are mostly observational rather than freelancer-specific (e.g., no mention of quarterly taxes, separating business/personal, or income variability), and it lacks concrete prioritized actions beyond vague 'worth a closer look' suggestions.
+  Latency: 9.49s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spending: **$2,681.12**
+*(Total Income: $3,266.99 | Net Cash Flow: +$585.87 | Savings Rate: 17.9%)*
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛒 Groceries | $1,005.66 | 37.5% |
+| 💼 Business Expenses | $752.92 | 28.1% |
+| 🚗 Transportation | $490.13 | 18.3% |
+| 🏠 Housing | $258.04 | 9.6% |
+| 🍔 Food & Drink | $174.37 | 6.5% |
+
+---
+
+### 🔍 A Few Things to Note:
+
+1. **Groceries at $1,005.6
+------------------------------------------------------------
+
+[PASS] freelancer_financial_health
+  Archetype: Freelancer
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response provides specific dollar amounts, percentages, and month-by-month trends with clear budget analysis and prioritized recommendations, though it misses freelancer-specific insights like income volatility planning, quarterly taxes, or self-employment retirement vehicles that would be highly relevant to this archetype.
+  Latency: 14.79s
+  Response (first 500 chars):
+    Here's your full financial picture for **December 2024**:
+
+---
+
+## 🏦 Overall Health Score: 57/100 — Grade C ("Fair")
+
+You're making progress, but there are some clear areas to work on.
+
+---
+
+## 💰 Are You Saving Enough?
+
+**Yes — and you're improving!** Here's your 3-month savings trend:
+
+| Month | Income | Spending | Saved | Rate |
+|-------|--------|----------|-------|------|
+| Oct 2024 | $3,581 | $3,590 | -$9 | **-0.2%** ⚠️ |
+| Nov 2024 | $3,934 | $3,439 | $496 | **12.6%** |
+| Dec 2024 | $3,267 
+------------------------------------------------------------
+
+[PASS] freelancer_goal_tracking
+  Archetype: Freelancer
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response provides specific dollar figures, progress percentages, and projected completion dates with sound reasoning about the savings gap, but it lacks freelancer-specific insights (e.g., income variability) and offers only offer-to-explore next steps rather than concrete spending cuts or category-level actions.
+  Latency: 11.76s
+  Response (first 500 chars):
+    Here's a full picture of where you stand — and I want to be upfront: **both of your active goals are currently off track.**
+
+---
+
+## 📊 Goal Snapshot
+
+| Goal | Saved | Target | Progress | Projected Completion | Target Date | Status |
+|---|---|---|---|---|---|---|
+| 🛡️ Emergency Fund | $2,500 | $10,000 | 25% | Mar 2026 | Dec 2025 | ❌ Off Track |
+| 🏦 Retirement | $15,000 | $100,000 | 15% | Nov 2033 | Dec 2030 | ❌ Off Track |
+
+---
+
+## ⚠️ The Core Problem: Your Actual Savings Rate
+
+While your planned
+------------------------------------------------------------
+
+[FAIL] freelancer_anomaly_detection
+  Archetype: Freelancer
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to provide any actual transaction data or analysis, citing a service outage, and offered only generic next steps without any freelancer-specific insights or concrete findings.
+  Latency: 5.98s
+  Response (first 500 chars):
+    Unfortunately, the anomaly detection service is currently unavailable — it requires an enrichment layer that isn't active right now, so it wasn't able to scan your transactions for unusual patterns.
+
+Here's what you can do in the meantime:
+
+1. **Review your recent transactions directly** — I can pull up your latest transactions so you can scan them yourself. Just say "show me my recent transactions" and I'll list them out.
+2. **Check a specific category or merchant** — If something looks off (e.
+------------------------------------------------------------
+
+[FAIL] freelancer_subscription_audit
+  Archetype: Freelancer
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to retrieve any subscription data and offered only generic fallback suggestions with no specific merchants, amounts, or freelancer-relevant insights.
+  Latency: 7.04s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently unavailable — the system returned a message saying:
+
+> *"Subscription detection is unavailable in raw/ontology-disabled mode."*
+
+This means the recurring-bill detection pipeline isn't active right now. Here's what you can do:
+
+1. **Check your recent transactions manually** — I can pull up your transaction history and we can look for repeating charges together. Just say *"show me my recent transactions"* and I'll fetch t
+------------------------------------------------------------
+
+[PASS] freelancer_behavioral_analysis
+  Archetype: Freelancer
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response cites specific dollar amounts, percentages, and monthly breakdowns with strong actionable recommendations, though it could go deeper on freelancer-specific issues like irregular income smoothing, quarterly tax setasides, and lacks merchant-level detail for the biggest categories.
+  Latency: 25.65s
+  Response (first 500 chars):
+    Here's a full breakdown of your spending habits and where money may be leaking:
+
+---
+
+## 🔍 Your Spending Habits — Honest Assessment
+
+### 📊 The Big Picture (Last 3 Months)
+| | Amount |
+|---|---|
+| Total Income | $10,782.58 |
+| Total Spending | $9,709.59 |
+| Net Saved | $1,072.99 |
+| **Avg. Savings Rate** | **9.95%** ⚠️ |
+
+A ~10% savings rate is below the recommended **20%**. You're leaving room for improvement.
+
+---
+
+### 🚨 Top Areas of Concern
+
+#### 1. 🍔 Food & Drink — $2,360.28 (24% of all spend
+------------------------------------------------------------
+
+[FAIL] retired_fixed_spending_summary
+  Archetype: Retired / Fixed Income
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=3 AC=2 CO=3
+  Judge: Specific dollar amounts and percentages are provided clearly, but insights are generic and not tailored to a retiree on fixed income (e.g., no mention of Medicare, SS income stability, or healthcare cost planning), actionability is vague without concrete next steps, and the missing trend data plus lack of merchant-level detail leaves gaps.
+  Latency: 9.75s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spending: $3,169.10
+*(Income: $3,960.46 | Net Savings: $791.36 | Savings Rate: ~20%)*
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Bills & Utilities | $1,483.98 | 46.8% |
+| 🛒 Groceries | $737.13 | 23.3% |
+| 🍔 Food & Drink | $480.37 | 15.2% |
+| 🏥 Healthcare | $467.62 | 14.8% |
+
+---
+
+### 🔍 A Few Things to Note:
+1. **Bills & Utilities** is your biggest expense at nearly half your spendi
+------------------------------------------------------------
+
+[PASS] retired_fixed_financial_health
+  Archetype: Retired / Fixed Income
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=4 IQ=3 AC=4 CO=3
+  Judge: The response cites specific numbers across months, categories, and goals, and offers prioritized actions, but it applies a generic 50/30/20 framework without tailoring to the Retired/Fixed Income archetype—missing key considerations like Social Security/pension income stability, retirement withdrawal strategy, healthcare cost context, and whether a 20% savings rate is even the right benchmark for a retiree.
+  Latency: 16.49s
+  Response (first 500 chars):
+    Here's your complete financial picture for **December 2024**:
+
+---
+
+## 🏦 Overall Health Score: 72/100 — Grade B ("Good")
+
+Solid footing, but with a couple of areas to sharpen.
+
+---
+
+## 💰 Are You Saving Enough?
+
+**Short answer: Yes — but the trend is worth watching.**
+
+| Month | Income | Spending | Saved | Savings Rate |
+|-------|--------|----------|-------|-------------|
+| Oct 2024 | $3,861 | $2,868 | $993 | 25.7% ✅ |
+| Nov 2024 | $2,890 | $2,263 | $628 | 21.7% ✅ |
+| Dec 2024 | $3,960 | $3,169 |
+------------------------------------------------------------
+
+[PASS] retired_fixed_goal_tracking
+  Archetype: Retired / Fixed Income
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=3 CO=3
+  Judge: The response cites specific dollar amounts and percentages for goals and contributions, but lacks archetype-specific insights for a retiree (no mention of Social Security, RMDs, healthcare, or why a retiree has a 2030 retirement goal), and actionable next steps are generic (increase contributions) without identifying specific spending categories draining the savings gap.
+  Latency: 13.45s
+  Response (first 500 chars):
+    Here's the honest picture — and there are some important warning signs to flag:
+
+---
+
+## 📊 Financial Health Score: 72/100 (B — Good)
+
+You have solid fundamentals: positive cash flow and a 20% savings rate this month. But your **goals are both off track**, and the projection data reveals a deeper issue.
+
+---
+
+## 🎯 Goal Status
+
+| Goal | Progress | Target Date | Status |
+|---|---|---|---|
+| 🛡️ Emergency Fund | 25% ($2,500 / $10,000) | Dec 2025 | ⚠️ Off Track |
+| 🏦 Retirement | 15% ($15,000 / $100,0
+------------------------------------------------------------
+
+[FAIL] retired_fixed_anomaly_detection
+  Archetype: Retired / Fixed Income
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=3 CO=2
+  Judge: The response acknowledges a service outage and only cites a transaction count (15) without any specific merchants, amounts, or dates, offering generic fallback steps rather than archetype-tailored insights for a retiree on fixed income who is especially vulnerable to fraud.
+  Latency: 6.09s
+  Response (first 500 chars):
+    Unfortunately, the anomaly detection service is currently **unavailable** — it requires an enrichment layer that appears to be bypassed right now. Here's what I can tell you:
+
+- ✅ **15 transactions** were scanned over the last **30 days**
+- ❌ The system couldn't compare them against per-merchant baselines to flag anything unusual
+
+### What you can do:
+1. **Review your transactions manually** — I can pull up a list of your recent transactions so you can eyeball anything suspicious. Just say "show
+------------------------------------------------------------
+
+[FAIL] retired_fixed_subscription_audit
+  Archetype: Retired / Fixed Income
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to retrieve any subscription data and provided no specific charges, amounts, or merchants; while it offered a reasonable fallback suggestion to review transactions manually, it surfaced no actual financial signals and gave no archetype-specific insight for a retiree on fixed income.
+  Latency: 5.7s
+  Response (first 500 chars):
+    Unfortunately, I wasn't able to retrieve your subscription data at this time. The system returned the following message:
+
+> *"Subscription detection is unavailable in raw/ontology-disabled mode."*
+
+This means the subscription detection feature is temporarily unavailable. Here's what you can do in the meantime:
+
+1. **Try again shortly** — the detection pipeline may come back online.
+2. **Review recent transactions manually** — I can pull up your recent transactions and we can scan for recurring c
+------------------------------------------------------------
+
+[FAIL] retired_fixed_behavioral_analysis
+  Archetype: Retired / Fixed Income
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2L7ccKQjLk8e72G1TB'}
+  Latency: 6.27s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_spending_summary
+  Archetype: Dual Income / Family
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2LJePFRTnU838TsYsb'}
+  Latency: 0.47s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_financial_health
+  Archetype: Dual Income / Family
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2LW9Bohrz9tMVx9CYY'}
+  Latency: 0.2s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_goal_tracking
+  Archetype: Dual Income / Family
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2LffBd7csXXVVoCF4b'}
+  Latency: 0.12s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_anomaly_detection
+  Archetype: Dual Income / Family
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2LqhvKcuU4B6cCehHb'}
+  Latency: 0.26s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_subscription_audit
+  Archetype: Dual Income / Family
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2M2WJgB2SVHyej7o1x'}
+  Latency: 0.36s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_behavioral_analysis
+  Archetype: Dual Income / Family
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2MCHRYovspLZ2xAfDU'}
+  Latency: 0.16s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_spending_summary
+  Archetype: Recent Graduate
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2MNPdu1av4ELQtWtfw'}
+  Latency: 0.25s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_financial_health
+  Archetype: Recent Graduate
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2MZpj2oH63g6XRAC7y'}
+  Latency: 0.25s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_goal_tracking
+  Archetype: Recent Graduate
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Mmk5PQUN75XbJd6mC'}
+  Latency: 0.3s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_anomaly_detection
+  Archetype: Recent Graduate
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2MxVz8KB1wmcvZWEJV'}
+  Latency: 0.34s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_subscription_audit
+  Archetype: Recent Graduate
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2N8T25XDpbF3pjrwDo'}
+  Latency: 0.21s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_behavioral_analysis
+  Archetype: Recent Graduate
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2NJeCBoXNTSHYD3gE8'}
+  Latency: 0.28s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_spending_summary
+  Archetype: Small Business Owner
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2NVy5MeQhqpwy5eJmm'}
+  Latency: 0.36s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_financial_health
+  Archetype: Small Business Owner
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Ngxd5WmwQpLZvRhTj'}
+  Latency: 0.36s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_goal_tracking
+  Archetype: Small Business Owner
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Ns3M6ZexnyzV22nY3'}
+  Latency: 0.16s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_anomaly_detection
+  Archetype: Small Business Owner
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2P3xftDbjCmidNciFD'}
+  Latency: 0.27s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_subscription_audit
+  Archetype: Small Business Owner
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2PF3B8hHtyKXbwidcS'}
+  Latency: 0.39s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_behavioral_analysis
+  Archetype: Small Business Owner
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2PSJb6HhpyJkeCfpCH'}
+  Latency: 0.32s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_spending_summary
+  Archetype: Gig Economy Worker
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Pcw4QRLJL3YZyj4mT'}
+  Latency: 0.24s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_financial_health
+  Archetype: Gig Economy Worker
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Pp9VdbrNLAK1raWzt'}
+  Latency: 0.37s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_goal_tracking
+  Archetype: Gig Economy Worker
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Q1QAHx4mxxPi2KtfE'}
+  Latency: 0.22s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_anomaly_detection
+  Archetype: Gig Economy Worker
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2QDtzoXdU3r9CmDb9f'}
+  Latency: 0.74s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_subscription_audit
+  Archetype: Gig Economy Worker
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2QRJLtVX72KzVGfhq1'}
+  Latency: 0.36s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_behavioral_analysis
+  Archetype: Gig Economy Worker
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CaM2Qc7y7V8uda7Dv5NfD'}
+  Latency: 0.26s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+

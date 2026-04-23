@@ -1,0 +1,464 @@
+FinWise Eval Report - 20260303_044247
+Overall Score: 0.14 | Pass Rate: 12%
+
+
+============================================================
+Priya Sharma (High Earner/Saver)
+Avg Score: 0.55 | Pass: 3/5
+============================================================
+
+[PASS] Q1: How much did I spend this month?
+Score: 0.68 | Quality: ADEQUATE | Length: 1407 | 15.3s
+
+Response:
+You've spent **$8,912.83** this month (last 30 days) across 630 transactions.
+
+**Here's where your money went:**
+- **Groceries**: ~$2,253 (Whole Foods, HEB, Aldi, Walmart)
+- **Restaurants/Dining**: ~$1,347 (Chick-fil-A, Chipotle, Starbucks, Dominos, etc.)
+- **Gas/Transportation**: ~$577 (Shell, ExxonMobil, Uber, parking)
+- **Travel**: ~$2,023 (Southwest Airlines, Enterprise rental, Airbnb)
+- **Retail/Shopping**: ~$827 (Nordstrom, Target, Amazon)
+- **Subscriptions/Bills**: ~$738 (utilities, phone, internet, streaming, gym)
+- **Investments**: ~$1,000 (Fidelity Roth IRA, Vanguard 401k)
+- **Other**: ~$148 (pharmacy, misc)
+
+**Key observations:**
+1. **Travel is your biggest expense** at over $2,000 — primarily Southwest Airlines flights ($2,022.59)
+2. **Whole Foods** is your top grocery source at $3,262 in the past month — that's exceptionally high. You're averaging ~$105 per trip with frequent visits
+3. **Dining out** costs you about $45/day — you eat at restaurants/coffee shops often
+4. **You're investing consistently** — $1,000/month between retirement accounts is excellent
+
+**Next steps:**
+1. Consider if all that travel was planned — that's 22% of your monthly spending
+2. Whole Foods is costing you ~3x what HEB does per trip. Even mixing in more HEB/Aldi could save $500+/month
+3. You don't have any budgets set up yet — want me to help you create spending targets for your top categories?
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 2.7s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[PASS] Q3: Anything suspicious in my transactions?
+Score: 0.92 | Quality: DETAILED | Length: 1058 | 8.8s
+
+Response:
+I found **4 unusual transactions** in the last 30 days worth reviewing:
+
+1. **Amazon Marketplace on Feb 27 — $119.35**  
+   This is significantly higher than your typical Amazon spend of ~$22. Worth checking your order history to confirm this was intentional.
+
+2. **Whole Foods Market on Feb 12 — $322.07**  
+   This is more than double your usual Whole Foods spend of ~$140. Could be a big grocery restock or possibly a duplicate charge.
+
+3. **Walmart Supercenter on Feb 22 — $134.26**  
+   About 2x your normal Walmart spend of ~$68. Less concerning but still notable.
+
+4. **Chick-fil-A on Feb 21 — $39.56**  
+   Nearly double your typical order of ~$22. Maybe ordering for others or an extra meal?
+
+**What to do:**
+- **Check your Amazon and Whole Foods accounts** to verify these large charges match actual orders
+- If anything looks wrong, contact your bank to dispute unauthorized charges
+- The Whole Foods charge stands out most — that's $182 more than usual
+
+Do any of these ring a bell, or would you like me to look deeper into any specific merchant?
+----------------------------------------
+
+[PASS] Q4: What are my biggest spending categories?
+Score: 1.0 | Quality: DETAILED | Length: 1674 | 17.1s
+
+Response:
+I can see the transaction data. Now let me analyze and categorize the spending to identify your biggest categories.
+
+Based on your last 30 days of spending (Jan 30 - Feb 28, 2026), here are **your biggest spending categories**:
+
+## Top Spending Categories
+
+1. **Groceries: $2,023** — Your largest category
+   - Whole Foods Market: $1,423 (12 trips, avg $119/trip)
+   - HEB: $359 (5 trips)
+   - Aldi: $171 (3 trips)
+   - Walmart: $71 (1 trip)
+
+2. **Savings/Investments: $1,500**
+   - Fidelity Roth IRA: $500
+   - Vanguard 401k: $1,000
+
+3. **Travel: $1,023**
+   - Southwest Airlines: $463
+   - (You also had travel in Dec/Jan with more flights and car rentals)
+
+4. **Utilities & Bills: $655**
+   - Oncor Electric: $212
+   - AT&T Internet: $90
+   - T-Mobile: $78
+   - City of Denton Water: $61
+   - Peloton: $44
+   - Planet Fitness: $50
+   - Subscriptions (Netflix, Hulu, Spotify, Apple, iCloud, Amazon Prime): $120
+
+5. **Dining Out: $384**
+   - Chick-fil-A: $113 (5 visits)
+   - Starbucks: $71 (6 visits)
+   - Chipotle: $77 (4 visits)
+   - Dominos: $89 (2 orders)
+   - Other: $34
+
+6. **Gas: $235** 
+   - Shell, ExxonMobil (8 fill-ups)
+
+7. **Shopping/Retail: $509**
+   - Amazon: $142
+   - Target: $252
+   - Nordstrom: $197 (2 purchases)
+   - Walmart: $185
+
+8. **Transportation: $14**
+   - Uber: $14 (1 trip)
+
+---
+
+**Key Insights:**
+- **Whole Foods is your #1 merchant** at $1,423/month — that's about $355/week
+- You're saving **22% of your spending** ($1,500 in retirement accounts)
+- Your fixed bills are very reasonable at $655
+- Dining out is moderate at $384, mostly fast casual spots
+
+Would you like to dig into any category or see if there are opportunities to optimize?
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Marcus Johnson (Paycheck to Paycheck)
+Avg Score: 0.03 | Pass: 0/5
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.2s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.3s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Alex Chen (High Debt)
+Avg Score: 0.2 | Pass: 1/5
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.2s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[PASS] Q5: Am I on track with my savings goals?
+Score: 1.0 | Quality: DETAILED | Length: 1042 | 8.1s
+
+Response:
+I don't see any active savings goals set up in your account yet.
+
+**What this means:**
+Right now, there are no specific savings targets (like an emergency fund, vacation savings, or down payment goal) configured for me to track your progress against.
+
+**Next steps you can take:**
+
+1. **Set up a goal** — Common goals people start with:
+   - **Emergency fund:** 3-6 months of expenses (typically $10,000-$20,000)
+   - **Vacation or big purchase:** Whatever amount you're saving for
+   - **Down payment:** For a home or car
+   - **Retirement contribution:** Monthly target
+
+2. **I can help you figure out what to save for** — If you'd like, I can:
+   - Look at your recent spending to estimate a good emergency fund target
+   - Check your savings rate to see if you're putting money aside consistently
+   - Project how long it would take to reach different savings amounts
+
+Would you like me to analyze your recent income and spending to see how much you're actually saving each month? That would give us a baseline to set up meaningful goals.
+----------------------------------------
+
+============================================================
+Brandon Willis (Overspender + Anomalies)
+Avg Score: 0.18 | Pass: 1/5
+============================================================
+
+[PASS] Q1: How much did I spend this month?
+Score: 0.76 | Quality: DETAILED | Length: 1618 | 16.3s
+
+Response:
+I found 1,039 debit transactions in the last 30 days. Let me calculate your total spending and analyze the patterns.
+
+**You've spent $97,856 this month** across 1,039 transactions.
+
+Here's the breakdown by category:
+
+**Top spending categories:**
+- **Dining & Restaurants**: ~$9,200 (Ruth's Chris alone: $3,800+ across 16 visits, DoorDash: $2,800+, Fast food/casual: $2,600+)
+- **Shopping**: ~$21,500 (Nordstrom: $9,800, Saks Fifth Ave: $4,500, Apple: $4,000+, Amazon: $2,800+, Target: $2,100)
+- **Groceries**: ~$5,400 (Whole Foods: $2,400, HEB: $1,900, Aldi: $600, Walmart: $900)
+- **Travel**: ~$8,000 (Southwest Airlines: $5,100, Hotels: $2,900+)
+- **Bills & Fixed Costs**: ~$6,400 (BMW: $2,250, Utilities: $1,200, Phone/Internet: $600, Subscriptions: $350)
+- **Entertainment**: ~$3,800 (StubHub tickets: $3,000+)
+- **Alcohol**: ~$4,800 (Total Wine)
+- **Gas/Transport**: ~$3,200 (Gas: $2,800, Uber: $200, Rental cars: $920)
+
+**Notable patterns:**
+- You eat at Ruth's Chris Steakhouse **16 times** this month ($3,800 total)
+- **DoorDash usage is very high**: 54 orders totaling $2,800
+- You shopped at Nordstrom **13 times** ($9,800)
+- Multiple large Apple purchases: $1,268, $1,167, $1,029 among others
+- Several expensive hotel stays (Marriott resorts)
+
+**What to do next:**
+1. **Cut delivery costs**: You're spending ~$2,800/month on DoorDash alone. Even reducing by half would save $1,400/month.
+2. **Review shopping frequency**: 13 Nordstrom trips in a month suggests impulse buying opportunities.
+
+Would you like me to dig into any specific category, look for unusual charges, or compare this to previous months?
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.4s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Sofia Reyes (Freelancer)
+Avg Score: 0.03 | Pass: 0/5
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.2s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Robert & Helen Davis (Retired/Fixed Income)
+Avg Score: 0.03 | Pass: 0/5
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.2s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+James & Sarah Mitchell (Dual Income)
+Avg Score: 0.03 | Pass: 0/5
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 1.4s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Taylor Kim (Recent Grad/Rebuilding)
+Avg Score: 0.03 | Pass: 0/5
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: POOR | Length: 71 | 5.0s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.15 | Quality: POOR | Length: 71 | 0.1s
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------

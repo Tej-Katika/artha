@@ -1,0 +1,147 @@
+Artha Eval Report — Condition A
+Date: 20260422_232256
+Overall: 83.3% pass, 3.96/5 avg
+
+[PASS] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear breakdown, offers sound observations tailored to a saver (praising the 34.77% savings rate, flagging unusual categories), but lacks concrete prioritized actions with specific dollar targets, and could go deeper on patterns like whether investments should be counted as spending.
+  Latency: 10.71s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💰 Monthly Overview
+| | Amount |
+|---|---|
+| **Total Income** | $13,875.71 |
+| **Total Spending** | $9,050.65 |
+| **Net Cash Flow** | +$4,825.06 |
+| **Savings Rate** | 34.77% |
+
+---
+
+### 📊 Spending by Category
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🔌 Bills & Utilities | $2,411.23 | 26.6% |
+| 📈 Investments | $2,025.93 | 22.4% |
+| 🍔 Food & Drink | $1,820.45 | 20.1% |
+| 💆 Personal Care | $1,323.98 | 14.6% |
+| ✈️ Travel | $1,
+------------------------------------------------------------
+
+[PASS] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific monthly figures, category amounts, and goal progress accurately, with sound reasoning tailored to a high earner/saver, though next steps remain somewhat high-level (e.g., 'trim $450/month') rather than naming specific merchants or subscriptions to cut.
+  Latency: 17.02s
+  Response (first 500 chars):
+    Here's a comprehensive look at your finances:
+
+---
+
+## 💰 Overall Financial Picture
+
+### Savings Rate — Strong! ✅
+Your **average savings rate over the last 3 months is 30.2%**, which is well above the recommended 20%. You're consistently running a surplus every month:
+
+| Month | Income | Spending | Saved | Rate |
+|-------|--------|----------|-------|------|
+| Oct 2024 | $12,143 | $8,988 | $3,154 | 26% |
+| Nov 2024 | $19,601 | $13,786 | $5,815 | 30% |
+| Dec 2024 | $13,876 | $9,051 | $4,825 | **35%
+------------------------------------------------------------
+
+[PASS] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=5 AC=4 CO=4
+  Judge: Response uses specific dollar amounts, dates, and progress percentages for both goals, provides sound reasoning tailored to a high saver (noting the 2x savings rate and suggesting reallocation post-emergency-fund), and offers a concrete contribution increase target, though it could go further by addressing tax-advantaged account strategies typical for high earners.
+  Latency: 10.57s
+  Response (first 500 chars):
+    Here's a full picture of your 2 active goals based on your **actual savings rate of $948/month** (vs. your planned $500–$800):
+
+---
+
+### 🟢 Emergency Fund — On Track!
+| | Details |
+|---|---|
+| **Progress** | $2,500 / $10,000 (25%) |
+| **Target Date** | Dec 31, 2025 |
+| **Projected Completion** | **August 2025** ✅ |
+| **Best / Worst Case** | Jul 2025 – Oct 2025 |
+
+Great news here — you're actually saving **nearly double** your planned $500/month. You'll hit your emergency fund goal **~4 months ear
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific transaction counts and top merchants with a clear detection method, but offers limited financial insight beyond the all-clear, no concrete next steps, and doesn't surface additional signals like largest charges or category breakdowns that would benefit a high earner/saver.
+  Latency: 7.1s
+  Response (first 500 chars):
+    Great news — **no suspicious or unusual charges detected!** 🎉
+
+Here's a quick summary of what was reviewed:
+
+- 📋 **22 transactions scanned** across **9 merchants** over the last 30 days
+- ✅ All charges were **within normal ranges** for each merchant based on your historical patterns
+- 🔍 Detection method used statistical analysis (z-score) to flag anything significantly outside your typical spending per merchant
+
+**Top merchants reviewed:**
+| Merchant | Transactions |
+|---|---|
+| OpenTable | 5 |
+
+------------------------------------------------------------
+
+[PASS] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=4 IQ=4 AC=3 CO=4
+  Judge: The response cites specific merchants, amounts, and dates with good archetype-relevant insights (flagging investment contributions positively, questioning false-positive subscriptions), but actionability is moderate as it raises questions without concrete cancel/review steps, and the low confidence scores suggest some items may not be true subscriptions.
+  Latency: 10.46s
+  Response (first 500 chars):
+    Here's a breakdown of your **10 detected recurring charges**, totaling **$3,772.42/month** (or **$45,269/year**):
+
+| # | Merchant | Monthly Cost | Next Charge |
+|---|----------|-------------|-------------|
+| 1 | OpenTable | $432.39 | Jan 24 |
+| 2 | Tesla | $427.12 | Jan 7 |
+| 3 | Fidelity | $422.78 | Jan 1 |
+| 4 | Whole Foods | $412.71 | Jan 12 |
+| 5 | Equinox | $385.94 | Dec 27 |
+| 6 | Delta Airlines | $362.82 | Jan 16 |
+| 7 | Vanguard | $361.89 | Jan 5 |
+| 8 | Sweetgreen | $355.64 | Jan 25 |
+|
+------------------------------------------------------------
+
+[PASS] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=4 AC=5 CO=4
+  Judge: The response cites specific dollar amounts, merchants, dates, and percentages with clear prioritization and concrete actions; insights are mostly strong though some flagged items (Tesla, AMEX, Fidelity/Vanguard) may be misclassified as wasteful for a high earner/saver archetype.
+  Latency: 19.19s
+  Response (first 500 chars):
+    Here's a full breakdown of your worst spending habits and money leaks:
+
+---
+
+## 🚨 Your Biggest Spending Problems
+
+### 1. 💸 Post-Payday Splurge — MEDIUM RISK
+You spend **78% more in the 5 days after each paycheck** — $1,010/day vs. your normal $567/day. That extra ~$440/day for 5 days = **~$2,200 per pay cycle** that vanishes before you even settle in.
+
+> **Fix:** Automate a savings transfer the day your paycheck hits. Pay yourself first — what's left is yours to spend.
+
+---
+
+### 2. 🛒 Impulse Spe
+------------------------------------------------------------
+

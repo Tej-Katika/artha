@@ -1,0 +1,44 @@
+Loaded user IDs for 10/10 archetypes
+======================================================================
+  ARTHA EVAL HARNESS v3
+  Condition: A
+  API: http://localhost:8081/api/agent/chat
+  Judge: claude-opus-4-7
+  Mode: quick (6 queries)
+  Time: 2026-04-22T23:22:56.127622
+======================================================================
+
+  === High Earner / Saver (user: aa000000...) ===
+    [ 1] spending_summary... PASS (4.0/5, 10.71s)
+    [ 2] financial_health... PASS (4.0/5, 17.02s)
+    [ 3] goal_tracking... PASS (4.5/5, 10.57s)
+    [ 4] anomaly_detection... FAIL (3.0/5, 7.1s)
+    [ 5] subscription_audit... PASS (3.75/5, 10.46s)
+    [ 6] behavioral_analysis... PASS (4.5/5, 19.19s)
+
+======================================================================
+  RESULTS SUMMARY
+======================================================================
+
+  Overall: 83.3% pass rate, 3.96/5 avg score
+  Queries: 6, Passed: 5, Failed: 1
+  Avg latency: 12.5s per query
+
+  Category                Pass%   Avg   n
+  ----------------------------------------
+  spending_summary       100.0%  4.00   1
+  financial_health       100.0%  4.00   1
+  goal_tracking          100.0%  4.50   1
+  anomaly_detection        0.0%  3.00   1
+  subscription_audit     100.0%  3.75   1
+  behavioral_analysis    100.0%  4.50   1
+
+  Archetype                  Pass%   Avg
+  ----------------------------------------
+  High Earner / Saver        83.3%  3.96
+
+  Files saved:
+    eval_results\run_A_20260422_232256.json
+    eval_results\run_A_20260422_232256.txt
+    eval_results\summary_A.json
+======================================================================

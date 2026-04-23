@@ -1,0 +1,947 @@
+Artha Eval Report — Condition B
+Date: 20260423_012830
+Overall: 25.0% pass, 2.01/5 avg
+
+[PASS] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear category breakdown and relevant savings-rate framing for a high earner, but actionable next steps are suggestive rather than concrete (no specific reduction targets or merchant-level detail), and it could go deeper on flagging why Personal Care is high or identifying specific recurring charges.
+  Latency: 8.22s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💰 Monthly Overview
+| | Amount |
+|---|---|
+| **Total Income** | $13,875.71 |
+| **Total Spending** | $9,050.65 |
+| **Net Cash Flow** | $4,825.06 |
+| **Savings Rate** | 34.77% |
+
+---
+
+### 📊 Spending by Category
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Bills & Utilities | $2,411.23 | 26.6% |
+| 📈 Investments | $2,025.93 | 22.4% |
+| 🍔 Food & Drink | $1,820.45 | 20.1% |
+| 💆 Personal Care | $1,323.98 | 14.6% |
+| ✈️ Travel | $1,0
+------------------------------------------------------------
+
+[PASS] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=5 AC=4 CO=5
+  Judge: The response cites specific dollar amounts and percentages throughout, offers nuanced insight distinguishing net savings rate from formally directed savings, identifies specific overspending categories, and covers cash flow, budget, goals, and trends; actionability is strong though recommendations could include more precise dollar targets per category.
+  Latency: 15.83s
+  Response (first 500 chars):
+    Here's your full financial picture for **December 2024**:
+
+---
+
+## 🏦 Overall Health: B (72/100) — *Good*
+
+You're in solid shape! Here are the highlights:
+
+### ✅ What You're Doing Well
+| Metric | Value |
+|---|---|
+| Monthly Income | $13,875.71 |
+| Monthly Spending | $9,050.65 |
+| **Net Savings** | **$4,825.06** |
+| Savings Rate | **34.8%** — above the 20% recommended target |
+| Trend | 📈 Up from 29.7% last month (+5.1%) |
+| Suspicious Transactions | None detected |
+
+You've been **cash-flow positi
+------------------------------------------------------------
+
+[PASS] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response uses specific dollar amounts and dates for both goals, offers sound reasoning with a clear redirect strategy post-emergency fund, and provides a concrete contribution target ($1,164/mo), though it could go deeper on high-earner-specific tactics like tax-advantaged accounts or investment returns assumptions.
+  Latency: 11.95s
+  Response (first 500 chars):
+    Great news on one front — but there's a gap to address on the other. Here's the full picture:
+
+---
+
+## 🎯 Goal Progress Overview
+
+### ✅ Emergency Fund — **On Track!**
+| | Planned | Actual |
+|---|---|---|
+| Current Savings | $2,500 / $10,000 (25%) | |
+| Monthly Contribution | $500/mo | **$948/mo** (actual savings rate) |
+| Projected Completion | March 2026 | **August 2025** 🎉 |
+
+Your **real savings rate of $948/month** is nearly double your planned $500/month — meaning you'll hit your $10,000 Emer
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=3 CO=2
+  Judge: The response only cites a transaction count (22) without any specific merchants, amounts, or dates, and fails to perform even a basic manual review of the available transactions, instead deferring to the user with generic fallback options.
+  Latency: 7.12s
+  Response (first 500 chars):
+    Unfortunately, I'm unable to run the full anomaly detection right now. Here's what I can tell you:
+
+- 📊 **22 transactions** were scanned over the **last 30 days**
+- ⚠️ The system that compares each charge against your typical spending history for each merchant is temporarily unavailable — it requires an enrichment layer that isn't active at the moment.
+
+**What you can do in the meantime:**
+
+1. **Review your recent transactions directly** — I can pull up your transaction list so you can eyeball a
+------------------------------------------------------------
+
+[FAIL] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to provide any actual subscription data, citing a tool failure, and offered only generic fallback options without surfacing any real merchants, amounts, or patterns from the user's finances.
+  Latency: 6.19s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently unavailable — the system returned a message saying it's running in a limited mode that bypasses the recurring-bill detection pipeline.
+
+Here's what you can try:
+
+1. **Check recent transactions manually** — I can pull up your recent transactions and look for patterns that might indicate subscriptions (e.g., same amount from the same merchant each month). Just say the word and I'll do that!
+2. **Try refreshing the scan** 
+------------------------------------------------------------
+
+[PASS] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response cites specific dollar amounts, percentages, and dates from the user's data, provides sound category-specific insights with behavioral patterns (post-payday splurge, impulse clusters), and offers prioritized actions; it could go deeper on specific merchants/subscriptions and tailor more to the High Earner/Saver archetype (e.g., investing the savings), but overall it's thorough and well-structured.
+  Latency: 21.6s
+  Response (first 500 chars):
+    Here's a full breakdown of your worst spending habits and where money may be leaking — based on 90 days of real data:
+
+---
+
+## 🔍 Your Worst Spending Habits
+
+### 🚨 Behavioral Red Flags
+
+**1. Post-Payday Splurge (Medium Risk)**
+You spend **78% more** in the 5 days after each paycheck — **$1,010/day** vs. **$567/day** normally. This is one of the most common ways people accidentally spend money they meant to save.
+> **Fix:** Move savings to a separate account the *moment* your paycheck lands. Pay y
+------------------------------------------------------------
+
+[PASS] overspender_spending_summary
+  Archetype: Lifestyle Overspender
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear overspending signal relevant to the Lifestyle Overspender archetype, but actionability is limited to offering follow-up queries rather than concrete steps like specific spending cuts or merchant-level recommendations.
+  Latency: 10.37s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spent: **$9,094.93**
+> ⚠️ Your income this month was **$7,488.17**, meaning you **overspent by $1,606.76** — a **-21.5% savings rate**.
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛍️ Shopping | $4,108.11 | 45.2% |
+| 🍔 Food & Drink | $1,401.86 | 15.4% |
+| ✈️ Travel | $1,089.72 | 12.0% |
+| 🛒 Groceries | $1,006.90 | 11.1% |
+| 🎭 Entertainment | $557.65 | 6.1% |
+| 🔌 Bills & Utilities | $48
+------------------------------------------------------------
+
+[FAIL] overspender_financial_health
+  Archetype: Lifestyle Overspender
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific monthly figures and goal progress accurately, but lacks category-level breakdowns critical for a Lifestyle Overspender, offers only generic 'cut spending' advice without naming specific merchants or categories, and defers real actionability to follow-up prompts.
+  Latency: 12.28s
+  Response (first 500 chars):
+    Here's your full financial picture — and I want to be upfront with you: **it needs immediate attention.**
+
+---
+
+## 📊 Overall Health Score: 32/100 — Grade F (Critical)
+
+---
+
+### 💸 The Core Problem: You're Spending More Than You Earn
+You've been in a **deficit every month for the past 3 months**:
+
+| Month | Income | Spending | Net |
+|-------|--------|----------|-----|
+| October | $9,741 | $12,362 | **-$2,620** |
+| November | $9,167 | $10,604 | **-$1,437** |
+| December | $7,488 | $9,095 | **-$1,607
+------------------------------------------------------------
+
+[PASS] overspender_goal_tracking
+  Archetype: Lifestyle Overspender
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=4 AC=3 CO=3
+  Judge: The response cites specific figures (income, spending, savings rate, goal progress) accurately and frames the situation clearly, but it doesn't break down spending by category or name specific overspending areas typical of a Lifestyle Overspender, leaving next steps somewhat generic and deferred to follow-up questions.
+  Latency: 14.44s
+  Response (first 500 chars):
+    I want to be straight with you — **the data shows you're currently not on track for either goal**, and there are some urgent issues to address. Here's the full picture:
+
+---
+
+## 🚨 Financial Health: F (Score: 32/100)
+**Critical — spending is significantly outpacing income.**
+
+| Metric | Value |
+|---|---|
+| Monthly Income | $7,488 |
+| Monthly Spending | $9,095 |
+| **Net Flow** | **-$1,607/month** |
+| Savings Rate | **-21.5%** (and declining) |
+
+You're spending **$1,607 more than you earn each mont
+------------------------------------------------------------
+
+[FAIL] overspender_anomaly_detection
+  Archetype: Lifestyle Overspender
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=2 CO=1
+  Judge: The response only cites the transaction count (19) and admits the anomaly detection failed, providing no actual merchant names, amounts, or suspicious patterns, and offers only generic follow-up options rather than surfacing real financial signals.
+  Latency: 9.51s
+  Response (first 500 chars):
+    Unfortunately, I wasn't able to run the full anomaly detection right now. Here's what I can tell you:
+
+- **19 transactions** were scanned over the **last 30 days**
+- The advanced per-merchant baseline analysis is currently **unavailable** due to a data enrichment limitation
+
+### What you can do:
+1. **Review your recent transactions yourself** — I can pull up a list of your recent charges if you'd like. Just say "show me my recent transactions" and I'll display them for you to spot anything unfam
+------------------------------------------------------------
+
+[FAIL] overspender_subscription_audit
+  Archetype: Lifestyle Overspender
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to retrieve any subscription data and provided no specific amounts, merchants, or archetype-relevant insights, offering only a generic fallback suggestion to review statements manually or scan transactions.
+  Latency: 6.96s
+  Response (first 500 chars):
+    Unfortunately, I wasn't able to retrieve your subscription data right now. Here's what the system returned:
+
+> **Subscription detection is currently unavailable** — the recurring-bill detection pipeline is bypassed in the current mode.
+
+### What you can do:
+1. **Try again shortly** — this may be a temporary system issue.
+2. **Review manually** — check your bank or credit card statements for charges that appear on the same date each month (e.g., Netflix, Spotify, gym, iCloud, etc.).
+3. **Ask me t
+------------------------------------------------------------
+
+[PASS] overspender_behavioral_analysis
+  Archetype: Lifestyle Overspender
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=5 CO=4
+  Judge: The response provides specific dollar amounts, percentages, and dates with strong archetype-relevant insights (feast-or-famine cycle, impulse clusters) and concrete prioritized actions, though it could have drilled into specific merchants or recurring subscriptions for even fuller completeness.
+  Latency: 21.11s
+  Response (first 500 chars):
+    Here's a clear breakdown of your worst spending habits and where money is being wasted:
+
+---
+
+## 🚨 Big Picture: You're Spending More Than You Earn
+
+Over the last 3 months, you've spent **$32,061** against **$26,397** in income — a **deficit of $5,664**. That's a **-21% savings rate**. Every single month has been in the red:
+
+| Month | Income | Spending | Deficit |
+|-------|--------|----------|---------|
+| Oct 2024 | $9,742 | $12,362 | **-$2,620** |
+| Nov 2024 | $9,167 | $10,604 | **-$1,437** |
+|
+------------------------------------------------------------
+
+[PASS] high_debt_spending_summary
+  Archetype: High Debt Load
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides specific dollar amounts and percentages with a clear breakdown, identifies the critical debt-load issue relevant to this archetype, and flags the negative savings rate, but actionability is limited to offering follow-up options rather than concrete prioritized steps like specific dollar targets for reducing dining out.
+  Latency: 10.46s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spending: $6,772.39
+*(vs. income of $6,625.52 — you spent **$146.87 more than you earned** this month)*
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏦 Loan Payments | $3,307.49 | 48.8% |
+| 🔌 Bills & Utilities | $1,341.42 | 19.8% |
+| 🚗 Transportation | $952.38 | 14.1% |
+| 🛒 Groceries | $776.39 | 11.5% |
+| 🍔 Food & Drink | $394.71 | 5.8% |
+
+---
+
+### ⚠️ A Few Things Stand Out:
+
+1. **Loan payments are dominating your budg
+------------------------------------------------------------
+
+[FAIL] high_debt_financial_health
+  Archetype: High Debt Load
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific monthly income/spending figures and goal progress, but for a High Debt Load archetype it notably fails to mention any debt balances, interest rates, or minimum payments, and its action items remain generic ('cut spending', 'set budgets') without naming specific categories or dollar targets.
+  Latency: 12.12s
+  Response (first 500 chars):
+    Here's your full financial picture — I want to be upfront with you, there are some real concerns here. 🔴
+
+---
+
+## 💳 Financial Health Score: 32/100 — "Critical"
+
+**The core problem: You're spending more than you earn.**
+
+| Month | Income | Spending | Net | Status |
+|-------|--------|----------|-----|--------|
+| Oct 2024 | $5,174 | $4,720 | **+$455** | ✅ Surplus |
+| Nov 2024 | $5,653 | $5,785 | **-$132** | 🔴 Deficit |
+| Dec 2024 | $6,625 | $6,772 | **-$147** | 🔴 Deficit |
+
+Despite earning **more**
+------------------------------------------------------------
+
+[FAIL] high_debt_goal_tracking
+  Archetype: High Debt Load
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific goal amounts, progress percentages, and a negative savings rate, but for a high-debt-load user it notably omits any mention of debt, interest rates, or debt payoff strategy, and its action items are generic suggestions to investigate spending rather than concrete category-level cuts.
+  Latency: 13.19s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and unfortunately, there are some **real concerns** to address. 🚨
+
+---
+
+## 📊 Your Financial Goals At a Glance
+
+| Goal | Saved | Target | Progress | Status |
+|---|---|---|---|---|
+| 🏦 Emergency Fund | $2,500 | $10,000 | 25% | ❌ Off Track |
+| 🏗️ Retirement | $15,000 | $100,000 | 15% | ❌ Off Track |
+
+---
+
+## ⚠️ The Critical Issue: You're Spending More Than You Earn
+
+Over the last 3 months, your **actual savings rate is -$805.68/month** — meaning you're goi
+------------------------------------------------------------
+
+[FAIL] high_debt_anomaly_detection
+  Archetype: High Debt Load
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=2 CO=1
+  Judge: The response acknowledges a tool failure and only cites a transaction count (22) without any specific charges, merchants, amounts, or archetype-relevant insights for a high-debt-load user, offering only vague next steps instead of surfacing actual suspicious patterns.
+  Latency: 6.82s
+  Response (first 500 chars):
+    Unfortunately, anomaly detection isn't available right now — it requires an enrichment layer that appears to be temporarily unavailable. Here's what I can tell you:
+
+- **22 transactions** were scanned over the **last 30 days**
+- The system wasn't able to compare them against per-merchant baselines to flag anything unusual
+
+**What you can do in the meantime:**
+
+1. **Review your recent transactions yourself** — I can pull up a list of your recent charges if you'd like to look them over together.
+2
+------------------------------------------------------------
+
+[FAIL] high_debt_subscription_audit
+  Archetype: High Debt Load
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The response provides no actual subscription data, dollar amounts, or merchant names due to a reported system error, and offers only generic fallback options without any financial insight specific to the user's high debt situation.
+  Latency: 5.94s
+  Response (first 500 chars):
+    Unfortunately, it looks like the subscription detection feature is currently unavailable — the system returned an error indicating that the recurring-bill detection pipeline is bypassed at the moment.
+
+Here's what you can try:
+
+1. **Refresh the scan** — I can retry with a forced refresh to see if that resolves it.
+2. **Browse your recent transactions** — I can pull up your recent transaction history so you can manually spot any recurring charges.
+3. **Check back later** — If this is a temporary 
+------------------------------------------------------------
+
+[PASS] high_debt_behavioral_analysis
+  Archetype: High Debt Load
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=4 CO=4
+  Judge: The response cites specific dollar amounts and percentages throughout, provides archetype-appropriate insights focused on the crushing debt burden, and offers prioritized actions, though some actions (refinancing, automating savings) could be more concrete with specific dollar targets.
+  Latency: 20.93s
+  Response (first 500 chars):
+    Here's a brutally honest breakdown of your worst spending habits and where money is being wasted:
+
+---
+
+## 🚨 Your Biggest Financial Problems
+
+### 1. Debt is Eating You Alive
+**Loan payments consumed 57.8% of your spending** over the last 3 months — that's **$9,993 out of $17,278 spent**. In December alone, loan payments were **$3,307 (nearly 50% of your income)**. This is by far your #1 issue. The 50/30/20 rule says "needs" should be 50% of income — your loans alone are nearly at that ceiling be
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_spending_summary
+  Archetype: Paycheck to Paycheck
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear category breakdown and correctly flags the income shortfall critical for a paycheck-to-paycheck user, but it stops short of offering concrete, prioritized actions (e.g., specific dollar reduction targets for food categories) and could have dug deeper into specific merchants or recurring charges.
+  Latency: 11.86s
+  Response (first 500 chars):
+    Here's your full spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spent: **$2,720.54**
+Your income this month was **$2,571.59**, meaning you're in the **red by $148.95** (savings rate: -5.79%).
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Housing | $853.60 | 31.4% |
+| 🍽️ Food & Drink | $763.72 | 28.1% |
+| 🛒 Groceries | $662.21 | 24.3% |
+| 💆 Personal Care | $178.92 | 6.6% |
+| 🚗 Transportation | $144.48 | 5.3% |
+| 🔌 Bills & Utilities | $117.61 |
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_financial_health
+  Archetype: Paycheck to Paycheck
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=3 CO=3
+  Judge: The response cites specific dollar amounts and percentages accurately and identifies the key deficit pattern and income drop relevant to a paycheck-to-paycheck user, but actionable next steps are somewhat generic (no specific categories or merchants to cut) and it misses drilling into spending categories or subscriptions that would complete the picture.
+  Latency: 13.51s
+  Response (first 500 chars):
+    Here's a full picture of your finances — and I want to be upfront: **there are some real concerns to address.**
+
+---
+
+## 📊 Financial Health Score: 32/100 — Grade F
+
+Your finances are currently in **critical** territory. Here's the breakdown:
+
+| Component | Score | Notes |
+|---|---|---|
+| 💰 Savings Rate | 0/40 | Spending MORE than you earn (-5.8%) |
+| 📋 Budget Adherence | 15/30 | No budgets set yet |
+| 🎯 Goal Progress | 7/20 | Early stage (~20% avg progress) |
+| 🔍 Anomaly Check | 10/10 | ✅ No sus
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_goal_tracking
+  Archetype: Paycheck to Paycheck
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific numbers (income, spending, savings rates, goal progress) accurately and identifies the core problem of negative savings, but actionability is limited since it offers follow-up questions rather than concrete cuts (e.g., specific categories or subscriptions to reduce).
+  Latency: 14.56s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and I want to be upfront: **there are some serious concerns that need immediate attention.**
+
+---
+
+## 📊 Financial Health Score: 32/100 — Grade F
+
+**The core problem:** You're currently spending **more than you earn**. This month you're at a **-5.8% savings rate** (spending $2,720 vs. earning $2,572 — a **-$149/month shortfall**). This trend has worsened from last month (+1.0% savings rate).
+
+---
+
+## 🎯 Goal Status: Both Goals Off Track
+
+| Goal | Saved | 
+------------------------------------------------------------
+
+[FAIL] paycheck_to_paycheck_anomaly_detection
+  Archetype: Paycheck to Paycheck
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=2 AC=2 CO=1
+  Judge: The response cites no actual financial data, provides no specific insights about the user's transactions or paycheck-to-paycheck situation, and only offers generic follow-up options rather than concrete findings or actions.
+  Latency: 5.77s
+  Response (first 500 chars):
+    Unfortunately, the anomaly detection system is currently unavailable — it requires a data enrichment layer that isn't active right now, so it wasn't able to scan for unusual charges.
+
+Here's what I'd suggest in the meantime:
+
+1. **Review your recent transactions manually** — I can pull up your last 20 transactions so you can eyeball anything that looks off.
+2. **Check for unfamiliar subscriptions** — I can scan for recurring charges you might not recognize.
+3. **Look at a specific category** — I
+------------------------------------------------------------
+
+[FAIL] paycheck_to_paycheck_subscription_audit
+  Archetype: Paycheck to Paycheck
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The agent failed to provide any actual subscription data, citing a system issue, and offered only generic fallback options without any specific amounts, merchants, or archetype-relevant insights for a paycheck-to-paycheck user.
+  Latency: 6.38s
+  Response (first 500 chars):
+    Unfortunately, the subscription detection system is currently unavailable — it looks like the recurring-charge detection pipeline is bypassed at the moment, so I'm unable to automatically identify your subscriptions right now.
+
+Here's what you can do in the meantime:
+
+1. **Review recent transactions manually** — I can pull up your recent transaction history and we can look for repeating charges together. Just say "show me my recent transactions" and I'll fetch them.
+2. **Search by category** — I
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_behavioral_analysis
+  Archetype: Paycheck to Paycheck
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=5 CO=4
+  Judge: The response cites specific dollar amounts and percentages across multiple categories with clear budget comparisons, offers sound reasoning tailored to a paycheck-to-paycheck user (negative savings rate, 50/30/20 gaps), and provides prioritized concrete actions, though it doesn't identify specific merchants/subscriptions or potential overdraft risks that would push scores higher.
+  Latency: 21.25s
+  Response (first 500 chars):
+    Here's a clear and honest picture of your worst spending habits. The data paints a concerning picture — let me break it down:
+
+---
+
+## 🚨 The Big Problem: You're Spending More Than You Earn
+
+Over the last 3 months, you spent **$9,723** on income of **$9,641** — a **net loss of $83**. Your savings rate is **-0.86%**. You're not saving anything right now.
+
+---
+
+## 🔴 Worst Habits & Where the Money Is Going
+
+### 1. 🍽️ Food Spending is Out of Control
+This is your biggest "leak" after housing:
+- **Dini
+------------------------------------------------------------
+
+[FAIL] freelancer_spending_summary
+  Archetype: Freelancer
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=3 AC=2 CO=3
+  Judge: The response provides precise dollar amounts and percentages with a clear breakdown, but insights are generic observations rather than freelancer-specific (e.g., no mention of quarterly taxes, income variability, or separating business from personal), and it lacks concrete prioritized actions beyond suggesting further exploration.
+  Latency: 11.07s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💰 December Spending Summary
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛒 Groceries | $1,005.66 | 37.5% |
+| 💼 Business Expenses | $752.92 | 28.1% |
+| 🚗 Transportation | $490.13 | 18.3% |
+| 🏠 Housing | $258.04 | 9.6% |
+| 🍽️ Food & Drink | $174.37 | 6.5% |
+| **Total Spent** | **$2,681.12** | 100% |
+
+---
+
+### 📊 Key Takeaways
+
+- **Total income:** $3,266.99 | **Net savings:** $585.87 (17.9% savings rate)
+- **Groceries** is your b
+------------------------------------------------------------
+
+[PASS] freelancer_financial_health
+  Archetype: Freelancer
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response provides specific dollar amounts, percentages, and a clear 3-month trend with actionable next steps, though it misses freelancer-specific insights like income volatility risk and tax/quarterly estimated payment considerations that would elevate it further.
+  Latency: 15.23s
+  Response (first 500 chars):
+    Here's your full financial picture for **December 2024**:
+
+---
+
+## 📊 Overall Health Score: 57/100 — Grade C ("Fair")
+
+You're making progress, but there are clear areas to work on.
+
+---
+
+## 💰 Are You Saving Enough?
+
+**The short answer: Getting there, and trending in the right direction!**
+
+| Month | Income | Spending | Savings Rate |
+|-------|--------|----------|--------------|
+| October | $3,581 | $3,590 | **-0.2% 🔴** |
+| November | $3,934 | $3,439 | **12.6% 🟡** |
+| December | $3,267 | $2,681 | 
+------------------------------------------------------------
+
+[PASS] freelancer_goal_tracking
+  Archetype: Freelancer
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=4 AC=4 CO=3
+  Judge: The response cites specific dollar amounts, percentages, and projected shortfalls with clear goal tracking, but lacks freelancer-specific insights (e.g., income volatility) and doesn't break down spending categories or name specific expenses to cut.
+  Latency: 15.14s
+  Response (first 500 chars):
+    Here's a full picture of where you stand — and it needs some honest attention. 👇
+
+---
+
+## 📊 Overall Financial Health: **C (57/100)** — Fair
+
+The good news: your savings rate this month is **17.9%** (up from 12.6% last month) and you had **no suspicious transactions**. But your goals are in trouble.
+
+---
+
+## 🎯 Goal Status: Both Off Track ⚠️
+
+| Goal | Saved | Target | Progress | Deadline |
+|---|---|---|---|---|
+| 🛡️ Emergency Fund | $2,500 | $10,000 | 25% | Dec 2025 |
+| 🏦 Retirement | $15,000 | $1
+------------------------------------------------------------
+
+[FAIL] freelancer_anomaly_detection
+  Archetype: Freelancer
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=2 CO=1
+  Judge: The response admits the anomaly detection failed and provides only the generic count of 15 transactions with no specific merchants, amounts, or freelancer-relevant insights, offering only vague next steps rather than surfacing actual suspicious charges.
+  Latency: 7.58s
+  Response (first 500 chars):
+    Unfortunately, I wasn't able to run the full anomaly detection analysis right now. Here's what I know:
+
+- **15 transactions** were scanned over the **last 30 days**
+- The detection engine requires an enrichment layer (per-merchant baseline statistics) that isn't available at the moment, so it couldn't flag unusual charges automatically.
+
+**Here's what I'd recommend in the meantime:**
+
+1. 📋 **Review your recent transactions** — I can pull up your transaction list so you can scan them yourself. Ju
+------------------------------------------------------------
+
+[FAIL] freelancer_subscription_audit
+  Archetype: Freelancer
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a connection error with no financial data, insights, actions, or analysis of any kind.
+  Latency: 2.03s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] freelancer_behavioral_analysis
+  Archetype: Freelancer
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or coverage of the user's spending patterns.
+  Latency: 0.2s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] retired_fixed_spending_summary
+  Archetype: Retired / Fixed Income
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's spending query.
+  Latency: 3.13s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] retired_fixed_financial_health
+  Archetype: Retired / Fixed Income
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's situation.
+  Latency: 3.81s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] retired_fixed_goal_tracking
+  Archetype: Retired / Fixed Income
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is an error message that provides no financial data, insights, actions, or analysis of the user's goals.
+  Latency: 2.63s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] retired_fixed_anomaly_detection
+  Archetype: Retired / Fixed Income
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no data, insights, actions, or coverage of the user's financial signals.
+  Latency: 0.18s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] retired_fixed_subscription_audit
+  Archetype: Retired / Fixed Income
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent failed to respond to the query at all, providing only a connection error message with no financial data, insights, actions, or coverage of the user's subscriptions.
+  Latency: 2.2s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] retired_fixed_behavioral_analysis
+  Archetype: Retired / Fixed Income
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a connection error and provided no financial analysis, data, insights, or actionable recommendations whatsoever.
+  Latency: 0.18s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_spending_summary
+  Archetype: Dual Income / Family
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's spending question.
+  Latency: 0.16s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_financial_health
+  Archetype: Dual Income / Family
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a connection error message with no financial data, insights, actions, or analysis of the user's situation.
+  Latency: 2.79s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_goal_tracking
+  Archetype: Dual Income / Family
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or analysis of the user's goals.
+  Latency: 2.8s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_anomaly_detection
+  Archetype: Dual Income / Family
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or coverage of the user's query about suspicious charges.
+  Latency: 0.16s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_subscription_audit
+  Archetype: Dual Income / Family
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent failed to provide any response to the query, citing a connection error, and therefore delivered no data, insights, actions, or coverage of the user's subscriptions.
+  Latency: 1.97s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] dual_income_behavioral_analysis
+  Archetype: Dual Income / Family
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic connection error with no financial data, insights, actions, or analysis of the user's spending habits.
+  Latency: 3.52s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_spending_summary
+  Archetype: Recent Graduate
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or coverage of the user's query.
+  Latency: 0.21s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_financial_health
+  Archetype: Recent Graduate
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is an error message that provides no financial data, insights, actions, or analysis of the user's situation.
+  Latency: 2.35s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_goal_tracking
+  Archetype: Recent Graduate
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is an error message that provides no financial data, insights, actions, or analysis of the user's goals.
+  Latency: 0.29s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_anomaly_detection
+  Archetype: Recent Graduate
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's query about suspicious charges.
+  Latency: 1.75s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_subscription_audit
+  Archetype: Recent Graduate
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or coverage of the user's subscriptions.
+  Latency: 0.44s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] recent_grad_behavioral_analysis
+  Archetype: Recent Graduate
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or signals addressed.
+  Latency: 4.14s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_spending_summary
+  Archetype: Small Business Owner
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's spending question.
+  Latency: 4.15s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_financial_health
+  Archetype: Small Business Owner
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message with no financial data, insights, actions, or coverage of the user's situation.
+  Latency: 2.45s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_goal_tracking
+  Archetype: Small Business Owner
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or analysis of the user's goals.
+  Latency: 0.17s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_anomaly_detection
+  Archetype: Small Business Owner
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, analysis, or actionable guidance, failing on all dimensions.
+  Latency: 0.25s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_subscription_audit
+  Archetype: Small Business Owner
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic error message with no financial data, insights, actions, or coverage of the user's recurring charges.
+  Latency: 2.01s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] small_biz_behavioral_analysis
+  Archetype: Small Business Owner
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a connection error with no financial data, insights, actions, or analysis of any kind.
+  Latency: 0.22s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_spending_summary
+  Archetype: Gig Economy Worker
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is an error message with no financial data, insights, actions, or coverage of the user's spending.
+  Latency: 2.1s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_financial_health
+  Archetype: Gig Economy Worker
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message with no financial data, insights, actions, or coverage of the user's situation.
+  Latency: 0.17s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_goal_tracking
+  Archetype: Gig Economy Worker
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's situation.
+  Latency: 3.11s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_anomaly_detection
+  Archetype: Gig Economy Worker
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or signals relevant to the user's query about suspicious charges.
+  Latency: 2.96s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_subscription_audit
+  Archetype: Gig Economy Worker
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's subscriptions.
+  Latency: 3.42s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] gig_worker_behavioral_analysis
+  Archetype: Gig Economy Worker
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The agent returned a generic connection error with no financial data, insights, actions, or analysis of the user's spending habits.
+  Latency: 0.16s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+

@@ -1,0 +1,128 @@
+Artha Eval Report — Condition A
+Date: 20260422_181805
+Overall: 33.3% pass, 2.46/5 avg
+
+[PASS] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear category breakdown and relevant context (income, savings rate), but actionability is limited to vague prompts like 'worth a closer look' rather than specific next steps, and it could better tailor insights to the High Earner/Saver archetype (e.g., tax-advantaged account optimization).
+  Latency: 7.98s
+  Response (first 500 chars):
+    Here's your full spending breakdown for **December 2024**:
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Bills & Utilities | $2,411.23 | 26.6% |
+| 📈 Investments | $2,025.93 | 22.4% |
+| 🍔 Food & Drink | $1,820.45 | 20.1% |
+| 💆 Personal Care | $1,323.98 | 14.6% |
+| ✈️ Travel | $1,053.87 | 11.6% |
+| 🛍️ Shopping | $415.19 | 4.6% |
+| **Total Spent** | **$9,050.65** | |
+
+### 💡 Key Takeaways:
+- **Income:** $13,875.71 | **Net Cash Flow:** +$4,825.06
+- **Savings Rate: 34.77%** — that's excellent!
+------------------------------------------------------------
+
+[PASS] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: Response cites specific monthly income/spending figures and savings rates, reconciles the contradiction between health score and actual behavior, and offers concrete next steps like a $31,824 emergency fund target, though it could go deeper into category-level spending analysis typical for a high earner/saver.
+  Latency: 13.49s
+  Response (first 500 chars):
+    Here's your full financial picture — and there's actually a big contrast between the two data sources worth explaining:
+
+---
+
+## 📊 Overall Financial Health: 45/100 — Grade D
+
+The health score flags some areas to address, but your **actual cash flow tells a much better story**:
+
+---
+
+## 💰 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Saved | Savings Rate |
+|-------|--------|----------|-------|--------------|
+| Oct 2024 | $12,143 | $8,988 | $3,154 | 26% |
+| Nov 2024 | $19,601 
+------------------------------------------------------------
+
+[FAIL] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=2 IQ=2 AC=3 CO=2
+  Judge: The response correctly identifies no goals are set and offers generic goal-setting categories, but provides no user-specific data, no archetype-tailored insights for a high earner/saver (e.g., maxing retirement accounts, tax-advantaged investing), and misses the opportunity to proactively analyze savings capacity from available financial signals.
+  Latency: 9.18s
+  Response (first 500 chars):
+    It looks like you don't have any active financial goals set up yet! Here's what I found:
+
+- 📭 **No goals on record** — There are no savings targets, debt payoff plans, or other financial goals currently being tracked.
+- 💰 **Current savings rate:** $0.00/month tracked toward goals.
+
+---
+
+### Here's how to get started:
+
+Setting up goals is the foundation of a solid financial plan. Common goals to consider:
+
+1. 🛡️ **Emergency Fund** — 3–6 months of expenses saved
+2. 💳 **Debt Payoff** — Credit cards
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message that provides no financial data, insights, actions, or coverage of the user's query about suspicious charges.
+  Latency: 0.1s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[FAIL] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=2 IQ=2 AC=2 CO=2
+  Judge: The response reports no subscriptions found without citing any actual transaction data, offers generic reasons and vague next steps, and fails to surface any specific recurring charges or archetype-relevant insights for a high earner/saver.
+  Latency: 7.74s
+  Response (first 500 chars):
+    It looks like **no recurring subscriptions were detected** at this time. This could be because:
+
+1. **Limited transaction history** — The system needs enough past transactions to identify repeating charges. More history will improve detection accuracy.
+2. **Irregular billing cycles** — Some subscriptions (quarterly, annual) may not appear as monthly patterns yet.
+3. **Pending data sync** — Your bank data may not be fully up to date.
+
+Here are a few things you can do:
+- **Check manually** for com
+------------------------------------------------------------
+
+[FAIL] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=1 AC=2 CO=1
+  Judge: The response cites no actual financial data, provides only generic explanations about missing data with no user-specific insights, and offers only vague setup steps rather than analyzing the user's spending habits.
+  Latency: 11.04s
+  Response (first 500 chars):
+    It looks like there isn't enough transaction history loaded yet to do a deep analysis. Here's what each check found:
+
+---
+
+### 📊 Results Summary
+
+| Check | Finding |
+|---|---|
+| 🧠 Behavioral Patterns | Not enough data to detect habits yet |
+| 🚨 Unusual Transactions | No anomalies in the last 30 days |
+| 🔁 Subscriptions | No recurring charges detected yet |
+| 📂 Category Breakdown | No transaction data available |
+
+---
+
+### What's likely happening:
+Your account may be **newly connected** or **tran
+------------------------------------------------------------
+

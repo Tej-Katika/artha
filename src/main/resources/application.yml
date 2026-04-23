@@ -1,0 +1,93 @@
+# Artha - Application Configuration
+# (Rebranded from "FinWise"; Java packages remain com.finwise.* by design.)
+
+spring:
+  application:
+    name: artha
+
+  # ── Database ──────────────────────────────────────────────────
+  # Connecting to YOUR local PostgreSQL on Windows
+  # Database: postgres (where you created the 3 tables)
+  # User: postgres, no password (trust auth)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: finwise123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 20000
+
+  # ── JPA ───────────────────────────────────────────────────────
+  jpa:
+    hibernate:
+      # validate = check our entities match the DB tables, don't change anything
+      ddl-auto: none
+    show-sql: true          # Show SQL in logs so we can see what queries run
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    open-in-view: false
+
+  # ── Flyway OFF ─────────────────────────────────────────────────
+  # Tables were created manually in psql - Flyway is disabled
+  flyway:
+    enabled: false
+
+  # ── Jackson JSON ───────────────────────────────────────────────
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# ── Server ────────────────────────────────────────────────────────
+server:
+  port: 8081
+  error:
+    include-message: always
+
+# ── Anthropic Claude API ─────────────────────────────────────────
+# Set ANTHROPIC_API_KEY as an environment variable on your machine
+# Windows: setx ANTHROPIC_API_KEY "sk-ant-..."
+finwise:
+  anthropic:
+    api-key: ${ANTHROPIC_API_KEY:not-set}
+    model: claude-sonnet-4-6
+    max-tokens: 4096
+    max-tool-iterations: 8
+    temperature: 0.3
+
+# ── Evaluation overrides ─────────────────────────────────────────
+# When set to an ISO-8601 date, tool query windows ("last 30 days",
+# "this month", etc.) anchor on that date instead of real wall-clock.
+# Used for reproducible benchmark runs against a fixed-range dataset.
+# Leave blank / unset in production.
+artha:
+  eval:
+    reference-date: ${ARTHA_EVAL_REFERENCE_DATE:}
+  ontology:
+    # Ablation flag: when false, anomaly/category/health/subscription tools
+    # bypass the enrichment+recurring_bills ontology layer. Used to produce
+    # paper-table ablation conditions B and D.
+    tools-enabled: ${ARTHA_ONTOLOGY_TOOLS_ENABLED:true}
+
+# ── Logging ───────────────────────────────────────────────────────
+logging:
+  level:
+    com.finwise: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{HH:mm:ss} %-5level %logger{30} - %msg%n"
+
+# ── Actuator (health endpoint) ────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+

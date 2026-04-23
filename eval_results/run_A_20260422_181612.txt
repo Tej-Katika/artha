@@ -1,0 +1,140 @@
+Artha Eval Report — Condition A
+Date: 20260422_181612
+Overall: 0.0% pass, 0.0/5 avg
+
+[FAIL] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CaKfKtBmXUDAi2LHPEHxF'}
+  Latency: 11.37s
+  Response (first 500 chars):
+    Here's your full spending breakdown for **December 2024**:
+
+---
+
+### 💳 Total Spent: **$9,050.65**
+*(Income: $13,875.71 | Net Savings: $4,825.06 | Savings Rate: 34.77%)*
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spending |
+|---|---|---|
+| 🏠 Bills & Utilities | $2,411.23 | 26.6% |
+| 📈 Investments | $2,025.93 | 22.4% |
+| 🍔 Food & Drink | $1,820.45 | 20.1% |
+| 💆 Personal Care | $1,323.98 | 14.6% |
+| ✈️ Travel | $1,053.87 | 11.6% |
+| 🛍️ Shopping | $415.19 | 4.6% |
+
+---
+
+### 💡 Quick
+------------------------------------------------------------
+
+[FAIL] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CaKfLqCTqcyjhmi4xvak6'}
+  Latency: 12.69s
+  Response (first 500 chars):
+    Here's a full picture of your finances:
+
+---
+
+## 📊 Overall Financial Health: D (45/100) — Needs Attention
+
+While the health score looks concerning, the *real story* from your transaction data is more nuanced:
+
+---
+
+### 💰 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Saved | Savings Rate |
+|-------|--------|----------|-------|--------------|
+| Oct 2024 | $12,143 | $8,988 | $3,154 | 26.0% |
+| Nov 2024 | $19,601 | $13,786 | $5,815 | 29.7% |
+| Dec 2024 | $13,876 | $9,051 | $4,82
+------------------------------------------------------------
+
+[FAIL] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CaKfMpFC9Enfs3ZnbfKW1'}
+  Latency: 13.23s
+  Response (first 500 chars):
+    Here's where things stand — and I want to be upfront with you:
+
+---
+
+## 📊 Financial Health Score: 45/100 — Grade D ("Needs Attention")
+
+---
+
+### 🎯 Goals: None Set Yet
+You currently have **no active financial goals** set up. That means there's nothing to be "on track" for just yet — but the good news is, this is easy to fix!
+
+---
+
+### 💡 What the Data Shows
+
+| Component | Score | Note |
+|---|---|---|
+| Savings Rate | 10/40 | Saving 0% of income currently |
+| Budget Adherence | 15/30 | No budgets s
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CaKfNEKYDuCNdyQbD5aRR'}
+  Latency: 5.5s
+  Response (first 500 chars):
+    Good news! 🎉 **No unusual or suspicious charges were detected in the last 30 days.** All your transactions appear to be within normal ranges for your typical spending patterns.
+
+Here's what that means:
+- ✅ No unexpected spikes at familiar merchants
+- ✅ No charges significantly higher than your usual amounts
+- ✅ No signs of potential fraud or billing errors
+
+If you ever notice something specific that doesn't look right — like an unfamiliar merchant name or a charge you don't remember — feel free 
+------------------------------------------------------------
+
+[FAIL] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CaKfNn5zXcFZVXgvBLL5W'}
+  Latency: 7.29s
+  Response (first 500 chars):
+    It looks like **no recurring subscriptions were detected** in your transaction history just yet. This can happen when there isn't enough transaction history available for the system to identify patterns.
+
+Here's what you can do:
+
+1. **Give it more time** — Subscriptions are detected by spotting repeated charges from the same merchant. More transaction history means better detection.
+2. **Check manually** — Review your bank or credit card statements for charges from common services like:
+   - 🎬 S
+------------------------------------------------------------
+
+[FAIL] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=0 IQ=0 AC=0 CO=0
+  Judge: Judge failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CaKfPZ5vuamWvgCGDyeL7'}
+  Latency: 10.38s
+  Response (first 500 chars):
+    It looks like there isn't enough transaction data linked to your account yet for me to give you a detailed breakdown. Here's what each check returned:
+
+- 📊 **Behavioral Patterns** — Not enough history to detect spending triggers (e.g., post-payday splurges, weekend overspending).
+- 🗂️ **Category Insights** — No category spending data found for the past 3 months.
+- 🔁 **Subscriptions** — No recurring charges detected yet.
+- 🚨 **Anomalies** — No unusual transactions flagged in the last 30 days.
+
+##
+------------------------------------------------------------
+

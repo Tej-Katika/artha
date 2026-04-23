@@ -1,0 +1,904 @@
+{
+  "timestamp": "20260303_043340",
+  "overall_score": 0.02,
+  "overall_pass": 0.03,
+  "profiles": [
+    {
+      "profile": {
+        "id": "aaaaaaaa-0001-0001-0001-000000000001",
+        "name": "Priya Sharma",
+        "archetype": "High Earner/Saver"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "PASS",
+          "score": 0.67,
+          "quality": "DETAILED",
+          "has_numbers": true,
+          "response_len": 1851,
+          "elapsed_sec": 18.7,
+          "signal_hits": [
+            "specific dollar amount",
+            "savings rate or income mentioned"
+          ],
+          "signal_misses": [
+            "merchant names"
+          ],
+          "response": "Looking at your spending for the past 30 days, here's what I found:\n\n**You've spent $8,593.93 this month across 82 transactions.**\n\nHere's the breakdown by category:\n\n**Top spending categories:**\n- **Groceries** ($1,420.01): Whole Foods ($1,066.36), HEB ($201.62), Aldi ($88.52), Walmart ($63.51)\n- **Dining Out** ($470.50): Chick-fil-A ($89.36), Chipotle ($73.35), Starbucks ($55.12), Dominos ($89.17), other restaurants ($163.50)\n- **Investments/Savings** ($1,500): Fidelity Roth IRA ($1,000), Vanguard 401k ($500)\n- **Transportation** ($666.46): Southwest Airlines ($462.71), Gas ($145.63), Uber ($13.66), Enterprise ($0 this month)\n- **Bills/Utilities** ($724.07): Oncor Electric ($211.91), AT&T Internet ($90), City of Denton Water ($61.16), T-Mobile ($78), Utilities total\n- **Subscriptions** ($274.87): Peloton ($88), Hulu ($17.99), Spotify ($19.98), Netflix ($31.98), Apple services ($35.93), Amazon Prime ($22.48), Planet Fitness ($49.98)\n- **Shopping** ($657.40): Amazon ($141.83), Target ($88.31), Nordstrom ($197.51), Walmart ($229.75)\n\n**Key insights:**\n1. **Whole Foods dominates** your grocery spend at $1,066 \u2014 that's 75% of your total grocery budget. Multiple \"EXTRA RUN\" charges suggest frequent unplanned trips.\n2. **Southwest Airlines** had a big ticket at $462.71, which is a one-time travel expense.\n3. **Dining out** is $470.50 \u2014 about $15/day \u2014 mostly fast casual (Chick-fil-A, Chipotle).\n\n**Good news:** You're saving consistently with $1,500 to retirement accounts!\n\n**Next steps:**\n1. **Consolidate grocery trips** \u2014 You're making many small Whole Foods runs. Try planning once-a-week trips to reduce spending.\n2. **Set up budgets** \u2014 You have none currently! I'd recommend: Groceries ($800), Dining ($400), Gas ($150), Shopping ($400).\n\nWould you like me to help you set up those budgets or look into any specific category?",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.9,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.6,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.13,
+      "pass_rate": 0.2
+    },
+    {
+      "profile": {
+        "id": "bbbbbbbb-0002-0002-0002-000000000002",
+        "name": "Marcus Johnson",
+        "archetype": "Paycheck to Paycheck"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.4,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.3,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.8,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "cccccccc-0003-0003-0003-000000000003",
+        "name": "Alex Chen",
+        "archetype": "High Debt"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.5,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.0,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "dddddddd-0004-0004-0004-000000000004",
+        "name": "Brandon Willis",
+        "archetype": "Overspender + Anomalies"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.6,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.7,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "eeeeeeee-0005-0005-0005-000000000005",
+        "name": "Sofia Reyes",
+        "archetype": "Freelancer"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.8,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "ffffffff-0006-0006-0006-000000000006",
+        "name": "Robert & Helen Davis",
+        "archetype": "Retired/Fixed Income"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.9,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.9,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "a7a7a7a7-0007-0007-0007-000000000007",
+        "name": "James & Sarah Mitchell",
+        "archetype": "Dual Income"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 2.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.7,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.7,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "a8a8a8a8-0008-0008-0008-000000000008",
+        "name": "Taylor Kim",
+        "archetype": "Recent Grad/Rebuilding"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "specific dollar amount",
+            "merchant names",
+            "savings rate or income mentioned"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.2,
+          "signal_hits": [],
+          "signal_misses": [
+            "health score",
+            "specific numbers",
+            "actionable recommendation"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_financial_health"
+          ]
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 1.5,
+          "signal_hits": [],
+          "signal_misses": [
+            "merchant name",
+            "dollar amount",
+            "comparison to normal"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_spending_summary"
+          ]
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "category names",
+            "dollar amounts",
+            "trend or comparison"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_category_insights"
+          ]
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "BRIEF",
+          "has_numbers": false,
+          "response_len": 71,
+          "elapsed_sec": 0.1,
+          "signal_hits": [],
+          "signal_misses": [
+            "goal name or amount",
+            "progress percentage or dollar",
+            "projection"
+          ],
+          "response": "I encountered an error while processing your request. Please try again.",
+          "tools_expected": [
+            "get_goal_progress",
+            "get_goal_projection"
+          ]
+        }
+      ],
+      "avg_score": 0.0,
+      "pass_rate": 0.0
+    }
+  ]
+}

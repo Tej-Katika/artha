@@ -1,0 +1,1467 @@
+Artha Eval Report — Condition C
+Date: 20260423_004937
+Overall: 70.0% pass, 3.56/5 avg
+
+[PASS] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear category breakdown and correct savings rate math, but actionable next steps are mostly questions rather than concrete moves, and insights could better leverage the high-earner/saver archetype (e.g., optimizing the $2,025 investment allocation or tax-advantaged accounts).
+  Latency: 9.03s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Bills & Utilities | $2,411.23 | 26.6% |
+| 📈 Investments | $2,025.93 | 22.4% |
+| 🍔 Food & Drink | $1,820.45 | 20.1% |
+| 💆 Personal Care | $1,323.98 | 14.6% |
+| ✈️ Travel | $1,053.87 | 11.6% |
+| 🛍️ Shopping | $415.19 | 4.6% |
+
+---
+
+**💰 Monthly Summary:**
+- **Total Spending:** $9,050.65
+- **Total Income:** $13,875.71
+- **Net Cash Flow:** +$4,825.06
+- **Savings Rate:** 34.77% ✅
+
+**Key Takeaway
+------------------------------------------------------------
+
+[PASS] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: Response cites specific figures (34.8% savings rate, monthly income/spending, goal progress) with a clear health score breakdown, identifies the key issue of goals being behind schedule, and offers a concrete next step, though the action for retirement lacks a specific dollar amount and it doesn't explore optimization opportunities like tax-advantaged accounts relevant to a high earner.
+  Latency: 12.94s
+  Response (first 500 chars):
+    Here's your full financial snapshot — great news overall! 🎉
+
+---
+
+## 💰 Financial Health: 87/100 — Grade A ("Excellent")
+
+Your finances are in strong shape. Here's the breakdown:
+
+| Component | Score | Notes |
+|---|---|---|
+| 💾 Savings Rate | 40/40 | Saving **34.8%** of income — well above the 20% target |
+| 📊 Budget Adherence | 30/30 | All budgets on track |
+| 🎯 Goal Progress | 7/20 | Early stage — goals are still building up |
+| 🔍 Anomaly Check | 10/10 | No suspicious transactions |
+
+---
+
+## 📈 
+------------------------------------------------------------
+
+[PASS] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=4 AC=5 CO=4
+  Judge: The response cites specific dollar amounts, dates, and calculated gaps for both goals, offers sound reasoning tailored to a high earner/saver with a clear redirect strategy, and provides concrete next steps ($216/month increase, redirecting Emergency Fund contributions), though it could go deeper on archetype-specific options like tax-advantaged accounts or investment allocation.
+  Latency: 11.28s
+  Response (first 500 chars):
+    Here's a full picture of your 2 active goals:
+
+---
+
+### 🟢 Emergency Fund — On Track!
+| | Planned | Actual (Reality) |
+|---|---|---|
+| Monthly Savings | $500 | **$948** |
+| Completion | Mar 2026 | **Aug 2025** |
+
+You're saving nearly **2x your planned amount**, so you're projected to hit your $10,000 target **7 months early** — well ahead of your Dec 2025 deadline. 🎉
+- **Best case:** Jul 2025 | **Worst case:** Oct 2025
+
+---
+
+### 🔴 Retirement — At Risk
+| | Planned | Actual (Reality) |
+|---|---|---
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=3 IQ=2 AC=3 CO=2
+  Judge: The response cites a transaction count and timeframe but no specific merchants or amounts, offers only generic fraud-prevention tips without archetype-specific insights for a high earner/saver, provides a reasonable follow-up offer but lacks concrete prioritized actions, and doesn't surface specific transactions or patterns that would help validate the 'all clean' conclusion.
+  Latency: 6.14s
+  Response (first 500 chars):
+    Great news! 🎉 No unusual or suspicious charges were detected in the last **30 days**.
+
+Here's a quick summary of the scan:
+- ✅ **22 transactions** reviewed
+- ✅ **All amounts** were within normal patterns for each merchant
+- ✅ **Detection method:** Statistical analysis (flagging anything significantly above your typical spending per merchant)
+
+Everything looks clean! That said, it's always a good habit to:
+1. **Regularly review your transactions** for anything you don't recognize.
+2. **Check for 
+------------------------------------------------------------
+
+[PASS] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=4 IQ=4 AC=4 CO=3
+  Judge: The response cites specific amounts, dates, and confidence scores with thoughtful interpretation distinguishing true subscriptions from spending habits, but the low confidence scores suggest the underlying detection may be unreliable, and it doesn't clearly separate confirmed subscriptions from likely false positives or quantify potential savings.
+  Latency: 11.88s
+  Response (first 500 chars):
+    Here's a breakdown of your detected recurring charges:
+
+| # | Name | Monthly Amount | Next Charge | Confidence |
+|---|------|---------------|-------------|------------|
+| 1 | OpenTable | $432.39 | Jan 24 | 50% |
+| 2 | Tesla | $427.12 | Jan 7 | 51% |
+| 3 | Fidelity | $422.78 | Jan 1 | 51% |
+| 4 | Whole Foods | $412.71 | Jan 12 | 51% |
+| 5 | Equinox | $385.94 | Dec 27 | 52% |
+| 6 | Delta Airlines | $362.82 | Jan 16 | 52% |
+| 7 | Vanguard | $361.89 | Jan 5 | 53% |
+| 8 | Sweetgreen | $355.64 | Jan 2
+------------------------------------------------------------
+
+[PASS] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=5 CO=4
+  Judge: The response cites specific dollar amounts, merchants, percentages, and dates while transparently flagging a data duplication issue, offers archetype-appropriate insights for a high earner (post-payday splurging, premium subscriptions like Equinox), and provides concrete prioritized actions, though the unresolved data duplication slightly limits accuracy and completeness.
+  Latency: 21.15s
+  Response (first 500 chars):
+    Here's a breakdown of your worst spending habits and where money may be leaking. I also need to flag some data issues:
+
+---
+
+## 🚨 Biggest Issues Found
+
+### 1. 📅 Post-Payday Splurging
+You spend **78% more in the 5 days after each paycheck** — averaging **$1,010/day** vs. $567/day normally. That's a classic "I got paid, let me treat myself" pattern that quietly drains hundreds each month.
+
+> **Fix:** Set up an automatic transfer to savings the same day your paycheck lands. Remove the temptation be
+------------------------------------------------------------
+
+[FAIL] overspender_spending_summary
+  Archetype: Lifestyle Overspender
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=2 CO=4
+  Judge: The response provides precise dollar amounts and percentages with solid insights about the negative cash flow and category concentration, but it stops short of concrete, prioritized action steps (e.g., specific spending targets or merchant-level cuts) which is especially important for a Lifestyle Overspender archetype.
+  Latency: 9.95s
+  Response (first 500 chars):
+    Here's your **December 2024 spending breakdown**:
+
+---
+
+### 💸 Total Spent: $9,094.93
+**Income:** $7,488.17 | **Net Cash Flow:** -$1,606.76 ⚠️
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛍️ Shopping | $4,108.11 | 45.2% |
+| 🍔 Food & Drink | $1,401.86 | 15.4% |
+| ✈️ Travel | $1,089.72 | 12.0% |
+| 🛒 Groceries | $1,006.90 | 11.1% |
+| 🎭 Entertainment | $557.65 | 6.1% |
+| 💡 Bills & Utilities | $485.33 | 5.3% |
+| 💆 Personal Care | $445.36 | 4.9% |
+
+---
+
+### ⚠️ Ke
+------------------------------------------------------------
+
+[PASS] overspender_financial_health
+  Archetype: Lifestyle Overspender
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific numbers (monthly income/spending, savings rate, goal funding percentages) and correctly identifies the core deficit issue relevant to a Lifestyle Overspender, but it defers concrete actions to follow-up prompts rather than naming specific categories or subscriptions to cut now.
+  Latency: 11.65s
+  Response (first 500 chars):
+    Here's an honest picture of your finances — and I want to be upfront with you: **there are some real concerns to address.**
+
+---
+
+## 📊 Financial Health Score: 47/100 — Grade D ("Needs Attention")
+
+---
+
+### 🚨 The Big Problem: You're Spending More Than You Earn
+You've been running a **deficit every single month for the past 3 months**:
+
+| Month | Income | Spending | Net |
+|-------|--------|----------|-----|
+| October | $9,741 | $12,362 | **-$2,620** |
+| November | $9,167 | $10,604 | **-$1,437** |
+
+------------------------------------------------------------
+
+[FAIL] overspender_goal_tracking
+  Archetype: Lifestyle Overspender
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific goal amounts, progress percentages, and required monthly contributions, but lacks spending category breakdowns or merchant-level detail; insights correctly flag the deficit but don't address lifestyle-overspender-specific patterns, and next steps are offers to investigate rather than concrete actions like naming categories to cut.
+  Latency: 11.92s
+  Response (first 500 chars):
+    Here's the honest picture — and it requires your attention:
+
+---
+
+## 🚨 Your Goals Are at Risk
+
+**The critical issue:** Over the last 3 months, you've been spending **$5,135 more than you earn each month**. This means you're not just not saving — you're going backwards.
+
+---
+
+### 📊 Goal Progress
+
+| Goal | Saved | Target | Progress | Due Date | Status |
+|---|---|---|---|---|---|
+| 🛡️ Emergency Fund | $2,500 | $10,000 | 25% | Dec 2025 | ❌ Off Track |
+| 🏦 Retirement | $15,000 | $100,000 | 15% | Dec 
+------------------------------------------------------------
+
+[FAIL] overspender_anomaly_detection
+  Archetype: Lifestyle Overspender
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=3 IQ=2 AC=3 CO=2
+  Judge: The response cites a transaction count (19) and timeframe (30 days) but provides no specific merchants, amounts, or categories; the reasoning is generic rather than tailored to a Lifestyle Overspender (e.g., no mention of discretionary spending patterns), and while it offers a reasonable next step of reviewing transactions, it misses the opportunity to surface spending signals relevant to this archetype.
+  Latency: 5.95s
+  Response (first 500 chars):
+    Great news! 🎉 No unusual or suspicious charges were detected in the last **30 days**.
+
+Here's a quick summary of the scan:
+- ✅ **19 transactions** reviewed
+- ✅ **0 anomalies** flagged
+- ✅ All amounts were within **normal patterns** for each merchant
+
+The detection method checks for charges that are significantly higher than your typical spending at each merchant, so you can feel confident nothing out of the ordinary stood out.
+
+That said, it's always a good idea to **periodically review your tra
+------------------------------------------------------------
+
+[PASS] overspender_subscription_audit
+  Archetype: Lifestyle Overspender
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=5 IQ=5 AC=4 CO=5
+  Judge: The response cites specific merchants, amounts, and dates with accurate totals, provides archetype-relevant insights about lifestyle overspending patterns (food delivery, discretionary purchases), and flags data quality concerns; actionability is strong but could be more prescriptive with specific dollar cut targets rather than questions.
+  Latency: 16.01s
+  Response (first 500 chars):
+    Here's a full breakdown of your recurring charges. The total is **quite significant** — here's what was found:
+
+---
+
+### 📋 Your Recurring Charges (10 Detected)
+
+| # | Name | Monthly Cost | Next Charge |
+|---|------|-------------|-------------|
+| 1 | Nordstrom | $460.74 | Jan 24 |
+| 2 | Airbnb | $449.04 | Jan 26 |
+| 3 | Sephora | $434.86 | Jan 20 |
+| 4 | Cheesecake Factory | $414.82 | Jan 25 |
+| 5 | Netflix | $402.02 | Jan 17 |
+| 6 | DoorDash | $394.66 | Jan 10 |
+| 7 | StubHub | $382.04 | Jan 28 
+------------------------------------------------------------
+
+[PASS] overspender_behavioral_analysis
+  Archetype: Lifestyle Overspender
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=5 CO=4
+  Judge: The response cites specific merchants and dollar amounts with strong archetype-relevant insights (month-end squeeze, impulse clusters) and concrete prioritized actions, though it flags Netflix/Spotify amounts as suspicious without fully resolving whether these are data aggregation artifacts, slightly weakening accuracy and completeness.
+  Latency: 19.77s
+  Response (first 500 chars):
+    Here's a full breakdown of your worst spending habits — and there are some **serious red flags** to address:
+
+---
+
+## 🚨 Biggest Spending Problems
+
+### 1. 💳 Recurring Charges Are Out of Control
+Your total detected "recurring" spending is a staggering **$3,966/month ($47,588/year)**. Several of these aren't traditional subscriptions — they're *habitual* repeat spending at the same places:
+
+| Merchant | Monthly Cost |
+|---|---|
+| Nordstrom | $460.74 |
+| Airbnb | $449.04 |
+| Sephora | $434.86 |
+| Ch
+------------------------------------------------------------
+
+[PASS] high_debt_spending_summary
+  Archetype: High Debt Load
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear breakdown, and correctly flags the negative savings rate and debt-dominated budget relevant to a high-debt archetype, but it stops short of concrete prioritized actions (e.g., specific dining-out reduction targets or debt refinancing steps) and the missing trend data slightly limits completeness.
+  Latency: 9.1s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spending: **$6,772.39**
+Your income this month was **$6,625.52**, meaning you're in the **red by $146.87** — a savings rate of **-2.22%**.
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏦 Loan Payments | $3,307.49 | 48.8% |
+| 🔌 Bills & Utilities | $1,341.42 | 19.8% |
+| 🚗 Transportation | $952.38 | 14.1% |
+| 🛒 Groceries | $776.39 | 11.5% |
+| 🍔 Food & Drink | $394.71 | 5.8% |
+
+---
+
+### ⚠️ 
+------------------------------------------------------------
+
+[PASS] high_debt_financial_health
+  Archetype: High Debt Load
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=3 CO=3
+  Judge: The response cites specific figures for income, spending, and goal progress accurately, and correctly identifies the deficit pattern, but for a High Debt Load archetype it notably omits any discussion of debt balances, interest rates, or debt payoff strategy, and actionable steps remain high-level rather than naming specific categories or cuts.
+  Latency: 13.43s
+  Response (first 500 chars):
+    Here's your full financial picture — I'll be straight with you:
+
+---
+
+## 📊 Overall Financial Health: **D (47/100) — Needs Attention**
+
+---
+
+### 💸 The Core Problem: You're Spending More Than You Earn
+| Month | Income | Spending | Net |
+|-------|--------|----------|-----|
+| Oct 2024 | $5,174 | $4,720 | **+$454 ✅** |
+| Nov 2024 | $5,653 | $5,785 | **-$132 ❌** |
+| Dec 2024 | $6,625 | $6,772 | **-$147 ❌** |
+
+You had a solid October, but the last two months have been **deficit months** — meaning you'r
+------------------------------------------------------------
+
+[PASS] high_debt_goal_tracking
+  Archetype: High Debt Load
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=3 CO=3
+  Judge: The response cites specific dollar amounts and percentages for income, spending, and goal progress, but for a High Debt Load archetype it surprisingly never mentions debt, interest rates, or minimum payments, and its action items remain generic (‘cut $200-300') without naming specific categories or merchants.
+  Latency: 12.75s
+  Response (first 500 chars):
+    Here's the honest picture — and I want to be upfront with you: **you're currently not on track for either goal.** But you have clear paths to fix this.
+
+---
+
+## 📊 Financial Health Score: 47/100 — D ("Needs Attention")
+
+---
+
+## 🎯 Goal Progress
+
+| Goal | Saved | Target | Progress | Projected Date | Target Date | Status |
+|---|---|---|---|---|---|---|
+| Emergency Fund | $2,500 | $10,000 | 25% | Mar 2026 | Dec 2025 | ⚠️ Behind |
+| Retirement | $15,000 | $100,000 | 15% | Nov 2033 | Dec 2030 | ⚠️ Behi
+------------------------------------------------------------
+
+[FAIL] high_debt_anomaly_detection
+  Archetype: High Debt Load
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=3 IQ=2 AC=2 CO=2
+  Judge: The response cites only a transaction count (22) without specific merchants or amounts, provides no archetype-specific insight for a high-debt user, offers no concrete next steps, and misses opportunities to surface debt-related patterns like interest charges or recurring payments.
+  Latency: 5.93s
+  Response (first 500 chars):
+    Great news! 🎉 No unusual or suspicious charges were found in the last **30 days**.
+
+Here's a quick summary of what was checked:
+- ✅ **22 transactions** scanned across all your merchants
+- ✅ All charges were **within normal patterns** for each merchant
+- ✅ No amounts flagged as significantly higher than your typical spending
+
+**Detection method:** Each transaction was compared against your per-merchant spending baseline using statistical analysis — so anything notably out of the ordinary would ha
+------------------------------------------------------------
+
+[PASS] high_debt_subscription_audit
+  Archetype: High Debt Load
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response cites specific merchants, amounts, and dates with useful context about confidence scores and distinguishes habitual spending from true subscriptions; insights are relevant to the high-debt archetype (flagging $983/mo in debt payments), and actionable suggestions are concrete though could prioritize debt-focused actions more aggressively.
+  Latency: 11.51s
+  Response (first 500 chars):
+    Here's a breakdown of your detected recurring charges. A couple of important notes before diving in! 👇
+
+---
+
+### 🔄 Detected Recurring Charges
+
+| Merchant | Monthly Amount | Next Expected |
+|---|---|---|
+| Walgreens | $453.54 | Jan 7 |
+| Verizon | $441.30 | Jan 27 |
+| Kroger | $427.89 | Jan 15 |
+| Shell | $420.38 | Jan 20 |
+| Discover (payment) | $365.13 | Jan 26 |
+| Con Edison (utilities) | $346.63 | Jan 25 |
+| Navient (student loans) | $320.17 | Jan 28 |
+| Chase (payment) | $298.14 | Jan 13 |
+|
+------------------------------------------------------------
+
+[PASS] high_debt_behavioral_analysis
+  Archetype: High Debt Load
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=5 CO=4
+  Judge: The response cites specific dollar amounts, merchants, and percentages with strong archetype-relevant focus on debt burden, offers prioritized concrete actions, though it could more deeply explore debt consolidation specifics or interest rates.
+  Latency: 21.23s
+  Response (first 500 chars):
+    Here's a comprehensive breakdown of your spending habits and where money is being wasted:
+
+---
+
+## 🚨 Your Biggest Financial Problem: Debt is Consuming Everything
+
+Over the last 3 months, you earned **$17,453** and spent **$17,277** — leaving just **$175.87** saved. That's a **1% savings rate**, which is critical.
+
+### 💸 Where Your Money is Going (3-Month Totals)
+
+| Category | Total | % of Spending |
+|---|---|---|
+| 🔴 Loan Payments | $9,993 | **57.8%** |
+| 🛒 Groceries | $2,593 | 15.0% |
+| ⚡ Bills
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_spending_summary
+  Archetype: Paycheck to Paycheck
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear breakdown, correctly flags the critical negative cash flow issue relevant to a paycheck-to-paycheck user, but offers only general observations about high food spending rather than concrete prioritized actions like specific dollar-reduction targets.
+  Latency: 7.73s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+| Category | Amount | % of Spending |
+|---|---|---|
+| 🏠 Housing | $853.60 | 31.4% |
+| 🍽️ Food & Drink | $763.72 | 28.1% |
+| 🛒 Groceries | $662.21 | 24.3% |
+| 💆 Personal Care | $178.92 | 6.6% |
+| 🚗 Transportation | $144.48 | 5.3% |
+| 🔌 Bills & Utilities | $117.61 | 4.3% |
+| **Total Spending** | **$2,720.54** | |
+
+### ⚠️ A Few Things to Flag:
+
+- **You spent more than you earned this month.** Your income was **$2,571.59**, leaving you with a **
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_financial_health
+  Archetype: Paycheck to Paycheck
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=5 AC=4 CO=4
+  Judge: The response cites specific dollar amounts and percentages across months, provides sound archetype-relevant analysis (negative savings rate, food as 56% of income), and offers prioritized actions, though actionability could be sharper with specific merchant-level cuts and completeness could include subscription review or bill timing insights.
+  Latency: 17.11s
+  Response (first 500 chars):
+    Here's your full financial picture — I want to be upfront with you, there are some things to address. 💛
+
+---
+
+## 📊 Overall Health Score: 47/100 — Grade D ("Needs Attention")
+
+---
+
+### 🔴 The Big Issue: You're Spending More Than You Earn
+In **December**, you spent **$148.95 more than you brought in** ($2,720.54 spent vs. $2,571.59 income). That's a **-5.8% savings rate** — and it's getting worse:
+
+| Month | Income | Spending | Net | Savings Rate |
+|-------|--------|----------|-----|-------------|
+
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_goal_tracking
+  Archetype: Paycheck to Paycheck
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response cites specific goal amounts, progress percentages, and a concrete negative savings rate, with sound reasoning about the core issue, but it stops short of naming specific spending categories, merchants, or subscriptions and instead offers to investigate further, weakening actionability and completeness.
+  Latency: 11.39s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and the news requires some attention:
+
+---
+
+## 🎯 Your Financial Goals
+
+| Goal | Saved | Target | Progress | On Track? |
+|---|---|---|---|---|
+| Emergency Fund | $2,500 | $10,000 | 25% | ❌ No |
+| Retirement | $15,000 | $100,000 | 15% | ❌ No |
+
+---
+
+## ⚠️ The Real Problem: You're Spending More Than You Earn
+
+Your **actual savings rate over the last 3 months is -$1,328/month** — meaning you're consistently spending more than you bring in. This is the core 
+------------------------------------------------------------
+
+[FAIL] paycheck_to_paycheck_anomaly_detection
+  Archetype: Paycheck to Paycheck
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=3 CO=2
+  Judge: The response mentions a transaction count but cites no specific merchants, amounts, or dates, and offers only generic fraud-check advice without tailoring to the paycheck-to-paycheck archetype (e.g., watching for overdraft risks or small recurring charges that strain tight cash flow).
+  Latency: 7.08s
+  Response (first 500 chars):
+    Great news! ✅ **No unusual or suspicious charges detected** in the last 30 days.
+
+Here's a summary of what was checked:
+- **18 transactions** were scanned across your recent activity
+- All amounts fell **within normal patterns** for each merchant
+- Detection used a statistical method (z-score) to flag anything significantly higher than your typical spending per merchant
+
+**You're in the clear!** Everything looks consistent with your normal spending behavior. That said, it's always a good habit t
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_subscription_audit
+  Archetype: Paycheck to Paycheck
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific merchants, amounts, and dates with clear totals, and identifies archetype-relevant red flags like the payday loan, but actionable next steps are somewhat deferred to follow-up questions rather than given concretely, and some 'recurring' items (McDonald's, Shell) may be spending patterns rather than true subscriptions which deserved clearer framing.
+  Latency: 11.45s
+  Response (first 500 chars):
+    Here's a breakdown of your detected recurring charges:
+
+---
+
+### 🔄 Your Recurring Charges & Subscriptions
+
+| Merchant | Monthly Amount | Next Expected |
+|---|---|---|
+| Shell (Gas) | $331.81 | Jan 9, 2025 |
+| Payday Loan | $328.50 | Overdue (Nov 9) |
+| Medicaid | $321.40 | Overdue (Oct 22) |
+| T-Mobile | $312.56 | Jan 23, 2025 |
+| Greyhound | $299.54 | Jan 7, 2025 |
+| Walmart | $284.78 | Jan 28, 2025 |
+| McDonald's | $239.79 | Jan 22, 2025 |
+| Laundromat | $239.50 | Dec 19, 2024 |
+| ALDI | $233.
+------------------------------------------------------------
+
+[PASS] paycheck_to_paycheck_behavioral_analysis
+  Archetype: Paycheck to Paycheck
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=5 CO=5
+  Judge: The response cites specific merchant names and dollar amounts, correctly prioritizes the payday loan as the critical issue for a paycheck-to-paycheck user, provides prioritized actions with estimated savings, and covers all major spending categories while offering a follow-up scenario.
+  Latency: 20.9s
+  Response (first 500 chars):
+    Here's a full breakdown of your spending habits — including some red flags worth addressing:
+
+---
+
+## 🔍 Your Worst Spending Habits
+
+### 🚨 #1 — Payday Loan: $328.50/month
+This is the **biggest money trap** in your finances. Payday loans carry extreme interest rates (often 300–400% APR), meaning you're likely paying far more in fees than you're borrowing. This alone costs you **~$3,942/year** and is actively draining your ability to save or build wealth. **Eliminating this should be your #1 priori
+------------------------------------------------------------
+
+[PASS] freelancer_spending_summary
+  Archetype: Freelancer
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=3 AC=3 CO=3
+  Judge: Specific dollar amounts and percentages are well-cited, but the insights are somewhat generic and miss freelancer-specific angles like quarterly tax set-asides from the $752 business expenses or income variability, and actions are suggested rather than concretely prioritized.
+  Latency: 9.39s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spent: $2,681.12
+**Income:** $3,266.99 | **Net Savings:** $585.87 | **Savings Rate:** 17.9%
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛒 Groceries | $1,005.66 | 37.5% |
+| 💼 Business Expenses | $752.92 | 28.1% |
+| 🚗 Transportation | $490.13 | 18.3% |
+| 🏠 Housing | $258.04 | 9.6% |
+| 🍔 Food & Drink | $174.37 | 6.5% |
+
+---
+
+### 💡 Quick Observations:
+- **Groceries** is your biggest categ
+------------------------------------------------------------
+
+[FAIL] freelancer_financial_health
+  Archetype: Freelancer
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=3 AC=2 CO=3
+  Judge: The response includes specific dollar amounts and percentages across months, but lacks freelancer-specific insights about income volatility (income ranged $3,267-$3,934) and offers only follow-up questions rather than concrete actions like specific categories to cut or dollar amounts to redirect to goals.
+  Latency: 12.3s
+  Response (first 500 chars):
+    Here's a full picture of your finances — the good news is you're trending in the right direction! 📈
+
+---
+
+## 🏦 Overall Financial Health: **B (72/100)** — Good
+
+> *"Solid financial health with a few areas to sharpen."*
+
+---
+
+### 💪 What You're Doing Well
+- ✅ **Savings rate is improving** — you went from **-0.2% in October → 12.6% in November → 17.9% in December**. That's a big positive swing!
+- ✅ **All budgets on track** this month (30/30 score)
+- ✅ **Positive cash flow** — you're bringing in more
+------------------------------------------------------------
+
+[FAIL] freelancer_goal_tracking
+  Archetype: Freelancer
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific goal figures and calculates a clear cash flow gap, but it lacks freelancer-specific insights (e.g., irregular income) and offers only vague next steps framed as follow-up questions rather than concrete actions like naming spending categories or subscriptions to cut.
+  Latency: 12.01s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and the news requires some attention. ⚠️
+
+---
+
+## 📊 Your Financial Goals Summary
+
+### 🚨 Critical Alert: Spending Exceeds Income
+Over the last 3 months, you've been **spending $732/month more than you earn**. This is the root issue affecting both goals.
+
+---
+
+### 🎯 Goal 1: Emergency Fund
+| | Details |
+|---|---|
+| **Progress** | $2,500 / $10,000 (25%) |
+| **Target Date** | Dec 31, 2025 |
+| **Planned Contribution** | $500/month |
+| **Actual Savings Rate** 
+------------------------------------------------------------
+
+[FAIL] freelancer_anomaly_detection
+  Archetype: Freelancer
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=3 IQ=2 AC=2 CO=2
+  Judge: The response mentions a transaction count (15) and describes a z-score method but cites no specific merchants, amounts, or dates, offers only generic vigilance tips without freelancer-specific insights (e.g., business vs personal charges), and provides no concrete prioritized actions.
+  Latency: 6.59s
+  Response (first 500 chars):
+    Great news! ✅ **No unusual or suspicious charges were detected** in the last 30 days.
+
+Here's a quick summary of the scan:
+- 📋 **15 transactions** were reviewed
+- 🏪 All charges fell **within normal patterns** for each merchant
+- 🔍 Detection method used a statistical analysis (z-score) to flag anything significantly higher than your typical spending per merchant
+
+You're in the clear! That said, here are a few tips to stay vigilant:
+1. **Review your subscriptions** periodically — small recurring c
+------------------------------------------------------------
+
+[PASS] freelancer_subscription_audit
+  Archetype: Freelancer
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific dollar amounts, dates, and merchants with a clear total, and correctly flags that some items (Lyft, Starbucks, Trader Joe's) are likely habits rather than true subscriptions, but it lacks concrete prioritized actions like 'cancel X' and doesn't deeply tie insights to freelancer-specific concerns like deducting business software costs.
+  Latency: 10.68s
+  Response (first 500 chars):
+    Here's a breakdown of your **10 detected recurring charges**, totaling **$2,881.52/month** (or **$34,578/year**):
+
+| # | Service | Monthly Cost | Next Charge |
+|---|---------|-------------|-------------|
+| 1 | Figma | $351.46 | Jan 26 |
+| 2 | Notion | $350.86 | Jan 28 |
+| 3 | Zoom | $342.41 | Jan 15 |
+| 4 | Stripe | $341.47 | Dec 23 |
+| 5 | T-Mobile | $301.14 | Jan 7 |
+| 6 | Adobe | $273.49 | Jan 13 |
+| 7 | Lyft | $243.64 | Jan 8 |
+| 8 | Starbucks | $236.68 | Jan 19 |
+| 9 | Trader Joe's | $225.5
+------------------------------------------------------------
+
+[PASS] freelancer_behavioral_analysis
+  Archetype: Freelancer
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=3 AC=4 CO=3
+  Judge: The response cites specific merchants and dollar amounts with clear prioritized actions, but the 'duplicate subscription' interpretation seems like a likely misreading of the data (the amounts are implausibly high for these SaaS tools), and it misses freelancer-specific insights like tax deductibility of Figma/Adobe/WeWork as business expenses.
+  Latency: 16.26s
+  Response (first 500 chars):
+    Here's a breakdown of what I found — and there are some **major red flags** worth addressing:
+
+---
+
+## 🚨 Biggest Money Waster: Duplicate Subscriptions
+
+Every single subscription appears **twice** in your data. This could mean you're being **double-billed** or have duplicate accounts. This is your #1 priority to investigate:
+
+| Subscription | Monthly Cost | Duplicate Cost |
+|---|---|---|
+| **Figma** | $351.46 | $702.92 |
+| **Notion** | $350.86 | $701.72 |
+| **Zoom** | $342.41 | $684.82 |
+| **Stri
+------------------------------------------------------------
+
+[PASS] retired_fixed_spending_summary
+  Archetype: Retired / Fixed Income
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides specific dollar amounts and percentages with a clear breakdown, offers solid observations tailored to the spending pattern, but lacks concrete prioritized actions (e.g., specific bills to review) and could better address fixed-income concerns like healthcare cost tracking or utility optimization for retirees.
+  Latency: 8.23s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spent: **$3,169.10**
+*(Income: $3,960.46 | Net Savings: $791.36 | Savings Rate: ~20%)*
+
+---
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏠 Bills & Utilities | $1,483.98 | 46.8% |
+| 🛒 Groceries | $737.13 | 23.3% |
+| 🍔 Food & Drink | $480.37 | 15.2% |
+| 🏥 Healthcare | $467.62 | 14.8% |
+
+---
+
+### Key Takeaways:
+- **Bills & Utilities** dominate your spending at nearly half your total — worth reviewing if any of those are 
+------------------------------------------------------------
+
+[PASS] retired_fixed_financial_health
+  Archetype: Retired / Fixed Income
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=3 AC=3 CO=3
+  Judge: The response cites specific numbers and percentages clearly, but it misses archetype-specific insights for a retiree (e.g., withdrawal strategy, healthcare costs, Social Security/pension context) and oddly frames retirement as a future goal; actionable suggestions are somewhat generic ('boost contributions') without naming specific spending categories to cut.
+  Latency: 12.77s
+  Response (first 500 chars):
+    Here's your full financial snapshot — overall you're doing really well! 🎉
+
+---
+
+## 💳 Financial Health Score: 87/100 — Grade A
+
+Your finances are in excellent shape. Here's the breakdown:
+
+| Component | Score | Notes |
+|---|---|---|
+| 💰 Savings Rate | 40/40 | Saving **20%** of income — right at the target |
+| 📊 Budget Adherence | 30/30 | All 3 budgets on track |
+| 🎯 Goal Progress | 7/20 | Goals are early-stage (avg. 20% complete) |
+| 🔍 Anomaly Check | 10/10 | No suspicious transactions |
+
+---
+
+##
+------------------------------------------------------------
+
+[PASS] retired_fixed_goal_tracking
+  Archetype: Retired / Fixed Income
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response cites specific dollar amounts and percentages for goals and savings rates, and smartly flags the discrepancy between December's snapshot and 3-month average, but lacks retiree-archetype-specific insights (e.g., Social Security, RMDs, healthcare costs) and doesn't identify specific spending categories driving the negative savings, making next steps less concrete.
+  Latency: 14.16s
+  Response (first 500 chars):
+    Here's a full picture of where you stand — and there are some **important things to flag**:
+
+---
+
+## 📊 Overall Financial Health: 87/100 (A)
+Your December snapshot looks strong — 20% savings rate, all budgets on track, and no suspicious transactions. But there's a catch (see below 👇).
+
+---
+
+## 🎯 Goal Progress
+
+| Goal | Saved | Target | Progress | On Track? |
+|---|---|---|---|---|
+| 🛡️ Emergency Fund | $2,500 | $10,000 | 25% | ❌ No |
+| 🏦 Retirement | $15,000 | $100,000 | 15% | ❌ No |
+
+---
+
+## ⚠️ T
+------------------------------------------------------------
+
+[FAIL] retired_fixed_anomaly_detection
+  Archetype: Retired / Fixed Income
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=2 CO=2
+  Judge: The response mentions a transaction count (15) but cites no specific merchants, amounts, or dates, offers only generic fraud-awareness tips rather than insights tailored to a retiree on fixed income, and provides vague next steps without surfacing any concrete financial signals from the user's data.
+  Latency: 8.16s
+  Response (first 500 chars):
+    Great news! ✅ **No unusual or suspicious charges detected** in the last 30 days.
+
+Here's a quick summary of the scan:
+- **15 transactions** reviewed across the past 30 days
+- **All amounts** fell within normal patterns for each merchant
+- Detection used a statistical method (z-score analysis) to flag anything significantly higher than your typical spending per merchant
+
+**What this means:** None of your recent charges appear to be outliers, duplicate charges, or potential fraud based on your spe
+------------------------------------------------------------
+
+[PASS] retired_fixed_subscription_audit
+  Archetype: Retired / Fixed Income
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=4 IQ=3 AC=3 CO=3
+  Judge: The response provides specific merchant names, amounts, and dates with a clear table and totals, but includes questionable items like Social Security (likely income, not a charge) and Denny's/Shell as subscriptions without strong skepticism, and lacks retiree-specific insights (e.g., Medicare context, fixed-income budgeting) or concrete cancellation steps.
+  Latency: 10.45s
+  Response (first 500 chars):
+    Here's a breakdown of all detected recurring charges on your account:
+
+| # | Name | Monthly Amount | Next Expected |
+|---|------|---------------|---------------|
+| 1 | CVS | $277.05 | Jan 25, 2025 |
+| 2 | Denny's | $263.81 | Jan 26, 2025 |
+| 3 | Medicare Supplement | $258.21 | Oct 22, 2024 |
+| 4 | Xfinity | $258.15 | Jan 23, 2025 |
+| 5 | AARP | $254.45 | Jan 12, 2025 |
+| 6 | Social Security | $250.74 | Nov 9, 2024 |
+| 7 | Shell | $212.51 | Jan 19, 2025 |
+| 8 | Walgreens | $192.33 | Nov 11, 2024 
+------------------------------------------------------------
+
+[PASS] retired_fixed_behavioral_analysis
+  Archetype: Retired / Fixed Income
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=4 CO=3
+  Judge: The response cites specific merchants and dollar amounts with useful prioritization and retiree-relevant suggestions (mail-order pharmacy, cable cutting), but it acknowledges data quality issues (duplicates, Social Security miscategorized as expense) without fully resolving them, and doesn't tie insights strongly to the fixed-income archetype.
+  Latency: 19.12s
+  Response (first 500 chars):
+    Here's a full breakdown of where your money may be slipping away:
+
+---
+
+## 🔍 Your Spending Habits Analysis
+
+### ✅ Good News First
+- **No unusual or suspicious charges** were detected in the last 90 days — no signs of fraud or one-off splurges.
+- **Your behavioral patterns are healthy** — no post-payday splurges, weekend overspending, or impulse-buying clusters detected.
+
+---
+
+### ⚠️ Biggest Concern: Recurring Charges Look Inflated
+
+Your detected "subscriptions" total a staggering **$4,014/month 
+------------------------------------------------------------
+
+[PASS] dual_income_spending_summary
+  Archetype: Dual Income / Family
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides specific dollar amounts and percentages with a clear category breakdown and flags key concerns like low savings rate and high entertainment spend, but actionable next steps are generic (no specific merchants or subscriptions to cut) and it misses dual-income/family-specific insights like childcare being surprisingly low or splitting analysis by earner.
+  Latency: 8.89s
+  Response (first 500 chars):
+    Here's your full spending breakdown for **December 2024**:
+
+---
+
+### 💰 Monthly Overview
+| | Amount |
+|---|---|
+| **Total Income** | $11,392.49 |
+| **Total Spending** | $10,871.31 |
+| **Net Cash Flow** | $521.18 |
+| **Savings Rate** | 4.57% |
+
+---
+
+### 📊 Spending by Category
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🛒 Groceries | $3,633.90 | 33.4% |
+| 🏠 Housing | $2,623.70 | 24.1% |
+| 🎬 Entertainment | $2,217.18 | 20.4% |
+| 🚗 Transportation | $1,393.52 | 12.8% |
+| 👶 Childcare | $557.65 |
+------------------------------------------------------------
+
+[PASS] dual_income_financial_health
+  Archetype: Dual Income / Family
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response cites specific dollar amounts and percentages across months, budget buckets, and goals with sound reasoning about the savings rate decline and high grocery spend, though it could go deeper on dual-income/family-specific dynamics and provide more concrete per-category cut targets.
+  Latency: 14.68s
+  Response (first 500 chars):
+    Here's your full financial picture — let me break it down honestly:
+
+---
+
+## 📊 Overall Health Score: 57/100 — Grade C (Fair)
+
+You're in positive territory, but there are some clear areas to work on.
+
+---
+
+## 💰 Savings — The Main Concern
+
+| Month | Income | Spending | Saved | Rate |
+|-------|--------|----------|-------|------|
+| Oct 2024 | $15,655 | $14,365 | $1,290 | 8.2% |
+| Nov 2024 | $14,733 | $12,498 | $2,236 | 15.2% |
+| Dec 2024 | $11,392 | $10,871 | $521 | **4.6%** ⚠️ |
+
+Your savings rate 
+------------------------------------------------------------
+
+[PASS] dual_income_goal_tracking
+  Archetype: Dual Income / Family
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific figures (savings amounts, targets, rates, projected dates) accurately and identifies the key problem of a dropped savings rate, but actionable suggestions are somewhat generic (boost savings to 10%) without naming specific spending categories to cut, and it lacks dual-income/family-specific insights like childcare or spousal contribution coordination.
+  Latency: 12.76s
+  Response (first 500 chars):
+    Here's your full picture — and I want to be upfront with you: **you're currently off track on both goals**, but it's fixable. Let me break it down:
+
+---
+
+## 📊 Financial Health Score: 57/100 (C — Fair)
+
+---
+
+## 🎯 Goal Status
+
+| Goal | Saved | Target | Progress | On Track? |
+|---|---|---|---|---|
+| Emergency Fund | $2,500 | $10,000 | 25% | ❌ No |
+| Retirement | $15,000 | $100,000 | 15% | ❌ No |
+
+### ⚠️ Emergency Fund
+- You're **15 months out** (projected March 2026), but your target date is **Dece
+------------------------------------------------------------
+
+[FAIL] dual_income_anomaly_detection
+  Archetype: Dual Income / Family
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=2 CO=2
+  Judge: The response provides only a transaction count and no specific merchants, amounts, or dates, offers no family-specific financial insights, suggests only a vague follow-up rather than concrete actions, and fails to surface any detailed patterns from the user's data.
+  Latency: 5.44s
+  Response (first 500 chars):
+    Great news! 🎉 No unusual or suspicious charges were detected in the last **30 days**.
+
+Here's a quick summary of the scan:
+- ✅ **22 transactions** reviewed
+- ✅ **0 anomalies** flagged
+- ✅ All charges were within normal patterns for each merchant
+
+Everything looks clean! That said, if you noticed a specific charge that seems off, feel free to describe it and I can help you dig deeper.
+------------------------------------------------------------
+
+[PASS] dual_income_subscription_audit
+  Archetype: Dual Income / Family
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=3 IQ=4 AC=3 CO=4
+  Judge: The response lists specific merchants, amounts, and dates and correctly flags suspicious entries like Disney+ at $408.79 and dining spots as likely false positives, but the inflated/implausible amounts suggest the underlying detection is flawed, and actionable next steps remain somewhat open-ended rather than prioritized.
+  Latency: 10.35s
+  Response (first 500 chars):
+    Here's a full breakdown of your **10 detected recurring charges**, totaling **$3,987.16/month** (~$47,846/year):
+
+| # | Merchant | Monthly Amount | Next Expected |
+|---|----------|---------------|---------------|
+| 1 | Target | $460.74 | Jan 24 |
+| 2 | Bright Horizons | $437.81 | Jan 26 |
+| 3 | Costco | $437.59 | Jan 20 |
+| 4 | Disney+ | $408.79 | Jan 25 |
+| 5 | Olive Garden | $402.17 | Jan 20 |
+| 6 | Shell | $394.76 | Jan 19 |
+| 7 | Honda | $390.90 | Dec 28 |
+| 8 | Verizon | $372.88 | Jan 21 |
+
+------------------------------------------------------------
+
+[PASS] dual_income_behavioral_analysis
+  Archetype: Dual Income / Family
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=3 IQ=3 AC=4 CO=4
+  Judge: The response cites specific merchants and dollar amounts with good structure and actionable steps, but several figures seem implausible (e.g., $409/month Disney+, $402/month Olive Garden as recurring) suggesting the agent may be misinterpreting transaction data as subscriptions, which weakens accuracy and insight quality despite strong formatting and prioritization.
+  Latency: 22.17s
+  Response (first 500 chars):
+    Here's a full breakdown of your spending habits and where money may be leaking:
+
+---
+
+## 🔍 Your Worst Spending Habits
+
+### 1. 🛒 Possible Duplicate Subscription Detection
+The system detected several merchants appearing **twice** in your recurring charges — this could be duplicate billing or duplicate accounts worth investigating:
+
+| Merchant | Monthly (each) | You may be paying |
+|---|---|---|
+| Target | $460.74 | $921.48 |
+| BrightHorizons | $437.81 | $875.62 |
+| Costco | $437.59 | $875.18 |
+| D
+------------------------------------------------------------
+
+[PASS] recent_grad_spending_summary
+  Archetype: Recent Graduate
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=3
+  Judge: The response provides specific dollar amounts and percentages with solid analysis of the negative savings rate and high food spending, but lacks concrete actionable steps (e.g., specific dollar reduction targets or merchant-level insights) and misses recent-graduate-specific framing around student loans; it also acknowledges missing trend data.
+  Latency: 11.27s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spent: $3,906.27
+*(Your income this month: $3,583.68)*
+
+| Category | Amount | % of Spending |
+|---|---|---|
+| 🏠 Housing | $1,361.93 | 34.9% |
+| 🍔 Food & Drink | $1,032.91 | 26.4% |
+| 💳 Loan Payments | $1,024.45 | 26.2% |
+| 🚗 Transportation | $486.98 | 12.5% |
+
+---
+
+### ⚠️ Key Takeaways:
+1. **You spent $322.59 more than you earned** this month, putting your savings rate at **-9%**. That's a red flag — you're dipping into savi
+------------------------------------------------------------
+
+[FAIL] recent_grad_financial_health
+  Archetype: Recent Graduate
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific monthly income/spending figures and goal progress, but lacks category-level breakdowns or merchant-specific insights; actionability is weak since priorities are framed generically ('stop the bleeding', 'boost savings rate') without naming which spending categories to cut, and it misses archetype-specific guidance for a recent graduate (e.g., student loans, employer retirement match).
+  Latency: 19.35s
+  Response (first 500 chars):
+    Here's your full financial picture — I'll be honest with you because that's what a good financial friend does:
+
+---
+
+## 📊 Overall Health Score: **47/100 (D — Needs Attention)**
+
+The good news: your budgets are on track and there are no suspicious transactions. The concern: **you're spending more than you earn right now**, which is the core issue to fix.
+
+---
+
+## 💸 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Net | Status |
+|-------|--------|----------|-----|--------|
+| Oct 
+------------------------------------------------------------
+
+[PASS] recent_grad_goal_tracking
+  Archetype: Recent Graduate
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=4 AC=3 CO=3
+  Judge: The response cites specific dollar amounts for goals, shortfalls, and the negative savings rate, and correctly identifies the critical issue of spending exceeding income, but it stops short of naming specific spending categories, merchants, or subscriptions to cut, instead offering follow-up options rather than concrete actions.
+  Latency: 12.75s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and I won't sugarcoat it:
+
+---
+
+## 🚨 Both Goals Are Off Track
+
+### 📊 Current Progress
+| Goal | Saved | Target | Progress |
+|------|-------|--------|----------|
+| Emergency Fund | $2,500 | $10,000 | 25% |
+| Retirement | $15,000 | $100,000 | 15% |
+
+---
+
+### ⚠️ The Critical Issue: You're Spending More Than You Earn
+
+Over the past 3 months, your **actual savings rate is -$979.59/month** — meaning you're going *into the hole* each month, not building savings
+------------------------------------------------------------
+
+[FAIL] recent_grad_anomaly_detection
+  Archetype: Recent Graduate
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=2 CO=2
+  Judge: The response mentions only a transaction count (18) without specific merchants, amounts, or dates, offers generic fraud-prevention advice rather than archetype-specific insights for a recent graduate, provides only vague next steps, and doesn't surface concrete transaction details that would help the user verify nothing is amiss.
+  Latency: 9.49s
+  Response (first 500 chars):
+    Great news! ✅ **No unusual or suspicious charges detected** in the last 30 days.
+
+Here's a quick summary of what was checked:
+- 📋 **18 transactions** scanned across all your merchants
+- 🔍 Each charge was compared against your typical spending patterns for that merchant
+- 📊 Detection method: statistical analysis (z-score) to flag anything significantly above your normal amounts
+
+Everything looks normal and within your typical spending patterns. That said, it's always a good idea to:
+1. **Review y
+------------------------------------------------------------
+
+[PASS] recent_grad_subscription_audit
+  Archetype: Recent Graduate
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=4 IQ=4 AC=4 CO=4
+  Judge: The response cites specific merchants, amounts, and dates while correctly flagging that inflated figures (Netflix, Hulu, Chipotle, Spotify) likely reflect grouped purchases rather than true subscriptions, and provides prioritized, concrete next steps, though it could better tailor advice to the recent graduate archetype (e.g., student loan context).
+  Latency: 13.04s
+  Response (first 500 chars):
+    Here's a breakdown of your recurring charges — a few things worth noting! 👀
+
+---
+
+### 🔄 Your Recurring Charges & Subscriptions
+
+| Merchant | Monthly Amount | Next Expected |
+|---|---|---|
+| Sallie Mae (loan) | $343.59 | Jan 20 |
+| Hulu | $309.35 | Jan 20 |
+| Netflix | $309.13 | Jan 13 |
+| Zillow Rent | $268.06 | Jan 18 |
+| CVS | $266.27 | Jan 23 |
+| Lyft | $265.53 | Jan 14 |
+| Trader Joe's | $230.27 | Jan 20 |
+| Spotify | $129.82 | Jan 26 |
+| Chipotle | $335.91 | Jan 27 |
+
+**💸 Total Monthly: $2,
+------------------------------------------------------------
+
+[PASS] recent_grad_behavioral_analysis
+  Archetype: Recent Graduate
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=5 AC=5 CO=4
+  Judge: The response cites specific dollar amounts and merchants, flags suspicious streaming/Spotify charges that deviate from standard pricing, identifies behavioral patterns like post-payday splurging with concrete percentages, and offers prioritized actions, though it could tie insights more explicitly to the recent-graduate archetype.
+  Latency: 18.38s
+  Response (first 500 chars):
+    Here's a breakdown of your worst spending habits and where money is likely slipping away:
+
+---
+
+## 🔍 Your Worst Spending Habits
+
+### 1. 🍔 Chipotle — $335.91/month
+That's **~$4,031/year** on Chipotle alone. This is showing up as a near-subscription-level recurring spend. That's more than most people spend on groceries.
+
+### 2. 📺 Streaming Overload — $618/month on Hulu + Netflix
+- **Hulu**: $309.35/month
+- **Netflix**: $309.13/month
+
+⚠️ These amounts seem unusually high for streaming services. It'
+------------------------------------------------------------
+
+[PASS] small_biz_spending_summary
+  Archetype: Small Business Owner
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response provides precise dollar amounts and percentages with a clear category breakdown, and includes relevant small-business insights like deductibility of business/marketing expenses and overspending alert, but actionability is moderate since suggestions to 'review transportation' and 'reduce discretionary' lack specific merchant-level or dollar-target recommendations.
+  Latency: 9.44s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+---
+
+### 💸 Total Spending: **$10,248.47**
+> ⚠️ Your income this month was **$9,447.83**, meaning you **overspent by $800.64** (savings rate: **-8.47%**)
+
+---
+
+### 📊 Spending by Category
+
+| Category | Amount | % of Spend |
+|---|---|---|
+| 🏢 Business Expenses | $4,015.24 | 39.2% |
+| 🚗 Transportation | $2,975.97 | 29.0% |
+| 🍔 Food & Drink | $1,281.37 | 12.5% |
+| 🏠 Bills & Utilities | $1,242.57 | 12.1% |
+| 📣 Marketing | $733.32 | 7.2% |
+
+---
+
+##
+------------------------------------------------------------
+
+[FAIL] small_biz_financial_health
+  Archetype: Small Business Owner
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=3 AC=2 CO=3
+  Judge: The response cites specific numbers accurately but lacks small-business-specific insights (e.g., business vs personal income separation, tax reserves, irregular revenue) and offers only vague next steps rather than naming specific categories or transactions to cut.
+  Latency: 16.76s
+  Response (first 500 chars):
+    Here's your full financial picture — and I want to be straight with you: **there are some real concerns to address.**
+
+---
+
+## 📊 Overall Health Score: 47/100 — Grade D ("Needs Attention")
+
+---
+
+### 💸 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Net | Status |
+|-------|--------|----------|-----|--------|
+| Oct 2024 | $10,622 | $10,687 | -$65 | ⚠️ Deficit |
+| Nov 2024 | $11,154 | $9,676 | **+$1,478** | ✅ Surplus |
+| Dec 2024 | $9,448 | $10,248 | -$801 | ⚠️ Deficit |
+
+**2 out 
+------------------------------------------------------------
+
+[FAIL] small_biz_goal_tracking
+  Archetype: Small Business Owner
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific goal figures and calculates required contribution rates accurately, but the insights lack small-business-specific context (e.g., irregular revenue, business vs personal expenses) and the next steps are offers to analyze further rather than concrete actions like naming specific spending categories to cut.
+  Latency: 12.59s
+  Response (first 500 chars):
+    Here's an honest look at where you stand — and the picture needs some attention:
+
+---
+
+## 📊 Your Financial Goals Summary
+
+### 🚨 Overall: **Not On Track**
+
+Your actual savings over the last 3 months average **-$2,848/month** — meaning you're **spending more than you earn**. This puts both goals at serious risk.
+
+---
+
+### 🏦 Emergency Fund
+| | |
+|---|---|
+| **Progress** | $2,500 / $10,000 (25%) |
+| **Target Date** | Dec 31, 2025 |
+| **Planned Contribution** | $500/month |
+| **Actual Savings Rate** 
+------------------------------------------------------------
+
+[FAIL] small_biz_anomaly_detection
+  Archetype: Small Business Owner
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=3 IQ=2 AC=2 CO=2
+  Judge: The response cites a transaction count but no specific merchants, amounts, or dates, and offers only a generic 'all clear' without small-business-specific considerations like vendor patterns, recurring charges, or card-present vs card-not-present risks, with only vague follow-up options.
+  Latency: 6.48s
+  Response (first 500 chars):
+    Good news! ✅ **No suspicious or unusual charges were found** in the last 30 days.
+
+Here's a quick summary of the scan:
+- 📊 **28 transactions** were reviewed across all your merchants
+- 🔍 Detection method used statistical analysis to flag anything significantly above your typical spending patterns per merchant
+- ✔️ **Everything looks normal** — all amounts are within expected ranges
+
+If you ever notice something that seems off yourself, feel free to ask me to dig deeper into a specific merchant, 
+------------------------------------------------------------
+
+[PASS] small_biz_subscription_audit
+  Archetype: Small Business Owner
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=4 IQ=4 AC=3 CO=4
+  Judge: The response provides specific merchants, amounts, and dates with a useful breakdown and flags business-relevant concerns like shipping costs and low confidence scores, but actionability is moderate since it identifies areas to review without concrete cancel/reduce recommendations.
+  Latency: 10.11s
+  Response (first 500 chars):
+    Here's a full breakdown of your recurring charges:
+
+---
+
+### 📋 Your Recurring Subscriptions & Bills
+
+| # | Service | Monthly Cost | Next Charge |
+|---|---------|-------------|-------------|
+| 1 | UPS | $432.71 | Jan 18 |
+| 2 | Mailchimp | $421.32 | Jan 27 |
+| 3 | QuickBooks | $415.58 | Jan 13 |
+| 4 | Comcast Biz | $413.69 | Jan 27 |
+| 5 | Chase Business | $404.93 | Jan 18 |
+| 6 | Staples | $392.60 | Jan 26 |
+| 7 | FedEx | $375.07 | Jan 16 |
+| 8 | Square | $345.88 | Jan 18 |
+| 9 | Shopify | $322.
+------------------------------------------------------------
+
+[PASS] small_biz_behavioral_analysis
+  Archetype: Small Business Owner
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response cites specific dollar amounts, percentages, and merchant names with strong business-owner-relevant insights like subscription auditing and post-payday splurging, though the transportation flag lacks deeper analysis and the duplicate subscription issue is hedged rather than resolved.
+  Latency: 22.31s
+  Response (first 500 chars):
+    Here's a comprehensive breakdown of your worst spending habits and where money may be slipping away:
+
+---
+
+## 🚨 Biggest Concern: Nearly Zero Savings Rate
+
+Over the last 3 months, you earned **$31,223** and spent **$30,611** — leaving only **$612 net** saved. That's a **1.96% savings rate**, far below the recommended 20%. This is your #1 financial problem right now.
+
+---
+
+## 💸 Where Your Money Is Going (Last 3 Months)
+
+| Category | Total | % of Spend |
+|---|---|---|
+| Business Expenses | $13,950 
+------------------------------------------------------------
+
+[FAIL] gig_worker_spending_summary
+  Archetype: Gig Economy Worker
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=5 IQ=3 AC=2 CO=3
+  Judge: The response provides precise dollar amounts and percentages with a clear breakdown, but lacks gig-worker-specific insights (e.g., income volatility, self-employment tax setaside) and offers no concrete action steps beyond flagging high categories, instead deferring to follow-up questions.
+  Latency: 6.69s
+  Response (first 500 chars):
+    Here's your spending breakdown for **December 2024**:
+
+| Category | Amount | % of Spending |
+|---|---|---|
+| 🛒 Groceries | $697.24 | 34.6% |
+| 🏠 Housing | $639.82 | 31.8% |
+| 🚗 Transportation | $482.65 | 24.0% |
+| 💡 Bills & Utilities | $107.18 | 5.3% |
+| 🍔 Food & Drink | $87.50 | 4.3% |
+| **Total Spent** | **$2,014.39** | |
+
+### Quick Highlights:
+- **Total income:** $2,132.41
+- **Net cash flow:** +$118.02 (only a **5.5% savings rate** — quite low)
+- **Groceries** is your biggest category at near
+------------------------------------------------------------
+
+[PASS] gig_worker_financial_health
+  Archetype: Gig Economy Worker
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=3 CO=4
+  Judge: The response cites specific figures across months and categories with clear breakdowns, and correctly flags the declining savings rate relevant to a gig worker's irregular income, though it could more explicitly address income volatility strategies; action items are somewhat general (e.g., 'leverage point is likely groceries') rather than prescribing concrete cuts.
+  Latency: 15.41s
+  Response (first 500 chars):
+    Here's a full picture of your finances — the honest version:
+
+---
+
+## 📊 Overall Financial Health: C (57/100) — Fair
+
+You're staying afloat, but there are some real areas to address.
+
+---
+
+### ✅ What You're Doing Well
+- **Positive cash flow every month** — you're not going into debt
+- **No suspicious transactions** detected
+- **Wants spending is very low** — only 4.1% vs. the 30% benchmark, showing good discretionary discipline
+
+---
+
+### ⚠️ Key Concerns
+
+**1. Savings Rate is Declining Fast**
+| Mo
+------------------------------------------------------------
+
+[PASS] gig_worker_goal_tracking
+  Archetype: Gig Economy Worker
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=3 CO=3
+  Judge: The response cites specific dollar amounts and percentages for goals and savings rate, but lacks gig-worker-specific insights about irregular income, and the action step is somewhat generic without naming specific spending categories to cut.
+  Latency: 11.33s
+  Response (first 500 chars):
+    Here's an honest look at where you stand:
+
+---
+
+## 📊 Financial Health: C (57/100) — Fair
+
+You have positive cash flow this month, but there are some real concerns.
+
+---
+
+## 🎯 Goal Progress
+
+| Goal | Saved | Target | Progress | On Track? |
+|---|---|---|---|---|
+| Emergency Fund | $2,500 | $10,000 | 25% | ❌ No |
+| Retirement | $15,000 | $100,000 | 15% | ❌ No |
+
+### ⚠️ Emergency Fund
+- **Target date:** Dec 2025 — but you're not on track
+- At your current $500/month contribution, you'll finish in **
+------------------------------------------------------------
+
+[FAIL] gig_worker_anomaly_detection
+  Archetype: Gig Economy Worker
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=3 IQ=2 AC=2 CO=2
+  Judge: The response cites a transaction count but no specific merchants, amounts, or dates, offers only generic security advice without gig-worker-specific insights (e.g., business expense patterns, client payment irregularities), and provides vague next steps rather than concrete actions tied to actual data.
+  Latency: 6.71s
+  Response (first 500 chars):
+    Great news! 🎉 No unusual or suspicious charges were detected in the last **30 days**.
+
+Here's a quick summary of the scan:
+- ✅ **18 transactions** reviewed
+- ✅ **0 anomalies** flagged
+- ✅ All charges fell within your **normal spending patterns** per merchant
+
+Everything looks clean! That said, it's always a good habit to:
+1. **Regularly review your transactions** for anything unfamiliar.
+2. **Check your subscriptions** periodically for services you may have forgotten about.
+3. **Alert your bank 
+------------------------------------------------------------
+
+[PASS] gig_worker_subscription_audit
+  Archetype: Gig Economy Worker
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=4 IQ=4 AC=3 CO=4
+  Judge: The response provides specific merchants, amounts, and dates with a useful caveat that most aren't true subscriptions, and offers gig-worker-relevant grouping (transportation), but actionable steps are somewhat soft suggestions rather than concrete prioritized cuts, and it doesn't fully address gig-worker tax/business-expense implications of fuel and vehicle maintenance.
+  Latency: 13.02s
+  Response (first 500 chars):
+    Here's a summary of your detected recurring charges:
+
+---
+
+### 📋 Your Recurring Charges
+
+| Merchant | Monthly Amount | Next Expected |
+|---|---|---|
+| Uber | $357.49 | Oct 22, 2024 |
+| Instacart | $351.03 | Nov 9, 2024 |
+| McDonald's | $339.40 | Jan 9, 2025 |
+| 7-Eleven | $311.41 | Jan 23, 2025 |
+| Jiffy Lube | $295.65 | Jan 7, 2025 |
+| Shell | $283.90 | Jan 28, 2025 |
+| BP | $244.57 | Jan 9, 2025 |
+| Lyft | $235.33 | Dec 19, 2024 |
+| AutoZone | $233.26 | Jan 22, 2025 |
+| T-Mobile | $221.80 | Ja
+------------------------------------------------------------
+
+[PASS] gig_worker_behavioral_analysis
+  Archetype: Gig Economy Worker
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=4 IQ=4 AC=5 CO=3
+  Judge: The response cites specific merchants and dollar amounts with strong actionable recommendations and good pattern-spotting (rideshare duplication, gas combo), but loses points on completeness due to the acknowledged category data error and lacks gig-worker-specific insights like distinguishing business expenses (gas, AutoZone, Jiffy Lube) that may be tax-deductible rather than 'waste.'
+  Latency: 22.99s
+  Response (first 500 chars):
+    Here's a full breakdown of where your money may be slipping away:
+
+---
+
+## 🔍 Your Worst Spending Habits
+
+### ⚠️ Note on Category Data
+One data source had a temporary error, but the subscription and pattern data tells a very clear story.
+
+---
+
+### 🔁 Recurring Spending — **$2,873/month | $34,486/year**
+These are your biggest culprits. The system flagged these as *recurring* charges, which means they're happening month after month:
+
+| Merchant | Monthly Spend | What to Ask |
+|---|---|---|
+| 🚗 **Ube
+------------------------------------------------------------
+

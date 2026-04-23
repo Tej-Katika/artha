@@ -1,0 +1,503 @@
+{
+  "timestamp": "20260303_044247",
+  "overall_score": 0.14,
+  "overall_pass": 0.12,
+  "profiles": [
+    {
+      "profile": {
+        "id": "aaaaaaaa-0001-0001-0001-000000000001",
+        "name": "Priya Sharma",
+        "archetype": "High Earner/Saver"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "PASS",
+          "score": 0.68,
+          "quality": "ADEQUATE",
+          "length": 1407,
+          "elapsed_sec": 15.3,
+          "response": "You've spent **$8,912.83** this month (last 30 days) across 630 transactions.\n\n**Here's where your money went:**\n- **Groceries**: ~$2,253 (Whole Foods, HEB, Aldi, Walmart)\n- **Restaurants/Dining**: ~$1,347 (Chick-fil-A, Chipotle, Starbucks, Dominos, etc.)\n- **Gas/Transportation**: ~$577 (Shell, ExxonMobil, Uber, parking)\n- **Travel**: ~$2,023 (Southwest Airlines, Enterprise rental, Airbnb)\n- **Retail/Shopping**: ~$827 (Nordstrom, Target, Amazon)\n- **Subscriptions/Bills**: ~$738 (utilities, phone, internet, streaming, gym)\n- **Investments**: ~$1,000 (Fidelity Roth IRA, Vanguard 401k)\n- **Other**: ~$148 (pharmacy, misc)\n\n**Key observations:**\n1. **Travel is your biggest expense** at over $2,000 — primarily Southwest Airlines flights ($2,022.59)\n2. **Whole Foods** is your top grocery source at $3,262 in the past month — that's exceptionally high. You're averaging ~$105 per trip with frequent visits\n3. **Dining out** costs you about $45/day — you eat at restaurants/coffee shops often\n4. **You're investing consistently** — $1,000/month between retirement accounts is excellent\n\n**Next steps:**\n1. Consider if all that travel was planned — that's 22% of your monthly spending\n2. Whole Foods is costing you ~3x what HEB does per trip. Even mixing in more HEB/Aldi could save $500+/month\n3. You don't have any budgets set up yet — want me to help you create spending targets for your top categories?"
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 2.7,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "PASS",
+          "score": 0.92,
+          "quality": "DETAILED",
+          "length": 1058,
+          "elapsed_sec": 8.8,
+          "response": "I found **4 unusual transactions** in the last 30 days worth reviewing:\n\n1. **Amazon Marketplace on Feb 27 — $119.35**  \n   This is significantly higher than your typical Amazon spend of ~$22. Worth checking your order history to confirm this was intentional.\n\n2. **Whole Foods Market on Feb 12 — $322.07**  \n   This is more than double your usual Whole Foods spend of ~$140. Could be a big grocery restock or possibly a duplicate charge.\n\n3. **Walmart Supercenter on Feb 22 — $134.26**  \n   About 2x your normal Walmart spend of ~$68. Less concerning but still notable.\n\n4. **Chick-fil-A on Feb 21 — $39.56**  \n   Nearly double your typical order of ~$22. Maybe ordering for others or an extra meal?\n\n**What to do:**\n- **Check your Amazon and Whole Foods accounts** to verify these large charges match actual orders\n- If anything looks wrong, contact your bank to dispute unauthorized charges\n- The Whole Foods charge stands out most — that's $182 more than usual\n\nDo any of these ring a bell, or would you like me to look deeper into any specific merchant?"
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "PASS",
+          "score": 1.0,
+          "quality": "DETAILED",
+          "length": 1674,
+          "elapsed_sec": 17.1,
+          "response": "I can see the transaction data. Now let me analyze and categorize the spending to identify your biggest categories.\n\nBased on your last 30 days of spending (Jan 30 - Feb 28, 2026), here are **your biggest spending categories**:\n\n## Top Spending Categories\n\n1. **Groceries: $2,023** — Your largest category\n   - Whole Foods Market: $1,423 (12 trips, avg $119/trip)\n   - HEB: $359 (5 trips)\n   - Aldi: $171 (3 trips)\n   - Walmart: $71 (1 trip)\n\n2. **Savings/Investments: $1,500**\n   - Fidelity Roth IRA: $500\n   - Vanguard 401k: $1,000\n\n3. **Travel: $1,023**\n   - Southwest Airlines: $463\n   - (You also had travel in Dec/Jan with more flights and car rentals)\n\n4. **Utilities & Bills: $655**\n   - Oncor Electric: $212\n   - AT&T Internet: $90\n   - T-Mobile: $78\n   - City of Denton Water: $61\n   - Peloton: $44\n   - Planet Fitness: $50\n   - Subscriptions (Netflix, Hulu, Spotify, Apple, iCloud, Amazon Prime): $120\n\n5. **Dining Out: $384**\n   - Chick-fil-A: $113 (5 visits)\n   - Starbucks: $71 (6 visits)\n   - Chipotle: $77 (4 visits)\n   - Dominos: $89 (2 orders)\n   - Other: $34\n\n6. **Gas: $235** \n   - Shell, ExxonMobil (8 fill-ups)\n\n7. **Shopping/Retail: $509**\n   - Amazon: $142\n   - Target: $252\n   - Nordstrom: $197 (2 purchases)\n   - Walmart: $185\n\n8. **Transportation: $14**\n   - Uber: $14 (1 trip)\n\n---\n\n**Key Insights:**\n- **Whole Foods is your #1 merchant** at $1,423/month — that's about $355/week\n- You're saving **22% of your spending** ($1,500 in retirement accounts)\n- Your fixed bills are very reasonable at $655\n- Dining out is moderate at $384, mostly fast casual spots\n\nWould you like to dig into any category or see if there are opportunities to optimize?"
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.55,
+      "pass_count": 3,
+      "pass_rate": 0.6
+    },
+    {
+      "profile": {
+        "id": "bbbbbbbb-0002-0002-0002-000000000002",
+        "name": "Marcus Johnson",
+        "archetype": "Paycheck to Paycheck"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.2,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.3,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.03,
+      "pass_count": 0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "cccccccc-0003-0003-0003-000000000003",
+        "name": "Alex Chen",
+        "archetype": "High Debt"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.2,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "PASS",
+          "score": 1.0,
+          "quality": "DETAILED",
+          "length": 1042,
+          "elapsed_sec": 8.1,
+          "response": "I don't see any active savings goals set up in your account yet.\n\n**What this means:**\nRight now, there are no specific savings targets (like an emergency fund, vacation savings, or down payment goal) configured for me to track your progress against.\n\n**Next steps you can take:**\n\n1. **Set up a goal** — Common goals people start with:\n   - **Emergency fund:** 3-6 months of expenses (typically $10,000-$20,000)\n   - **Vacation or big purchase:** Whatever amount you're saving for\n   - **Down payment:** For a home or car\n   - **Retirement contribution:** Monthly target\n\n2. **I can help you figure out what to save for** — If you'd like, I can:\n   - Look at your recent spending to estimate a good emergency fund target\n   - Check your savings rate to see if you're putting money aside consistently\n   - Project how long it would take to reach different savings amounts\n\nWould you like me to analyze your recent income and spending to see how much you're actually saving each month? That would give us a baseline to set up meaningful goals."
+        }
+      ],
+      "avg_score": 0.2,
+      "pass_count": 1,
+      "pass_rate": 0.2
+    },
+    {
+      "profile": {
+        "id": "dddddddd-0004-0004-0004-000000000004",
+        "name": "Brandon Willis",
+        "archetype": "Overspender + Anomalies"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "PASS",
+          "score": 0.76,
+          "quality": "DETAILED",
+          "length": 1618,
+          "elapsed_sec": 16.3,
+          "response": "I found 1,039 debit transactions in the last 30 days. Let me calculate your total spending and analyze the patterns.\n\n**You've spent $97,856 this month** across 1,039 transactions.\n\nHere's the breakdown by category:\n\n**Top spending categories:**\n- **Dining & Restaurants**: ~$9,200 (Ruth's Chris alone: $3,800+ across 16 visits, DoorDash: $2,800+, Fast food/casual: $2,600+)\n- **Shopping**: ~$21,500 (Nordstrom: $9,800, Saks Fifth Ave: $4,500, Apple: $4,000+, Amazon: $2,800+, Target: $2,100)\n- **Groceries**: ~$5,400 (Whole Foods: $2,400, HEB: $1,900, Aldi: $600, Walmart: $900)\n- **Travel**: ~$8,000 (Southwest Airlines: $5,100, Hotels: $2,900+)\n- **Bills & Fixed Costs**: ~$6,400 (BMW: $2,250, Utilities: $1,200, Phone/Internet: $600, Subscriptions: $350)\n- **Entertainment**: ~$3,800 (StubHub tickets: $3,000+)\n- **Alcohol**: ~$4,800 (Total Wine)\n- **Gas/Transport**: ~$3,200 (Gas: $2,800, Uber: $200, Rental cars: $920)\n\n**Notable patterns:**\n- You eat at Ruth's Chris Steakhouse **16 times** this month ($3,800 total)\n- **DoorDash usage is very high**: 54 orders totaling $2,800\n- You shopped at Nordstrom **13 times** ($9,800)\n- Multiple large Apple purchases: $1,268, $1,167, $1,029 among others\n- Several expensive hotel stays (Marriott resorts)\n\n**What to do next:**\n1. **Cut delivery costs**: You're spending ~$2,800/month on DoorDash alone. Even reducing by half would save $1,400/month.\n2. **Review shopping frequency**: 13 Nordstrom trips in a month suggests impulse buying opportunities.\n\nWould you like me to dig into any specific category, look for unusual charges, or compare this to previous months?"
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.4,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.18,
+      "pass_count": 1,
+      "pass_rate": 0.2
+    },
+    {
+      "profile": {
+        "id": "eeeeeeee-0005-0005-0005-000000000005",
+        "name": "Sofia Reyes",
+        "archetype": "Freelancer"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.2,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.03,
+      "pass_count": 0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "ffffffff-0006-0006-0006-000000000006",
+        "name": "Robert & Helen Davis",
+        "archetype": "Retired/Fixed Income"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.2,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.03,
+      "pass_count": 0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "a7a7a7a7-0007-0007-0007-000000000007",
+        "name": "James & Sarah Mitchell",
+        "archetype": "Dual Income"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 1.4,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.03,
+      "pass_count": 0,
+      "pass_rate": 0.0
+    },
+    {
+      "profile": {
+        "id": "a8a8a8a8-0008-0008-0008-000000000008",
+        "name": "Taylor Kim",
+        "archetype": "Recent Grad/Rebuilding"
+      },
+      "queries": [
+        {
+          "query_id": "Q1",
+          "question": "How much did I spend this month?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 5.0,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q2",
+          "question": "How are my finances overall?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Anything suspicious in my transactions?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q4",
+          "question": "What are my biggest spending categories?",
+          "status": "FAIL",
+          "score": 0.0,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Am I on track with my savings goals?",
+          "status": "FAIL",
+          "score": 0.15,
+          "quality": "POOR",
+          "length": 71,
+          "elapsed_sec": 0.1,
+          "response": "I encountered an error while processing your request. Please try again."
+        }
+      ],
+      "avg_score": 0.03,
+      "pass_count": 0,
+      "pass_rate": 0.0
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+Artha Eval Report — Condition A
+Date: 20260422_190629
+Overall: 16.7% pass, 2.25/5 avg
+
+[FAIL] high_earner_spending_summary
+  Archetype: High Earner / Saver
+  Query: How much did I spend this month? Break it down by category.
+  Scores: DA=1 IQ=1 AC=1 CO=1
+  Judge: The response is a generic error message providing no financial data, insights, actions, or coverage of the user's spending question.
+  Latency: 0.11s
+  Response (first 500 chars):
+    I'm having trouble connecting right now. Please try again in a moment.
+------------------------------------------------------------
+
+[PASS] high_earner_financial_health
+  Archetype: High Earner / Saver
+  Query: How are my finances looking overall? Am I saving enough?
+  Scores: DA=5 IQ=4 AC=4 CO=4
+  Judge: The response cites specific dollar amounts, savings rates, and goal progress with clear tables; insights correctly identify the disconnect between strong savings rate and lagging goal funding, though it could dig deeper into spending categories or where the surplus is actually going, and actions are concrete with specific contribution increases but stop short of full category-level recommendations.
+  Latency: 15.02s
+  Response (first 500 chars):
+    Here's your full financial snapshot:
+
+---
+
+## 📊 Overall Health Score: 57/100 — Grade C ("Fair")
+
+You're making progress, but there are some clear gaps to address.
+
+---
+
+## 💰 Income vs. Spending (Last 3 Months)
+
+| Month | Income | Spending | Saved | Savings Rate |
+|-------|--------|----------|-------|-------------|
+| Oct 2024 | $12,143 | $8,988 | $3,154 | 26% |
+| Nov 2024 | $19,601 | $13,786 | $5,815 | 30% |
+| Dec 2024 | $13,876 | $9,051 | $4,825 | 35% |
+
+✅ **Great news:** You're consistently in 
+------------------------------------------------------------
+
+[FAIL] high_earner_goal_tracking
+  Archetype: High Earner / Saver
+  Query: Am I on track to meet my financial goals?
+  Scores: DA=4 IQ=3 AC=2 CO=3
+  Judge: The response cites specific goal figures and progress percentages accurately, but the insights remain generic (spending equals income) without identifying specific categories or merchants, and the next steps are offers to analyze further rather than concrete prioritized actions like naming which expenses to cut.
+  Latency: 11.99s
+  Response (first 500 chars):
+    Here's your full financial picture — and I want to be honest with you: **there are some real concerns to address.**
+
+---
+
+## 📊 Overall Financial Health: 57/100 (C — Fair)
+
+The good news: your budgets are on track and no suspicious transactions. But your savings rate is the critical issue right now.
+
+---
+
+## 🎯 Goal Status: Both Goals At Risk
+
+### 🚨 Emergency Fund — OFF TRACK
+| | Details |
+|---|---|
+| **Progress** | $2,500 / $10,000 (25%) |
+| **Target Date** | Dec 31, 2025 *(already passed — 113 d
+------------------------------------------------------------
+
+[FAIL] high_earner_anomaly_detection
+  Archetype: High Earner / Saver
+  Query: Have there been any unusual or suspicious charges recently?
+  Scores: DA=2 IQ=2 AC=3 CO=2
+  Judge: The response cites no specific transactions, amounts, or merchants to substantiate the 'all clear' claim, offers only generic reassurance without archetype-specific insights for a high earner/saver, but does provide reasonable follow-up options for the user.
+  Latency: 5.19s
+  Response (first 500 chars):
+    Good news! 🎉 No unusual or suspicious charges were detected in the last **30 days**. All your transactions appear to be within normal ranges for your typical spending patterns.
+
+Here's what that means:
+- ✅ No unexpected spikes at familiar merchants
+- ✅ No charges from unfamiliar sources flagged
+- ✅ Your spending looks consistent with your history
+
+If you're concerned about a **specific charge** you noticed, feel free to describe it and I can help you look it up in your transactions. Or if you'd 
+------------------------------------------------------------
+
+[FAIL] high_earner_subscription_audit
+  Archetype: High Earner / Saver
+  Query: What recurring charges and subscriptions do I have?
+  Scores: DA=1 IQ=2 AC=2 CO=1
+  Judge: The response cites no actual transaction data, merchants, or amounts, and offers only generic explanations and suggestions without surfacing any recurring charges that likely exist for a high earner.
+  Latency: 7.45s
+  Response (first 500 chars):
+    It looks like **no recurring subscriptions were detected** at this time. Here are a few possible reasons:
+
+1. **Not enough transaction history** – The system needs sufficient past transactions to identify recurring patterns. Adding more history would improve detection.
+2. **Variable billing amounts** – Some subscriptions charge slightly different amounts each cycle, making them harder to auto-detect.
+3. **New account** – If your account was recently connected, there may not be enough data yet.
+
+
+------------------------------------------------------------
+
+[FAIL] high_earner_behavioral_analysis
+  Archetype: High Earner / Saver
+  Query: What are my worst spending habits? Where am I wasting money?
+  Scores: DA=1 IQ=2 AC=2 CO=1
+  Judge: The response cites no specific dollar amounts, merchants, or categories due to acknowledged data/system limitations, and instead offers generic suggestions and asks the user to self-identify problem areas rather than surfacing actual spending signals.
+  Latency: 12.14s
+  Response (first 500 chars):
+    Here's what I found — and I want to be transparent with you about the results:
+
+---
+
+### 🔍 What the Data Shows
+
+| Check | Result |
+|---|---|
+| 🧠 Behavioral Patterns | Not enough transaction history yet |
+| 📊 Category Insights | Temporarily unavailable (system error) |
+| 🔄 Subscriptions | None detected yet |
+| 🚨 Unusual Charges | None flagged in the last 30 days |
+
+---
+
+### What This Means
+
+There are a couple of limitations right now:
+
+1. **Not enough history yet** — Behavioral pattern detection 
+------------------------------------------------------------
+

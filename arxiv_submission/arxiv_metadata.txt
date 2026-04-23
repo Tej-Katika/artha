@@ -1,0 +1,61 @@
+arXiv submission metadata — paste these fields into the arXiv upload form.
+============================================================================
+
+TITLE
+-----
+Artha: A Domain Ontology-Driven Agentic Framework for LLM-Based Personal
+Finance Reasoning
+
+
+AUTHORS
+-------
+Tejas Katika
+
+Affiliation (to enter in the author form):
+  Department of Computer Science, University of North Texas, Denton, TX, USA
+
+Email (optional on arXiv form, required for ORCID linking):
+  tejashwar1029@gmail.com
+
+
+PRIMARY CATEGORY (required)
+---------------------------
+cs.AI   -- Artificial Intelligence
+
+
+CROSS-LIST CATEGORIES (recommended)
+-----------------------------------
+cs.CL   -- Computation and Language (LLM work)
+cs.IR   -- Information Retrieval (ontology/enrichment)
+
+
+MSC CLASS / ACM CLASS (optional, leave blank unless required)
+-------------------------------------------------------------
+(leave blank)
+
+
+COMMENTS (shown under the abstract on arXiv)
+--------------------------------------------
+Preprint. 5 tables, 1 figure. Targeting IEEE Big Data 2026.
+Full 4-condition ablation study (Conditions A-D, n=60 each).
+Code, evaluation harness, scoring rubric, and raw judge
+transcripts released for reproducibility at:
+https://github.com/<your-username>/finwise-agent
+(update this URL before uploading, or omit the comment block if repo not yet public)
+
+
+JOURNAL REFERENCE / DOI / REPORT NUMBER
+---------------------------------------
+(leave blank for initial preprint)
+
+
+LICENSE
+-------
+Recommended: arXiv.org perpetual, non-exclusive license
+(the default option; no CC license is required for the initial preprint).
+
+
+ABSTRACT (paste from abstract_plain.txt)
+----------------------------------------
+See `abstract_plain.txt` in this folder. arXiv's form strips LaTeX, so
+use the plain-text version.

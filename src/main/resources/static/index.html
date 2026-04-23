@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinWise — AI Financial Advisor</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-base:       #080d14;
+      --bg-surface:    #0e1623;
+      --bg-elevated:   #162030;
+      --bg-card:       #1a2540;
+      --border:        #1e2e45;
+      --border-bright: #2a4060;
+      --gold:          #c9a84c;
+      --gold-dim:      #8a6e2f;
+      --gold-glow:     rgba(201,168,76,0.15);
+      --text-primary:  #e8edf5;
+      --text-secondary:#7a90a8;
+      --text-muted:    #3d5470;
+      --green:         #2ecc8a;
+      --red:           #e05555;
+      --blue:          #4a9eff;
+      --font-display:  'DM Serif Display', serif;
+      --font-mono:     'DM Mono', monospace;
+      --font-sans:     'DM Sans', sans-serif;
+    }
+
+    html, body, #root {
+      height: 100%;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    @keyframes goldLine {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useRef, useEffect, useCallback } = React;
+
+    // ── Config ────────────────────────────────────────────────────
+    const USER_ID = "4fb62a1a-86eb-41ab-855b-81c73a2ed1e6";
+    const API_BASE = "";  // same origin
+
+    // ── Suggested prompts ─────────────────────────────────────────
+    const SUGGESTIONS = [
+      { icon: "◈", label: "Financial Health",  prompt: "Give me my financial health score" },
+      { icon: "◎", label: "Budget Status",     prompt: "Am I over budget this month?" },
+      { icon: "⬡", label: "Subscriptions",     prompt: "What subscriptions am I paying for?" },
+      { icon: "◇", label: "Savings Goal",      prompt: "When will I reach my emergency fund goal?" },
+      { icon: "△", label: "Spending Breakdown",prompt: "Where is most of my money going?" },
+      { icon: "◉", label: "Anomalies",         prompt: "Any suspicious charges this month?" },
+    ];
+
+    // ── Markdown-lite renderer ────────────────────────────────────
+    function renderMarkdown(text) {
+      // Bold
+      text = text.replace(/\*\*(.+?)\*\*/g,
+        '<strong style="color:var(--text-primary);font-weight:500">$1</strong>');
+      // Dollar amounts — highlight in gold
+      text = text.replace(/\$[\d,]+(\.\d{2})?/g,
+        '<span style="color:var(--gold);font-family:var(--font-mono);font-weight:500">$&</span>');
+      // Percentages
+      text = text.replace(/\d+(\.\d+)?%/g,
+        '<span style="color:var(--blue);font-family:var(--font-mono)">$&</span>');
+      // Grade letters A/B/C/D/F
+      text = text.replace(/\b([ABCDF])\s+grade\b/g,
+        '<span style="color:var(--gold);font-weight:600;font-family:var(--font-mono)">$1</span> grade');
+      // Score /100
+      text = text.replace(/(\d+)\/100/g,
+        '<span style="color:var(--gold);font-family:var(--font-mono);font-weight:600">$1</span>'
+        + '<span style="color:var(--text-muted);font-family:var(--font-mono)">/100</span>');
+      // Newlines
+      text = text.replace(/\n/g, '<br/>');
+      return text;
+    }
+
+    // ── Typing indicator ──────────────────────────────────────────
+    function TypingIndicator() {
+      return (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 6,
+          padding: '14px 18px',
+          background: 'var(--bg-elevated)',
+          border: '1px solid var(--border)',
+          borderRadius: '2px 16px 16px 16px',
+          width: 'fit-content',
+        }}>
+          {[0, 1, 2].map(i => (
+            <div key={i} style={{
+              width: 6, height: 6,
+              borderRadius: '50%',
+              background: 'var(--gold)',
+              animation: `pulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+            }} />
+          ))}
+        </div>
+      );
+    }
+
+    // ── Message bubble ────────────────────────────────────────────
+    function MessageBubble({ message }) {
+      const isUser = message.role === 'user';
+
+      return (
+        <div className="fade-up" style={{
+          display: 'flex',
+          flexDirection: isUser ? 'row-reverse' : 'row',
+          gap: 12,
+          alignItems: 'flex-start',
+          marginBottom: 24,
+        }}>
+          {/* Avatar */}
+          <div style={{
+            width: 34, height: 34,
+            borderRadius: isUser ? '50%' : '8px',
+            background: isUser
+              ? 'linear-gradient(135deg, var(--gold-dim), var(--gold))'
+              : 'var(--bg-card)',
+            border: `1px solid ${isUser ? 'var(--gold)' : 'var(--border-bright)'}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 13,
+            color: isUser ? 'var(--bg-base)' : 'var(--gold)',
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 600,
+            flexShrink: 0,
+          }}>
+            {isUser ? 'TK' : 'FW'}
+          </div>
+
+          {/* Bubble */}
+          <div style={{
+            maxWidth: '72%',
+            padding: '14px 18px',
+            background: isUser ? 'var(--bg-card)' : 'var(--bg-elevated)',
+            border: `1px solid ${isUser ? 'var(--border-bright)' : 'var(--border)'}`,
+            borderRadius: isUser
+              ? '16px 2px 16px 16px'
+              : '2px 16px 16px 16px',
+            lineHeight: 1.65,
+            color: 'var(--text-primary)',
+            fontSize: 14,
+            fontWeight: 300,
+            position: 'relative',
+          }}>
+            {/* Gold left border for assistant */}
+            {!isUser && (
+              <div style={{
+                position: 'absolute',
+                left: 0, top: 12, bottom: 12,
+                width: 2,
+                background: 'linear-gradient(to bottom, var(--gold), var(--gold-dim))',
+                borderRadius: 1,
+              }} />
+            )}
+            <div
+              style={{ paddingLeft: isUser ? 0 : 10 }}
+              dangerouslySetInnerHTML={{ __html: renderMarkdown(message.content) }}
+            />
+            <div style={{
+              marginTop: 8,
+              fontSize: 11,
+              color: 'var(--text-muted)',
+              fontFamily: 'var(--font-mono)',
+              textAlign: isUser ? 'left' : 'right',
+            }}>
+              {message.time}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ── Suggestion chip ───────────────────────────────────────────
+    function SuggestionChip({ icon, label, onClick }) {
+      const [hovered, setHovered] = useState(false);
+      return (
+        <button
+          onClick={onClick}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '10px 16px',
+            background: hovered ? 'var(--bg-card)' : 'var(--bg-elevated)',
+            border: `1px solid ${hovered ? 'var(--gold-dim)' : 'var(--border)'}`,
+            borderRadius: 10,
+            color: hovered ? 'var(--gold)' : 'var(--text-secondary)',
+            fontSize: 13,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            fontFamily: 'var(--font-sans)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span style={{
+            color: hovered ? 'var(--gold)' : 'var(--text-muted)',
+            fontSize: 15,
+            transition: 'color 0.2s',
+          }}>{icon}</span>
+          {label}
+        </button>
+      );
+    }
+
+    // ── Metric card (top bar) ─────────────────────────────────────
+    function MetricCard({ label, value, sub, color }) {
+      return (
+        <div style={{
+          padding: '12px 18px',
+          background: 'var(--bg-surface)',
+          border: '1px solid var(--border)',
+          borderRadius: 10,
+          minWidth: 140,
+        }}>
+          <div style={{
+            fontSize: 11,
+            color: 'var(--text-muted)',
+            fontFamily: 'var(--font-mono)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            marginBottom: 6,
+          }}>{label}</div>
+          <div style={{
+            fontSize: 20,
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 500,
+            color: color || 'var(--gold)',
+            letterSpacing: '-0.02em',
+          }}>{value}</div>
+          {sub && (
+            <div style={{
+              fontSize: 11,
+              color: 'var(--text-muted)',
+              marginTop: 3,
+            }}>{sub}</div>
+          )}
+        </div>
+      );
+    }
+
+    // ── Main App ──────────────────────────────────────────────────
+    function App() {
+      const [messages, setMessages]   = useState([]);
+      const [input, setInput]         = useState('');
+      const [loading, setLoading]     = useState(false);
+      const [metrics, setMetrics]     = useState(null);
+      const messagesEndRef             = useRef(null);
+      const inputRef                   = useRef(null);
+
+      const scrollToBottom = () =>
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+
+      useEffect(() => { scrollToBottom(); }, [messages, loading]);
+
+      // Load initial metrics on mount
+      useEffect(() => {
+        fetch(`${API_BASE}/api/transactions/summary?userId=${USER_ID}&from=2026-02-01T00:00:00Z&to=2026-02-28T23:59:59Z`)
+          .then(r => r.json())
+          .then(data => setMetrics(data))
+          .catch(() => {});
+      }, []);
+
+      const sendMessage = useCallback(async (text) => {
+        const msg = text || input.trim();
+        if (!msg || loading) return;
+
+        const time = new Date().toLocaleTimeString([], {
+          hour: '2-digit', minute: '2-digit'
+        });
+
+        setMessages(prev => [...prev, {
+          role: 'user', content: msg, time
+        }]);
+        setInput('');
+        setLoading(true);
+
+        try {
+          const res = await fetch(`${API_BASE}/api/agent/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg, userId: USER_ID }),
+          });
+          const data = await res.json();
+
+          setMessages(prev => [...prev, {
+            role: 'assistant',
+            content: data.response,
+            time: new Date().toLocaleTimeString([], {
+              hour: '2-digit', minute: '2-digit'
+            }),
+          }]);
+        } catch (err) {
+          setMessages(prev => [...prev, {
+            role: 'assistant',
+            content: 'Connection error — make sure the FinWise server is running.',
+            time: new Date().toLocaleTimeString([], {
+              hour: '2-digit', minute: '2-digit'
+            }),
+          }]);
+        } finally {
+          setLoading(false);
+          setTimeout(() => inputRef.current?.focus(), 100);
+        }
+      }, [input, loading]);
+
+      const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      };
+
+      const isEmpty = messages.length === 0;
+
+      return (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+          maxWidth: 900,
+          margin: '0 auto',
+          padding: '0 16px',
+        }}>
+
+          {/* ── Header ─────────────────────────────────────────── */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '20px 0 16px',
+            borderBottom: '1px solid var(--border)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 26,
+                color: 'var(--gold)',
+                letterSpacing: '-0.01em',
+              }}>FinWise</span>
+              <span style={{
+                fontSize: 12,
+                color: 'var(--text-muted)',
+                fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.1em',
+              }}>AI ADVISOR</span>
+            </div>
+
+            {/* Live metrics */}
+            {metrics && (
+              <div style={{ display: 'flex', gap: 10 }}>
+                <MetricCard
+                  label="Income"
+                  value={`$${Number(metrics.totalReceived).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`}
+                  sub="this month"
+                  color="var(--green)"
+                />
+                <MetricCard
+                  label="Spent"
+                  value={`$${Number(metrics.totalSpent).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`}
+                  sub="this month"
+                  color="var(--red)"
+                />
+                <MetricCard
+                  label="Net Flow"
+                  value={`$${Number(metrics.netFlow).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`}
+                  sub="saved"
+                  color="var(--gold)"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* ── Messages ───────────────────────────────────────── */}
+          <div style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: '28px 0',
+          }}>
+            {isEmpty ? (
+              /* Empty state */
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                gap: 32,
+                textAlign: 'center',
+              }}>
+                <div>
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontStyle: 'italic',
+                    fontSize: 42,
+                    color: 'var(--gold)',
+                    marginBottom: 12,
+                    lineHeight: 1.1,
+                  }}>
+                    Good evening, Tej.
+                  </div>
+                  <div style={{
+                    color: 'var(--text-secondary)',
+                    fontSize: 15,
+                    fontWeight: 300,
+                    maxWidth: 400,
+                    lineHeight: 1.6,
+                  }}>
+                    Your financial intelligence layer is ready.<br />
+                    What would you like to know?
+                  </div>
+                </div>
+
+                {/* Gold divider line */}
+                <div style={{
+                  width: 40, height: 1,
+                  background: 'linear-gradient(to right, transparent, var(--gold), transparent)',
+                }} />
+
+                {/* Suggestion chips */}
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 10,
+                  justifyContent: 'center',
+                  maxWidth: 600,
+                }}>
+                  {SUGGESTIONS.map((s) => (
+                    <SuggestionChip
+                      key={s.label}
+                      icon={s.icon}
+                      label={s.label}
+                      onClick={() => sendMessage(s.prompt)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <>
+                {messages.map((msg, i) => (
+                  <MessageBubble key={i} message={msg} />
+                ))}
+                {loading && (
+                  <div className="fade-up" style={{ marginBottom: 24 }}>
+                    <TypingIndicator />
+                  </div>
+                )}
+              </>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* ── Input bar ──────────────────────────────────────── */}
+          <div style={{
+            padding: '16px 0 24px',
+            borderTop: '1px solid var(--border)',
+          }}>
+            {/* Quick actions — shown after first message */}
+            {!isEmpty && (
+              <div style={{
+                display: 'flex',
+                gap: 8,
+                marginBottom: 12,
+                overflowX: 'auto',
+                paddingBottom: 4,
+              }}>
+                {SUGGESTIONS.map((s) => (
+                  <button
+                    key={s.label}
+                    onClick={() => sendMessage(s.prompt)}
+                    disabled={loading}
+                    style={{
+                      padding: '6px 12px',
+                      background: 'transparent',
+                      border: '1px solid var(--border)',
+                      borderRadius: 20,
+                      color: 'var(--text-muted)',
+                      fontSize: 12,
+                      cursor: loading ? 'default' : 'pointer',
+                      whiteSpace: 'nowrap',
+                      fontFamily: 'var(--font-sans)',
+                      transition: 'all 0.15s',
+                      opacity: loading ? 0.4 : 1,
+                    }}
+                    onMouseEnter={e => {
+                      if (!loading) {
+                        e.target.style.borderColor = 'var(--gold-dim)';
+                        e.target.style.color = 'var(--gold)';
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      e.target.style.borderColor = 'var(--border)';
+                      e.target.style.color = 'var(--text-muted)';
+                    }}
+                  >
+                    {s.icon} {s.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Input field */}
+            <div style={{
+              display: 'flex',
+              gap: 12,
+              alignItems: 'flex-end',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-bright)',
+              borderRadius: 14,
+              padding: '12px 16px',
+              transition: 'border-color 0.2s',
+            }}
+              onFocus={() => {}}
+            >
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Ask about your finances…"
+                disabled={loading}
+                rows={1}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: 'var(--text-primary)',
+                  fontSize: 14,
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: 300,
+                  resize: 'none',
+                  lineHeight: 1.5,
+                  maxHeight: 120,
+                  overflowY: 'auto',
+                  '::placeholder': { color: 'var(--text-muted)' },
+                }}
+                onInput={e => {
+                  e.target.style.height = 'auto';
+                  e.target.style.height = e.target.scrollHeight + 'px';
+                }}
+              />
+              <button
+                onClick={() => sendMessage()}
+                disabled={!input.trim() || loading}
+                style={{
+                  width: 36, height: 36,
+                  borderRadius: 10,
+                  background: input.trim() && !loading
+                    ? 'linear-gradient(135deg, var(--gold-dim), var(--gold))'
+                    : 'var(--bg-elevated)',
+                  border: `1px solid ${input.trim() && !loading ? 'var(--gold)' : 'var(--border)'}`,
+                  cursor: input.trim() && !loading ? 'pointer' : 'default',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: input.trim() && !loading ? 'var(--bg-base)' : 'var(--text-muted)',
+                  fontSize: 16,
+                  transition: 'all 0.2s ease',
+                  flexShrink: 0,
+                }}
+              >
+                ↑
+              </button>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              marginTop: 10,
+              fontSize: 11,
+              color: 'var(--text-muted)',
+              fontFamily: 'var(--font-mono)',
+            }}>
+              ENTER to send · SHIFT+ENTER for new line
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

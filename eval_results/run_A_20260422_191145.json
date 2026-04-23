@@ -1,0 +1,202 @@
+{
+  "summary": {
+    "condition": "A",
+    "timestamp": "20260422_191145",
+    "total_queries": 6,
+    "overall_pass_rate": 83.3,
+    "overall_avg_score": 3.38,
+    "avg_latency_sec": 11.6,
+    "total_judge_tokens": 8256,
+    "category_summary": {
+      "spending_summary": {
+        "pass_rate": 100.0,
+        "avg_score": 4.0,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "financial_health": {
+        "pass_rate": 100.0,
+        "avg_score": 3.75,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "goal_tracking": {
+        "pass_rate": 100.0,
+        "avg_score": 3.5,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "anomaly_detection": {
+        "pass_rate": 0.0,
+        "avg_score": 1.75,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "subscription_audit": {
+        "pass_rate": 100.0,
+        "avg_score": 4.0,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "behavioral_analysis": {
+        "pass_rate": 100.0,
+        "avg_score": 3.25,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      }
+    },
+    "archetype_summary": {
+      "high_earner": {
+        "pass_rate": 83.3,
+        "avg_score": 3.38,
+        "n": 6
+      }
+    }
+  },
+  "results": [
+    {
+      "query_id": "high_earner_spending_summary",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "spending_summary",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "How much did I spend this month? Break it down by category.",
+      "response": "Here's your spending breakdown for **December 2024**:\n\n---\n\n### \ud83d\udcb8 Total Spent: **$9,050.65**\n**Total Income:** $13,875.71 | **Net Cash Flow:** +$4,825.06 | **Savings Rate:** 34.77%\n\n---\n\n### \ud83d\udcca Spending by Category\n\n| Category | Amount | % of Spend |\n|---|---|---|\n| \ud83c\udfe0 Bills & Utilities | $2,411.23 | 26.6% |\n| \ud83d\udcc8 Investments | $2,025.93 | 22.4% |\n| \ud83c\udf54 Food & Drink | $1,820.45 | 20.1% |\n| \ud83d\udc86 Personal Care | $1,323.98 | 14.6% |\n| \u2708\ufe0f Travel | $1,053.87 | 11.6% |\n| \ud83d\udecd\ufe0f Shopping | $415.19 | 4.6% |\n\n---\n\n### \ud83d\udd0d Quick Takeaways\n\n- **Great savings rate!** At 34.77%, you're well above the recommended 20%. Keep it up!\n- **Food & Drink at $1,820.45** is your 3rd largest expense \u2014 worth a closer look if you want to optimize.\n- **Personal Care at $1,323.98** is notably high at ~15% of spend. If you'd like, I can drill into what's driving that.\n- **Investments ($2,025.93)** are being counted in your spending, which is actually a positive \u2014 that money is working for you.\n\n---\n\n> \u26a0\ufe0f *Note: The detailed category trend analysis ran into a technical issue, so I'm unable to show month-over-month comparisons right now. Try again shortly for those insights!*\n\nWant me to dig deeper into any specific category or check how you're tracking against your budget?",
+      "response_length": 1247,
+      "scores": {
+        "data_accuracy": 5,
+        "insight_quality": 4,
+        "actionability": 3,
+        "completeness": 4,
+        "reasoning": "The response provides precise dollar amounts and percentages with a clean breakdown, offers solid archetype-relevant observations (savings rate, investments as positive), but lacks specific actionable next steps like naming merchants or concrete reduction targets, and transparently notes the missing trend analysis.",
+        "judge_tokens_in": 1172,
+        "judge_tokens_out": 154
+      },
+      "avg_score": 4.0,
+      "passed": true,
+      "latency_sec": 9.62,
+      "condition": "A",
+      "timestamp": "2026-04-22T19:11:58.186865"
+    },
+    {
+      "query_id": "high_earner_financial_health",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "financial_health",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "How are my finances looking overall? Am I saving enough?",
+      "response": "Here's a full picture of your finances \u2014 there's a lot of good news, plus one key thing to address! \ud83d\udc47\n\n---\n\n## \ud83d\udcca Overall Financial Health: **57/100 \u2014 \"C\" (Fair)**\n\n---\n\n### \u2705 What You're Doing Well\n- **Budgets are on track** \u2014 all 3 categories within limits this month.\n- **No suspicious transactions** detected \u2014 clean bill of health there.\n- **Strong recent savings rate** \u2014 over the past 3 months, you've averaged a solid **30.2% savings rate**, which is excellent!\n\n---\n\n### \ud83d\udcc8 Income vs. Spending (Last 3 Months)\n\n| Month | Income | Spending | Saved | Rate |\n|-------|--------|----------|-------|------|\n| Oct 2024 | $12,143 | $8,988 | $3,154 | 26% |\n| Nov 2024 | $19,601 | $13,786 | $5,815 | 30% |\n| Dec 2024 | $13,876 | $9,051 | $4,825 | 35% |\n\n**Total saved over 3 months: $13,795** \u2014 that's real progress!\n\n---\n\n### \u26a0\ufe0f The Key Issue: Where Is It Going?\nYour score takes a hit on **savings rate** (0/40 points) because April's data shows **0% savings tracked so far** \u2014 meaning your saved money may not be flowing into your goals yet. You have:\n- \ud83c\udfe6 **Emergency Fund**: $2,500 / $10,000 (25%)\n- \ud83c\udfe6 **Retirement**: $15,000 / $100,000 (15%)\n\n---\n\n### \ud83c\udfaf Top Recommendation\n**Route your monthly surplus into your goals.** You're clearly generating cash \u2014 but it needs to be actively directed. Even automating $500\u2013$1,000/month toward your Emergency Fund would get you there in **~15 months**.\n\nWant me to run a projection on when you'll hit your goals, or dig into where your spending is going?",
+      "response_length": 1495,
+      "scores": {
+        "data_accuracy": 4,
+        "insight_quality": 4,
+        "actionability": 4,
+        "completeness": 3,
+        "reasoning": "The response cites specific dollar amounts, savings rates, and goal progress with a clear structure and actionable automation suggestion, but it has an inconsistency (referencing April data in a Q4 context) and doesn't deeply explore spending categories or retirement contribution adequacy for a high earner.",
+        "judge_tokens_in": 1242,
+        "judge_tokens_out": 155
+      },
+      "avg_score": 3.75,
+      "passed": true,
+      "latency_sec": 12.65,
+      "condition": "A",
+      "timestamp": "2026-04-22T19:12:14.035037"
+    },
+    {
+      "query_id": "high_earner_goal_tracking",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "goal_tracking",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "Am I on track to meet my financial goals?",
+      "response": "Here's an honest look at where you stand \u2014 and the news requires some attention. \u26a0\ufe0f\n\n---\n\n## \ud83c\udfaf Goal Progress Summary\n\n| Goal | Saved | Target | Progress | Target Date |\n|---|---|---|---|---|\n| Emergency Fund | $2,500 | $10,000 | 25% | Dec 2025 |\n| Retirement | $15,000 | $100,000 | 15% | Dec 2030 |\n\n---\n\n## \ud83d\udea8 You Are NOT On Track for Either Goal\n\nThe most critical finding: **your actual savings rate over the last 3 months is $0/month** \u2014 meaning your spending is exceeding your income. Here's what that means for each goal:\n\n### 1. \ud83d\udd34 Emergency Fund \u2014 At Risk\n- **Gap:** $7,500 remaining\n- **Original target:** December 2025 \u2014 that date has **already passed** (113 days ago)\n- **Planned contribution:** $500/month, but **none is actually being saved**\n- **To catch up:** You'd need to save **$7,500/month immediately** to hit a revised target soon\n\n### 2. \ud83d\udd34 Retirement \u2014 Off Track\n- **Gap:** $85,000 remaining\n- **Target date:** December 2030 (~4.7 years away)\n- **Planned contribution:** $800/month, but again \u2014 **$0 is actually being saved**\n- **To hit target by Dec 2030:** You'd need to save **$1,489/month**\n\n---\n\n## \ud83d\udd11 The Core Problem\nYour spending is outpacing your income. No matter what your planned contributions are, the money isn't making it to your goals.\n\n**I'd recommend we dig deeper into:**\n1. \ud83d\udcca **Where your money is going** \u2014 Want me to run a spending breakdown?\n2. \ud83d\udd0d **What's draining your savings** \u2014 I can analyze which transactions are hurting your goals most.\n3. \ud83d\udca1 **What-if scenarios** \u2014 e.g., \"What if I cut dining by $200/month?\" to see the real impact.\n\nWhich would you like to tackle first?",
+      "response_length": 1621,
+      "scores": {
+        "data_accuracy": 4,
+        "insight_quality": 4,
+        "actionability": 3,
+        "completeness": 3,
+        "reasoning": "The response cites specific goal amounts, progress percentages, and calculates required monthly savings accurately, with sound reasoning about the $0 savings rate problem, but it doesn't name specific spending categories or merchants draining savings and instead defers concrete actions to follow-up questions.",
+        "judge_tokens_in": 1269,
+        "judge_tokens_out": 151
+      },
+      "avg_score": 3.5,
+      "passed": true,
+      "latency_sec": 12.35,
+      "condition": "A",
+      "timestamp": "2026-04-22T19:12:29.531300"
+    },
+    {
+      "query_id": "high_earner_anomaly_detection",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "anomaly_detection",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "Have there been any unusual or suspicious charges recently?",
+      "response": "Good news! \u2705 **No unusual or suspicious charges detected in the last 30 days.**\n\nAll your recent transactions appear to be within normal ranges for your typical spending patterns \u2014 no unexpected spikes, unfamiliar merchants, or out-of-the-ordinary amounts flagged.\n\nThat said, it's always a good habit to:\n- **Review your subscriptions** periodically to spot any you've forgotten about\n- **Check for small recurring charges** that can slip under the radar\n- **Monitor new merchants** you don't recognize\n\nWould you like me to pull up your **recurring subscriptions**, or is there a specific charge you'd like me to look into?",
+      "response_length": 625,
+      "scores": {
+        "data_accuracy": 1,
+        "insight_quality": 2,
+        "actionability": 2,
+        "completeness": 2,
+        "reasoning": "The response cites no specific transactions, amounts, or merchants from the user's data and offers only generic advice about reviewing subscriptions without surfacing any concrete financial signals or tailored insights for a high-earner/saver archetype.",
+        "judge_tokens_in": 829,
+        "judge_tokens_out": 135
+      },
+      "avg_score": 1.75,
+      "passed": false,
+      "latency_sec": 6.67,
+      "condition": "A",
+      "timestamp": "2026-04-22T19:12:39.164500"
+    },
+    {
+      "query_id": "high_earner_subscription_audit",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "subscription_audit",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "What recurring charges and subscriptions do I have?",
+      "response": "Here's a breakdown of your **10 detected recurring charges**, totaling **$3,772.42/month** (or **$45,269/year**):\n\n| # | Merchant | Monthly Cost | Next Charge |\n|---|----------|-------------|-------------|\n| 1 | OpenTable | $432.39 | Jan 23 |\n| 2 | Tesla | $427.12 | Jan 6 |\n| 3 | Fidelity | $422.78 | Dec 31 |\n| 4 | Whole Foods | $412.71 | Jan 11 |\n| 5 | Equinox | $385.94 | Dec 27 |\n| 6 | Delta Airlines | $362.82 | Jan 15 |\n| 7 | Vanguard | $361.89 | Jan 4 |\n| 8 | Sweetgreen | $355.64 | Jan 24 |\n| 9 | Amex | $309.92 | Dec 28 |\n| 10 | Apple Store | $301.21 | Jan 23 |\n\n### \ud83d\udca1 A Few Things to Note:\n\n- **Fidelity & Vanguard ($784.67/month combined)** \u2014 These look like recurring investment contributions, which is great! These are working *for* you.\n- **Equinox ($385.94/month)** \u2014 That's a premium gym membership. Worth asking yourself if you're getting value from it.\n- **OpenTable & Sweetgreen ($788.03/month combined)** \u2014 These appear to be frequent dining habits flagged as recurring, not traditional subscriptions.\n- **Delta Airlines ($362.82/month)** \u2014 Likely a frequent recurring travel expense.\n- **Amex ($309.92/month)** \u2014 This could be a credit card payment; worth verifying it's being paid in full.\n\n> \u26a0\ufe0f Note: All items have a **75% confidence** rating, so some may be spending *patterns* rather than true subscriptions. It's worth reviewing each one.\n\nWould you like to dig into any of these further, or run a \"what if\" scenario to see how cutting any of them would impact your financial goals?",
+      "response_length": 1510,
+      "scores": {
+        "data_accuracy": 5,
+        "insight_quality": 4,
+        "actionability": 3,
+        "completeness": 4,
+        "reasoning": "The response cites specific merchants, amounts, and dates with clear categorization and thoughtful caveats about confidence, but actionability is moderate since it raises questions rather than offering concrete prioritized cancel/reduce recommendations.",
+        "judge_tokens_in": 1289,
+        "judge_tokens_out": 136
+      },
+      "avg_score": 4.0,
+      "passed": true,
+      "latency_sec": 10.14,
+      "condition": "A",
+      "timestamp": "2026-04-22T19:12:52.075424"
+    },
+    {
+      "query_id": "high_earner_behavioral_analysis",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "behavioral_analysis",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "What are my worst spending habits? Where am I wasting money?",
+      "response": "Here's what stands out from your data. While behavioral pattern data was limited, your subscriptions and recurring charges reveal some serious money leaks:\n\n---\n\n## \ud83d\udea8 Your Biggest Money Drains\n\n### 1. Recurring & Subscription Costs: **$3,772/month ($45,269/year)**\nThis is eye-opening. Here's what's being detected as recurring charges:\n\n| Merchant | Monthly Cost | \ud83d\udea9 Flag |\n|---|---|---|\n| OpenTable | $432 | Very high for a reservation app |\n| Tesla | $427 | Likely a payment \u2014 is this necessary? |\n| Equinox | $386 | Premium gym membership |\n| Delta Airlines | $363 | Flying this frequently? |\n| Sweetgreen | $356 | **$356/month on salads \ud83e\udd57** |\n| Whole Foods | $413 | Grocery bill \u2014 review vs. alternatives |\n| Apple Store | $301 | Recurring purchases or subscriptions |\n| Amex | $310 | Credit card payment \u2014 watch for interest |\n| Fidelity | $423 | Investment (this is GOOD \u2705) |\n| Vanguard | $362 | Investment (this is GOOD \u2705) |\n\n---\n\n### \ud83d\udd34 Top Areas of Concern\n\n1. **Sweetgreen \u2014 $356/month** on fast-casual salads is a significant dining leak. That's ~$4,270/year on one lunch spot.\n\n2. **OpenTable \u2014 $432/month** is unusually high. OpenTable is a free reservation platform \u2014 these are likely high-end restaurant bills booked *through* OpenTable. Your dining-out habit could be costing you well over **$700-800/month** combined.\n\n3. **Equinox \u2014 $386/month** is one of the priciest gym memberships available. If you're going regularly, it may feel worth it \u2014 but a comparable gym could cost $30\u2013$50/month.\n\n4. **Whole Foods \u2014 $413/month** \u2014 Premium grocery bills add up. Mixing in Trader Joe's or a local market could cut this by 20\u201330%.\n\n---\n\n### \u2705 What You're Doing Right\n- **Fidelity ($423) + Vanguard ($362) = $785/month** going toward investments. That's excellent and should be protected!\n\n---\n\n## \ud83d\udca1 Quick Wins to Consider\n- **Cut or swap Equinox** \u2192 Save ~$350/month\n- **Reduce Sweetgreen visits** by half \u2192 Save ~$178/month\n- **Audit Apple Store charges** \u2192 What's the $301 going to?\n- *",
+      "response_length": 2220,
+      "scores": {
+        "data_accuracy": 3,
+        "insight_quality": 3,
+        "actionability": 4,
+        "completeness": 3,
+        "reasoning": "The response cites specific dollar amounts and merchants but misinterprets several (OpenTable doesn't bill users, Tesla/Amex/Apple aren't true subscriptions, investment transfers aren't 'recurring costs'), weakening accuracy and insight; however, it provides concrete prioritized actions with estimated savings, though it misses deeper archetype-specific analysis for a high earner/saver.",
+        "judge_tokens_in": 1530,
+        "judge_tokens_out": 194
+      },
+      "avg_score": 3.25,
+      "passed": true,
+      "latency_sec": 18.01,
+      "condition": "A",
+      "timestamp": "2026-04-22T19:13:13.930426"
+    }
+  ]
+}

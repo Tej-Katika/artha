@@ -1,0 +1,202 @@
+{
+  "summary": {
+    "condition": "A",
+    "timestamp": "20260422_184544",
+    "total_queries": 6,
+    "overall_pass_rate": 33.3,
+    "overall_avg_score": 2.67,
+    "avg_latency_sec": 9.5,
+    "total_judge_tokens": 7272,
+    "category_summary": {
+      "spending_summary": {
+        "pass_rate": 100.0,
+        "avg_score": 4.0,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "financial_health": {
+        "pass_rate": 100.0,
+        "avg_score": 4.0,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "goal_tracking": {
+        "pass_rate": 0.0,
+        "avg_score": 2.25,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "anomaly_detection": {
+        "pass_rate": 0.0,
+        "avg_score": 1.75,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "subscription_audit": {
+        "pass_rate": 0.0,
+        "avg_score": 1.5,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      },
+      "behavioral_analysis": {
+        "pass_rate": 0.0,
+        "avg_score": 2.5,
+        "n": 1,
+        "lowest_archetype": "High Earner / Saver"
+      }
+    },
+    "archetype_summary": {
+      "high_earner": {
+        "pass_rate": 33.3,
+        "avg_score": 2.67,
+        "n": 6
+      }
+    }
+  },
+  "results": [
+    {
+      "query_id": "high_earner_spending_summary",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "spending_summary",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "How much did I spend this month? Break it down by category.",
+      "response": "Here's your spending breakdown for **December 2024**:\n\n---\n\n### \ud83d\udcb0 Monthly Overview\n| | Amount |\n|---|---|\n| **Total Income** | $13,875.71 |\n| **Total Spending** | $9,050.65 |\n| **Net Cash Flow** | +$4,825.06 |\n| **Savings Rate** | 34.77% |\n\n---\n\n### \ud83d\udcca Spending by Category\n\n| Category | Amount | % of Spend |\n|---|---|---|\n| \ud83c\udfe0 Bills & Utilities | $2,411.23 | 26.6% |\n| \ud83d\udcc8 Investments | $2,025.93 | 22.4% |\n| \ud83c\udf54 Food & Drink | $1,820.45 | 20.1% |\n| \ud83d\udc86 Personal Care | $1,323.98 | 14.6% |\n| \u2708\ufe0f Travel | $1,053.87 | 11.6% |\n| \ud83d\udecd\ufe0f Shopping | $415.19 | 4.6% |\n| **Total** | **$9,050.65** | **100%** |\n\n---\n\n### \ud83d\udd0d Quick Takeaways\n- **Investments ($2,025.93)** \u2014 Great news, over 22% of your spending is going toward investments. That's a strong habit!\n- **Food & Drink ($1,820.45)** \u2014 This is a fairly high amount. Worth digging into to see if it's dining out vs. groceries.\n- **Personal Care ($1,323.98)** \u2014 This is notable at nearly 15% of spending. If this is unusually high, it may be worth a closer look.\n- **Overall savings rate of 34.77%** is excellent \u2014 well above the recommended 20%.\n\nWant me to drill deeper into any category, check for unusual charges, or compare this month to previous months?",
+      "response_length": 1196,
+      "scores": {
+        "data_accuracy": 5,
+        "insight_quality": 4,
+        "actionability": 3,
+        "completeness": 4,
+        "reasoning": "The response provides precise dollar figures and percentages with a clear category breakdown and notes the strong savings rate appropriate for a high earner, but actionable next steps are offered only as follow-up questions rather than concrete recommendations, and insights on high categories like Personal Care remain somewhat generic.",
+        "judge_tokens_in": 1175,
+        "judge_tokens_out": 156
+      },
+      "avg_score": 4.0,
+      "passed": true,
+      "latency_sec": 9.0,
+      "condition": "A",
+      "timestamp": "2026-04-22T18:45:56.811903"
+    },
+    {
+      "query_id": "high_earner_financial_health",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "financial_health",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "How are my finances looking overall? Am I saving enough?",
+      "response": "Here's your full financial picture:\n\n---\n\n## \ud83d\udcca Overall Financial Health: D (45/100) \u2014 Needs Attention\n\nThe health score looks concerning at first glance, but the good news is that **your actual cash flow tells a much better story**. Let me break it down:\n\n---\n\n### \ud83d\udcb0 Income vs. Spending (Last 3 Months)\n\n| Month | Income | Spending | Saved | Savings Rate |\n|-------|--------|----------|-------|-------------|\n| Oct 2024 | $12,143 | $8,988 | $3,154 | 26% |\n| Nov 2024 | $19,601 | $13,786 | $5,815 | 30% |\n| Dec 2024 | $13,876 | $9,051 | $4,825 | 35% |\n\n\u2705 **You're averaging a 30% savings rate** \u2014 that's actually *strong*! The general recommendation is 20%, so you're well above the benchmark.\n\n---\n\n### \u26a0\ufe0f Why the Low Health Score?\n\nThe D grade is largely because:\n1. **No financial goals are set** \u2014 the system can't measure your progress\n2. **No monthly budgets are configured** \u2014 limiting proactive tracking\n3. The score system penalizes missing setup, not bad behavior\n\nYour *actual* spending behavior looks healthy.\n\n---\n\n### \ud83c\udfaf Top Recommendations\n\n1. **Set a financial goal** \u2014 Start with a 3-month emergency fund. Your ~$4,500/month surplus makes this very achievable.\n2. **Create category budgets** \u2014 You're saving well, but budgets help you stay intentional and spot drift early.\n3. **Put your savings to work** \u2014 A 30% savings rate sitting in a checking account is a missed opportunity. Consider a high-yield savings account or investing.\n\n---\n\nWant me to dig deeper into any area \u2014 like where your money is going by category, or how fast you could build an emergency fund? \ud83d\ude80",
+      "response_length": 1585,
+      "scores": {
+        "data_accuracy": 5,
+        "insight_quality": 4,
+        "actionability": 4,
+        "completeness": 3,
+        "reasoning": "Specific monthly income/spending/savings figures are cited with accurate math, and the response smartly reconciles the low health score with strong behavior, but it lacks category-level spending breakdown and doesn't name specific HYSA/investment options or quantify the emergency fund target for this high earner.",
+        "judge_tokens_in": 1224,
+        "judge_tokens_out": 153
+      },
+      "avg_score": 4.0,
+      "passed": true,
+      "latency_sec": 11.95,
+      "condition": "A",
+      "timestamp": "2026-04-22T18:46:12.159753"
+    },
+    {
+      "query_id": "high_earner_goal_tracking",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "goal_tracking",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "Am I on track to meet my financial goals?",
+      "response": "Here's your current financial snapshot:\n\n---\n\n## \ud83d\udcca Financial Health Score: 45/100 (Grade D \u2014 Needs Attention)\n\nIt looks like you're starting from a **clean slate** \u2014 which is actually an opportunity! Here's what the data shows:\n\n### \ud83c\udfaf Goals\n> **No active financial goals are set yet.**\nWithout goals, it's hard to say whether you're \"on track\" \u2014 because there's no target to aim for!\n\n### \ud83d\udca1 What's Holding Your Score Back\n\n| Component | Score | Issue |\n|---|---|---|\n| Savings Rate | 10/40 | Currently saving 0% of income |\n| Budget Adherence | 15/30 | No budgets set |\n| Goal Progress | 10/20 | No active goals |\n| Anomaly Check | \u2705 10/10 | No suspicious transactions |\n\n### \u2705 What's Going Well\n- No suspicious or unusual transactions detected \u2014 your accounts look clean.\n\n---\n\n## \ud83d\ude80 3 Steps to Get on Track\n\n1. **Set a goal** \u2014 Start with a **3-month emergency fund**. It's the foundation of financial stability.\n2. **Boost your savings rate** \u2014 Even getting to 10% of income makes a huge difference over time.\n3. **Create category budgets** \u2014 This helps you see where money is going and where you can cut back.\n\n---\n\nWould you like help **setting up a financial goal** (like an emergency fund, vacation, or debt payoff)? Or would you like me to **analyze your spending** to find where you could start saving? \ud83d\ude0a",
+      "response_length": 1312,
+      "scores": {
+        "data_accuracy": 2,
+        "insight_quality": 2,
+        "actionability": 3,
+        "completeness": 2,
+        "reasoning": "The response cites a health score and component breakdown but lacks specific dollar amounts, income figures, or transaction details; insights are generic and don't reflect the High Earner/Saver archetype (e.g., no mention of investment optimization, tax strategies, or actual savings capacity), and suggested actions are reasonable but not tailored to specific spending categories or amounts.",
+        "judge_tokens_in": 1109,
+        "judge_tokens_out": 178
+      },
+      "avg_score": 2.25,
+      "passed": false,
+      "latency_sec": 10.01,
+      "condition": "A",
+      "timestamp": "2026-04-22T18:46:25.531851"
+    },
+    {
+      "query_id": "high_earner_anomaly_detection",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "anomaly_detection",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "Have there been any unusual or suspicious charges recently?",
+      "response": "Good news! \u2705 **No unusual or suspicious charges detected in the last 30 days.**\n\nAll your recent transactions appear to be in line with your normal spending patterns \u2014 no unexpected spikes at familiar merchants and nothing that looks out of place.\n\nThat said, it's always a good habit to:\n- **Review your statements regularly** for small unfamiliar charges (fraudsters often test with tiny amounts first)\n- **Check your subscriptions** periodically to spot any services you no longer use\n- **Set up transaction alerts** with your bank for real-time notifications\n\nWould you like me to pull up your recent transactions for a manual review, or check your subscriptions for anything you might want to cancel?",
+      "response_length": 705,
+      "scores": {
+        "data_accuracy": 1,
+        "insight_quality": 2,
+        "actionability": 2,
+        "completeness": 2,
+        "reasoning": "The response provides no specific transaction data, merchant names, or dollar amounts to substantiate the 'no suspicious charges' claim, and offers only generic fraud-prevention tips rather than user-specific insights or concrete actions.",
+        "judge_tokens_in": 839,
+        "judge_tokens_out": 135
+      },
+      "avg_score": 1.75,
+      "passed": false,
+      "latency_sec": 5.83,
+      "condition": "A",
+      "timestamp": "2026-04-22T18:46:34.116101"
+    },
+    {
+      "query_id": "high_earner_subscription_audit",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "subscription_audit",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "What recurring charges and subscriptions do I have?",
+      "response": "It looks like **no recurring subscriptions were detected** at this time. This could be because:\n\n- \ud83d\udcc9 **Not enough transaction history** \u2014 The system needs more data to reliably identify recurring patterns.\n- \ud83d\udcb3 **Different payment methods** \u2014 Some subscriptions might be on a credit card not linked to your account.\n- \ud83d\udd04 **Irregular billing cycles** \u2014 Annual or quarterly charges can be harder to detect automatically.\n\n**Here's what you can do:**\n1. **Connect more accounts** (credit cards, other bank accounts) to give the system a fuller picture.\n2. **Add more transaction history** if you've recently linked your account.\n3. You can also **manually review recent transactions** \u2014 want me to pull up your recent debits so you can spot any recurring charges yourself?",
+      "response_length": 767,
+      "scores": {
+        "data_accuracy": 1,
+        "insight_quality": 2,
+        "actionability": 2,
+        "completeness": 1,
+        "reasoning": "The response provides no specific subscription data, dollar amounts, or merchant names, and instead offers generic explanations for why nothing was found, failing to surface recurring charges that likely exist for a High Earner archetype.",
+        "judge_tokens_in": 865,
+        "judge_tokens_out": 129
+      },
+      "avg_score": 1.5,
+      "passed": false,
+      "latency_sec": 6.53,
+      "condition": "A",
+      "timestamp": "2026-04-22T18:46:43.589744"
+    },
+    {
+      "query_id": "high_earner_behavioral_analysis",
+      "archetype": "high_earner",
+      "archetype_name": "High Earner / Saver",
+      "category": "behavioral_analysis",
+      "user_id": "aa000000-0000-0000-0000-000000000000",
+      "query": "What are my worst spending habits? Where am I wasting money?",
+      "response": "It looks like your account doesn't have enough transaction history connected yet for me to surface detailed patterns. Here's what each check found:\n\n---\n\n### \ud83d\udd0d What I Checked & What Came Back\n\n| Check | Result |\n|---|---|\n| \ud83e\udde0 Behavioral Patterns (90 days) | Not enough data to detect patterns |\n| \ud83d\udcca Category Spending (3 months) | No category data available |\n| \ud83d\udd01 Recurring Subscriptions | None detected yet |\n| \u26a0\ufe0f Unusual Charges (30 days) | Nothing flagged |\n\n---\n\n### What You Can Do\n\nTo get personalized insights on your worst habits and money leaks, try:\n\n1. **Connect your bank/card accounts** \u2014 The more transaction history, the better. Ideally 3+ months of data from your checking and credit cards.\n2. **Link all spending accounts** \u2014 If you use multiple cards, missing one could hide a big spending category (dining, subscriptions, etc.).\n3. **Check back after a few weeks** \u2014 Once transactions start flowing in, I can detect patterns like post-payday splurges, weekend overspending, subscription creep, and impulse clusters.\n\n---\n\nOnce your data is connected, I'll be able to tell you things like:\n- \ud83d\udcb8 *\"You spend 3x more on weekends than weekdays\"*\n- \ud83c\udf55 *\"Dining is up 42% month-over-month\"*\n- \ud83d\udcfa *\"You're paying for 7 subscriptions totaling $94/month\"*\n- \ud83d\udea8 *\"There's a charge from [merchant] that's double your usual amount\"*\n\nWant help connecting your accounts, or is there a specific area you'd like to dig into manually?",
+      "response_length": 1432,
+      "scores": {
+        "data_accuracy": 3,
+        "insight_quality": 2,
+        "actionability": 3,
+        "completeness": 2,
+        "reasoning": "The agent transparently reports no data was available rather than fabricating numbers, but it fails to deliver any user-specific insights or concrete spending recommendations, offering only generic onboarding steps and hypothetical examples instead of addressing the High Earner/Saver archetype's likely concerns.",
+        "judge_tokens_in": 1155,
+        "judge_tokens_out": 154
+      },
+      "avg_score": 2.5,
+      "passed": false,
+      "latency_sec": 13.41,
+      "condition": "A",
+      "timestamp": "2026-04-22T18:47:00.113463"
+    }
+  ]
+}

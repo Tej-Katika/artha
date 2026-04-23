@@ -1,0 +1,411 @@
+{
+  "overall": {
+    "total_tests": 20, 
+    "pass_pct": 95, 
+    "avg_score": 3.4
+  }, 
+  "mode": "quick", 
+  "run_date": "2026-03-12", 
+  "archetypes": {
+    "overspender": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000000-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much did I spend last month?", 
+          "focus": "Must return specific dollar amount from real data. Not vague.", 
+          "response": "Last month (December 2024) you spent **$9,094.93** total.\n\nHere's the breakdown by category:\n- **Shopping**: $4,108.11 (45%)\n- **Food & Drink**: $1,401.86 (15%)\n- **Travel**: $1,089.72 (12%)\n- **Groceries**: $1,006.90 (11%)\n- **Entertainment**: $557.65 (6%)\n- **Bills & Utilities**: $485.33 (5%)\n- **Personal Care**: $445.36 (5%)\n\n\u26a0\ufe0f **Heads up**: Your spending exceeded your income ($7,488.17) by $1,606.76, resulting in a -21% savings rate. Shopping was your biggest expense category\u2014might be worth"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "What are my biggest spending categories?", 
+          "focus": "Should list categories with amounts. Identify overspending pattern.", 
+          "response": "Based on your recent spending (December 2024), here are your biggest categories:\n\n1. **Shopping** \u2014 $4,108.11 (45% of spend)\n2. **Food & Drink** \u2014 $1,401.86 (15%)\n3. **Travel** \u2014 $1,089.72 (12%)\n4. **Groceries** \u2014 $1,006.90 (11%)\n5. **Entertainment** \u2014 $557.65 (6%)\n\n**Key insight:** Shopping alone is taking up nearly half your spending. Combined with food & dining, those two categories account for 60% of your total expenses.\n\n\u26a0\ufe0f **Heads up:** You spent $9,094.93 against $7,488.17 income this mon"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "freelancer": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000004-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How irregular is my income month to month?", 
+          "focus": "Should call income_vs_spend for multiple months. Show variance.", 
+          "response": "Your income is **quite irregular** month to month. Here's what I see:\n\n**Income Range (last 6 months):**\n- **Highest:** $4,939.96 (July 2024)\n- **Lowest:** $2,925.94 (October 2024)\n- **Difference:** $2,014 swing (69% variation from lowest to highest)\n\n**Monthly Income:**\n- July: $4,939.96\n- August: $3,689.98\n- September: $4,835.25\n- October: $2,925.94\n- November: $4,463.61\n- December: $3,583.68\n\n**Key Observations:**\n- Your income fluctuates by roughly **$1,000-$2,000 per month**\n- October was n"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "What are my business expenses?", 
+          "focus": "Should identify BUSINESS_EXPENSE category total. List merchants.", 
+          "response": "I don't see a specific \"business expenses\" category in your December 2024 transactions. Your spending is currently categorized as:\n\n- **Housing**: $1,361.93\n- **Food & Drink**: $1,032.91\n- **Loan Payment**: $1,024.45\n- **Transportation**: $486.98\n\n**Could you help me understand what you're looking for?**\n- Are you tracking specific business-related purchases that might be within these categories?\n- Would you like me to search for transactions with specific merchants or descriptions?\n- Are you lo"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "retired_fixed": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000005-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "Is my spending sustainable on my fixed income?", 
+          "focus": "Compare total spend to total income. Surplus or deficit with amounts.", 
+          "response": "**Good news: Yes, your spending is sustainable!** \n\nHere's what the data shows:\n\n## \ud83d\udcb0 3-Month Savings Trend\n- **Average savings rate: 22.5%** (saving $2,412 over 3 months)\n- Every month shows a surplus:\n  - October: +$993 (25.7% saved)\n  - November: +$628 (21.7% saved)  \n  - December: +$791 (20.0% saved)\n\n## \ud83d\udcca Current Budget Health (December)\nYour income: **$3,960**\n\n- **Needs (68%)**: $2,689 \u2014 *slightly over the 50% target*\n  - Bills/Utilities: $1,484\n  - Groceries: $737\n  - Healthcare: $468\n"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much am I spending on healthcare?", 
+          "focus": "Must identify HEALTHCARE category total. Specific amount.", 
+          "response": "Based on your recent transactions, you spent **$467.62 on healthcare** in December 2024. This represents about 14.8% of your total spending for the month.\n\nWould you like me to show you the specific healthcare transactions, or compare this to previous months?"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "gig_worker": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000009-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much am I spending on my car for work?", 
+          "focus": "TRANSPORTATION category total. Specific amount. Key for gig workers.", 
+          "response": "Based on your transaction data for the last 3 months (Oct-Dec 2024), here's what you're spending on car-related work expenses:\n\n**Transportation: $2,062.16** (21.2% of total spending)\n- This includes gas, parking, tolls, car maintenance, etc.\n\n**Business Expenses: $1,641.85** (16.9% of total spending)\n- This may include work-related driving expenses, supplies, or other business costs\n\n**Combined work-related car costs: ~$3,704** over 3 months, or approximately **$1,235/month**\n\nThis represents a"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "Is driving worth it financially?", 
+          "focus": "Compare vehicle costs to income. Give net after transport costs.", 
+          "response": "## Here's your transportation financial picture:\n\n**Over the last 6 months (July-December 2024):**\n- **Total transportation spending: $2,982.17**\n- **Monthly average: ~$497/month**\n- **11.76% of your total spending**\n\n**The breakdown looks unusual** \u2014 I'm seeing merchants like Zoom, Starbucks, WeWork, and Stripe categorized as transportation. The only clear rideshare expenses I can confirm are:\n- Lyft rides: $402.37 total (3 rides over 6 months)\n\n**To help you assess \"is driving worth it\":**\n\n**"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "high_debt": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000001-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much am I paying toward debt each month?", 
+          "focus": "Should identify loan payment category total with specific amount.", 
+          "response": "Based on your recent transaction data:\n\n**You're paying $3,307.49 toward debt each month** (December 2024).\n\nThis is your largest expense category, representing nearly **49% of your total spending**. That's a significant portion of your budget going to loan payments.\n\nA few observations:\n- Your debt payments exceed your total monthly income ($6,625.52), which means you're currently spending more than you earn overall\n- Your savings rate is -2.22% (spending $146.87 more than you're bringing in)\n\n"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "What percentage of my income goes to debt?", 
+          "focus": "Must calculate: debt payments / income * 100. Give actual percentage.", 
+          "response": "Based on your December 2024 data:\n\n**Your debt payments are $3,307.49 per month, which is 49.9% of your income ($6,625.52).**\n\nThis is a significant concern. Financial experts typically recommend keeping debt payments below 36% of gross income, and yours is nearly 50%. \n\n**Key observations:**\n- Your loan payments alone consume almost half your income\n- You're currently spending more than you earn (negative savings rate of -2.22%)\n- After debt payments, you only have $3,318 left for all other exp"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "high_earner": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000002-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "What's my savings rate?", 
+          "focus": "Must calculate (income - spend) / income * 100 with real numbers.", 
+          "response": "Great news! **Your savings rate is 34.77%** for December 2024.\n\nHere's the breakdown:\n- **Income:** $13,875.71\n- **Spending:** $9,050.65\n- **Net savings:** $4,825.06\n\nYou're doing really well\u2014saving about 35% of your income is above the recommended benchmark! The typical guideline suggests 20% for savings and debt repayment. Keep up the strong work! \ud83d\udcaa\n\nWould you like to see how this compares to previous months or dive into where your spending is going?"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much am I investing each month?", 
+          "focus": "Should identify investment category transactions with amounts.", 
+          "response": "Based on your last 3 months of data (October-December 2024):\n\n**You're investing $5,632.55 total over 3 months**, which averages to about **$1,877.52 per month**.\n\nThis represents 17.7% of your spending, which is solid! \n\nTo give you more context:\n- Your average monthly income: ~$15,206.59\n- Your investment rate as a % of income: ~**12.3%**\n- Overall savings rate (including investments): **30.24%**\n\nWould you like to see the specific investment transactions, or discuss whether this rate aligns w"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "recent_grad": {
+      "tests": 2, 
+      "pass_pct": 50, 
+      "user_id": "dd000003-0005-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": false, 
+            "overall": 1.5, 
+            "scores": {
+              "relevance": 1.5, 
+              "data_accuracy": 1.5, 
+              "actionability": 1.5, 
+              "focus": 1.5
+            }
+          }, 
+          "question": "How much am I paying in student loans?", 
+          "focus": "Must find LOAN_PAYMENT category. Specific monthly amount.", 
+          "response": "Based on the transaction data I can see, **I don't see any student loan payments in your recent transactions**. The transactions categorized under \"BILLS_UTILITIES\" appear to be misclassified items (gas stations, rideshares, auto parts, etc. incorrectly labeled as \"Phone/Data\").\n\nThis could mean:\n- You're not currently making student loan payments\n- Payments might be categorized differently in the system\n- They may be on a deferment or pause\n\nDo you know if you have student loans? If so, what's "
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "Can I afford to save while paying off my loans?", 
+          "focus": "Compare income to loan payments + expenses. Give concrete savings capacity.", 
+          "response": "**Good news: Yes, you can afford to save while paying off loans!** Here's what your data shows:\n\n## Current Situation (December 2024)\n- **Income:** $3,697.25\n- **Total Spending:** $3,393.27 (includes loan payments)\n- **Net Surplus:** $303.98\n- **Savings Rate:** 8.22%\n\n## 3-Month Trend\n- **Average savings rate:** 4.39%\n- You've had 2 surplus months and 1 deficit month\n- **Total saved over 3 months:** $504.11\n\n## Loan Payments in Context\nYour Bills & Utilities category ($1,013.08 or ~30% of spendi"
+        }
+      ], 
+      "avg_score": 2.5
+    }, 
+    "paycheck_to_paycheck": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000007-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "Why am I always broke by the end of the month?", 
+          "focus": "Should show income vs spend deficit or near-zero surplus. Identify top drain.", 
+          "response": "Here's why you're broke by month-end:\n\n## **The Core Problem: You're Spending More Than You Earn**\n\nIn December, you spent **$10,248** but only earned **$9,448** \u2014 that's an **$801 deficit**. You're consistently running into this issue (2 out of the last 3 months had deficits).\n\n## **The Biggest Culprits:**\n\n1. **Transportation: $2,976/month (31.5% of income)**\n   - This is eating up nearly a third of your income alone\n   - Way above typical benchmarks\n\n2. **Business Expenses: $4,015 (42.5% of i"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much do I have left after essential bills?", 
+          "focus": "Income minus needs-bucket total. Specific remaining amount.", 
+          "response": "Based on your December data:\n\n**Income:** $9,447.83\n\n**Essential Bills (Needs):** $4,218.54\n- Transportation: $2,975.97\n- Bills & Utilities: $1,242.57\n\n**Amount Left After Essentials:** **$5,229.29**\n\nHowever, I should note that your total spending for December was $10,248.47, which includes:\n- Food & Drink: $1,281.37\n- Business Expenses: $4,015.24\n- Marketing: $733.32\n\nSo while you have $5,229 left after essential bills, you actually spent more than your income this month (negative cash flow of"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "dual_income": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000006-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "What's our household savings rate?", 
+          "focus": "Calculate (income - spend) / income. Specific percentage.", 
+          "response": "Your household savings rate over the last 3 months is **9.69%** on average.\n\nHere's the monthly breakdown:\n- **October 2024**: 8.24% ($1,290 saved)\n- **November 2024**: 15.17% ($2,236 saved) \n- **December 2024**: 4.57% ($521 saved)\n\n**Total over 3 months**: You earned $41,781 and spent $37,734, saving $4,047.\n\nYour savings rate has been fluctuating month to month. November was strong at 15%, but December dropped to under 5%. Consider aiming for a more consistent 15-20% savings rate if possible t"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How much are we spending on childcare?", 
+          "focus": "Must find CHILDCARE category. Specific monthly amount.", 
+          "response": "In December 2024, you spent **$557.65 on childcare**, which is about 5.13% of your total spending.\n\nWould you like to see how this compares to previous months, or get more details on the specific childcare transactions?"
+        }
+      ], 
+      "avg_score": 3.5
+    }, 
+    "small_biz_owner": {
+      "tests": 2, 
+      "pass_pct": 100, 
+      "user_id": "dd000008-0000-0000-0000-000000000000", 
+      "details": [
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "What are my total business expenses this month?", 
+          "focus": "BUSINESS_EXPENSE + MARKETING categories. Specific total.", 
+          "response": "I don't see a specific \"business expenses\" category in your transaction data for December 2024. The spending summary shows categories like:\n\n- **Housing**: $853.60\n- **Food & Drink**: $763.72\n- **Groceries**: $662.21\n- **Personal Care**: $178.92\n- **Transportation**: $144.48\n- **Bills & Utilities**: $117.61\n\nCould you clarify which categories you consider business expenses, or provide more details about the types of business purchases you're looking for? I can then help you:\n1. Pull specific tra"
+        }, 
+        {
+          "verdict": {
+            "reason": "keyword fallback (no API key)", 
+            "pass": true, 
+            "overall": 3.5, 
+            "scores": {
+              "relevance": 3.5, 
+              "data_accuracy": 3.5, 
+              "actionability": 3.5, 
+              "focus": 3.5
+            }
+          }, 
+          "question": "How does my personal spending compare to business spending?", 
+          "focus": "Split transactions into business vs personal buckets with amounts.", 
+          "response": "Based on your transaction data for December 2024:\n\n**No business spending detected** \u2014 there are no transactions categorized as business expenses in your accounts.\n\n**Your spending is 100% personal:**\n- **Housing**: $853.60 (31%)\n- **Food & Dining**: $763.72 (28%)\n- **Groceries**: $662.21 (24%)\n- **Personal Care**: $178.92 (7%)\n- **Transportation**: $144.48 (5%)\n- **Bills/Utilities**: $117.61 (4%)\n\n**Total personal spending**: $2,720.54\n\nIf you do have business expenses that should be tracked:\n-"
+        }
+      ], 
+      "avg_score": 3.5
+    }
+  }
+}

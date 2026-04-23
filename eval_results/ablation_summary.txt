@@ -1,0 +1,49 @@
+================================================================================
+ ARTHA ABLATION STUDY - Table 5
+================================================================================
+
+Cond  Enriched  Tools      Pass%   Avg/5    n     Delta
+---------------------------------------------------------
+A     Yes       Yes        75.0%    3.67   60+    0.0%
+B     Yes       No         50.0%    2.97   60  -25.0%
+C     No        Yes        70.0%    3.56   60   -5.0%
+D     No        No         48.3%    2.86   60  -26.7%
+
+================================================================================
+ Per-Category Pass Rates (Table 6)
+================================================================================
+
+Category                    A      B      C      D     A-D
+----------------------------------------------------------
+spending_summary         100%    70%    80%    60%+    40%
+financial_health          80%    70%    70%    80%+     0%
+goal_tracking             60%    60%    70%    60%+     0%
+anomaly_detection         30%     0%     0%     0%+    30%
+subscription_audit        90%     0%   100%     0%+    90%
+behavioral_analysis       90%   100%   100%    90%+     0%
+
+================================================================================
+ Per-Category Average Scores
+================================================================================
+
+Category                    A      B      C      D
+--------------------------------------------------
+spending_summary         3.85   3.77   3.83   3.50
+financial_health         3.80   3.52   3.77   3.55
+goal_tracking            3.38   3.35   3.45   3.25
+anomaly_detection        2.88   1.73   2.23   1.65
+subscription_audit       3.80   1.25   3.90   1.23
+behavioral_analysis      4.30   4.20   4.20   4.00
+
+================================================================================
+ Key Findings
+================================================================================
+  A -> D: +26.7% pass rate  (full system vs raw baseline)
+  A -> B: +25.0% pass rate  (ontology TOOL DESIGN is the primary lift)
+  A -> C: +5.0% pass rate  (ontology DATA alone matters less - auto-recovery)
+  B - D: +1.7% pass rate  (confirms tools are the critical variable)
+
+  * anomaly_detection and subscription_audit depend entirely on ontology tools
+    (A: 30%/90% -> B: 0%/0%)
+  * spending_summary, financial_health, behavioral_analysis degrade gracefully
+    thanks to transaction.metadata-based query paths

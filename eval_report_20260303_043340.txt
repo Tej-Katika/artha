@@ -1,0 +1,389 @@
+FinWise Eval Report — 20260303_043340
+Overall Score: 0.02 | Pass Rate: 3%
+
+
+============================================================
+Priya Sharma (High Earner/Saver)
+Avg Score: 0.13 | Pass Rate: 20%
+============================================================
+
+[PASS] Q1: How much did I spend this month?
+Score: 0.67 | Quality: DETAILED | 18.7s
+Missing signals: merchant names
+
+Response:
+Looking at your spending for the past 30 days, here's what I found:
+
+**You've spent $8,593.93 this month across 82 transactions.**
+
+Here's the breakdown by category:
+
+**Top spending categories:**
+- **Groceries** ($1,420.01): Whole Foods ($1,066.36), HEB ($201.62), Aldi ($88.52), Walmart ($63.51)
+- **Dining Out** ($470.50): Chick-fil-A ($89.36), Chipotle ($73.35), Starbucks ($55.12), Dominos ($89.17), other restaurants ($163.50)
+- **Investments/Savings** ($1,500): Fidelity Roth IRA ($1,000), Vanguard 401k ($500)
+- **Transportation** ($666.46): Southwest Airlines ($462.71), Gas ($145.63), Uber ($13.66), Enterprise ($0 this month)
+- **Bills/Utilities** ($724.07): Oncor Electric ($211.91), AT&T Internet ($90), City of Denton Water ($61.16), T-Mobile ($78), Utilities total
+- **Subscriptions** ($274.87): Peloton ($88), Hulu ($17.99), Spotify ($19.98), Netflix ($31.98), Apple services ($35.93), Amazon Prime ($22.48), Planet Fitness ($49.98)
+- **Shopping** ($657.40): Amazon ($141.83), Target ($88.31), Nordstrom ($197.51), Walmart ($229.75)
+
+**Key insights:**
+1. **Whole Foods dominates** your grocery spend at $1,066 — that's 75% of your total grocery budget. Multiple "EXTRA RUN" charges suggest frequent unplanned trips.
+2. **Southwest Airlines** had a big ticket at $462.71, which is a one-time travel expense.
+3. **Dining out** is $470.50 — about $15/day — mostly fast casual (Chick-fil-A, Chipotle).
+
+**Good news:** You're saving consistently with $1,500 to retirement accounts!
+
+**Next steps:**
+1. **Consolidate grocery trips** — You're making many small Whole Foods runs. Try planning once-a-week trips to reduce spending.
+2. **Set up budgets** — You have none currently! I'd recommend: Groceries ($800), Dining ($400), Gas ($150), Shopping ($400).
+
+Would you like me to help you set up those budgets or look into any specific category?
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 2.9s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 1.6s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Marcus Johnson (Paycheck to Paycheck)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 2.4s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 2.3s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 1.8s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Alex Chen (High Debt)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 2.5s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 2.0s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Brandon Willis (Overspender + Anomalies)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 2.6s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 1.7s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Sofia Reyes (Freelancer)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 2.1s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 1.8s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Robert & Helen Davis (Retired/Fixed Income)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 1.9s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 1.9s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+James & Sarah Mitchell (Dual Income)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 2.2s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 1.7s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 1.7s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+============================================================
+Taylor Kim (Recent Grad/Rebuilding)
+Avg Score: 0.0 | Pass Rate: 0%
+============================================================
+
+[FAIL] Q1: How much did I spend this month?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: specific dollar amount, merchant names, savings rate or income mentioned
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q2: How are my finances overall?
+Score: 0.0 | Quality: BRIEF | 0.2s
+Missing signals: health score, specific numbers, actionable recommendation
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q3: Anything suspicious in my transactions?
+Score: 0.0 | Quality: BRIEF | 1.5s
+Missing signals: merchant name, dollar amount, comparison to normal
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q4: What are my biggest spending categories?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: category names, dollar amounts, trend or comparison
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
+
+[FAIL] Q5: Am I on track with my savings goals?
+Score: 0.0 | Quality: BRIEF | 0.1s
+Missing signals: goal name or amount, progress percentage or dollar, projection
+
+Response:
+I encountered an error while processing your request. Please try again.
+----------------------------------------
