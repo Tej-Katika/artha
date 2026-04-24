@@ -1,4 +1,4 @@
--- FinWise AI Agent — Database Schema
+-- Artha AI Agent — Database Schema
 -- Migration V1: Initial schema
 
 -- ── Extensions ────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════════
---  FinWise AI Agent — Migration V2
+--  Artha AI Agent — Migration V2
 --  Document Storage: W2 Forms + Bank Statements
 --
 --  Design principles:

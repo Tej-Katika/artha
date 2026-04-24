@@ -8,10 +8,6 @@ Artha enriches raw banking transactions into typed ontology objects
 flags, budgets, and goals) before any LLM reasoning, and exposes
 those objects to a Claude agent through 15 typed tools.
 
-> The original package name was "FinWise"; the project has been
-> rebranded to "Artha". During the migration, Java packages may
-> appear in either `com.finwise.*` or `com.artha.*` form depending
-> on the branch.
 
 ## Tech stack
 
@@ -46,12 +42,12 @@ CREATE DATABASE postgres;
 ### Generate synthetic data (optional)
 
 ```bash
-python generate_finwise_data_v2.py --count 100 --save-map
+python generate_artha_data_v2.py --count 100 --save-map
 ```
 
 This produces 100 synthetic user profiles with realistic
 transaction histories across 10 behavioral archetypes and writes
-the user-UUID-to-archetype map to `finwise_users_v2.json`.
+the user-UUID-to-archetype map to `artha_users_v2.json`.
 
 ### Run the service
 
@@ -104,7 +100,7 @@ schema.
 ## Layout
 
 ```
-src/main/java/com/finwise/
+src/main/java/com/artha/
     agent/
         core/                 Orchestrator, feature flags,
                               tool interfaces
@@ -117,8 +113,8 @@ src/main/java/com/finwise/
 src/main/resources/
     application.yml           Configuration
     db/migration/             Flyway migrations
-generate_finwise_data*.py     Synthetic data generator
-ingest_finwise_data.py        Data ingestion helper
+generate_artha_data*.py     Synthetic data generator
+ingest_artha_data.py        Data ingestion helper
 docker-compose.yml            Local dev dependencies
 ```
 

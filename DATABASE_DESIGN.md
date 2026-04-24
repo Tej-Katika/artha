@@ -1,4 +1,4 @@
-# FinWise Database Design
+# Artha Database Design
 
 Complete reference for how PostgreSQL stores W2 forms, bank statements, and Plaid data.
 
@@ -209,7 +209,7 @@ This starts the `pgvector/pgvector:pg16` image which has the `vector` extension 
 ### Step 2: Verify extensions loaded
 
 ```bash
-docker exec finwise-db psql -U finwise -d finwise -c "\dx"
+docker exec artha-db psql -U artha -d artha -c "\dx"
 ```
 
 Expected output:
@@ -229,7 +229,7 @@ Expected output:
 On first run you'll see in the logs:
 ```
 Flyway Community Edition ... by Redgate
-Database: jdbc:postgresql://localhost:5432/finwise (PostgreSQL 16)
+Database: jdbc:postgresql://localhost:5432/artha (PostgreSQL 16)
 Successfully validated 2 migrations
 Migrating schema "public" to version "1 - initial schema"
 Migrating schema "public" to version "2 - document storage"
@@ -243,14 +243,14 @@ Connect with any PostgreSQL client (pgAdmin, TablePlus, DBeaver, or psql):
 ```
 Host:     localhost
 Port:     5432
-Database: finwise
-Username: finwise
-Password: finwise
+Database: artha
+Username: artha
+Password: artha
 ```
 
 Or with psql directly:
 ```bash
-docker exec -it finwise-db psql -U finwise -d finwise
+docker exec -it artha-db psql -U artha -d artha
 
 # List all tables
 \dt

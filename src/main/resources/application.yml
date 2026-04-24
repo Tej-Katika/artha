@@ -1,14 +1,13 @@
 # Artha - Application Configuration
-# (Rebranded from "FinWise"; Java packages remain com.finwise.* by design.)
 
 spring:
   application:
     name: artha
 
   # ── Database ──────────────────────────────────────────────────
-  # Connecting to YOUR local PostgreSQL on Windows
-  # Database: postgres (where you created the 3 tables)
-  # User: postgres, no password (trust auth)
+  # Connecting to your local PostgreSQL.
+  # The password below is a DB credential, not a brand name;
+  # do NOT rename it when search-replacing project branding.
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -50,7 +49,7 @@ server:
 # ── Anthropic Claude API ─────────────────────────────────────────
 # Set ANTHROPIC_API_KEY as an environment variable on your machine
 # Windows: setx ANTHROPIC_API_KEY "sk-ant-..."
-finwise:
+artha:
   anthropic:
     api-key: ${ANTHROPIC_API_KEY:not-set}
     model: claude-sonnet-4-6
@@ -75,7 +74,7 @@ artha:
 # ── Logging ───────────────────────────────────────────────────────
 logging:
   level:
-    com.finwise: DEBUG
+    com.artha: DEBUG
     org.hibernate.SQL: DEBUG
     org.springframework.web: INFO
   pattern:

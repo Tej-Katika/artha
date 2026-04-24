@@ -11,10 +11,7 @@
         <relativePath/>
     </parent>
 
-    <!-- Rebranded "FinWise" -> "Artha" for publication. Java packages
-         remain com.finwise.* to avoid a destructive rename; this is a
-         visible-branding-only change. -->
-    <groupId>com.finwise</groupId>
+    <groupId>com.artha</groupId>
     <artifactId>artha</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Artha</name>

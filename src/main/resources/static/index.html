@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FinWise — AI Financial Advisor</title>
+  <title>Artha — AI Financial Advisor</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -330,7 +330,7 @@
         } catch (err) {
           setMessages(prev => [...prev, {
             role: 'assistant',
-            content: 'Connection error — make sure the FinWise server is running.',
+            content: 'Connection error — make sure the Artha server is running.',
             time: new Date().toLocaleTimeString([], {
               hour: '2-digit', minute: '2-digit'
             }),
@@ -374,7 +374,7 @@
                 fontSize: 26,
                 color: 'var(--gold)',
                 letterSpacing: '-0.01em',
-              }}>FinWise</span>
+              }}>Artha</span>
               <span style={{
                 fontSize: 12,
                 color: 'var(--text-muted)',
