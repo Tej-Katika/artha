@@ -1,8 +1,0 @@
-            metric             |          value           
--------------------------------+--------------------------
- eval_users_recurring_bills    | 155
- eval_users_anomalies          | 50
- eval_users_with_enrichments   | 2348
- eval_users_enrichment_sources | METADATA:1399, RULES:949
-(4 rows)
-

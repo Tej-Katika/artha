@@ -1,210 +1,147 @@
 # Artha
 
-**A Domain Ontology-Driven Agentic Framework for LLM-Based Personal
-Finance Reasoning**
+**A domain ontology-driven agentic framework for LLM-based personal
+finance reasoning.**
 
 Artha enriches raw banking transactions into typed ontology objects
 (merchant profiles, spending categories, recurring bills, anomaly
-flags, budgets, and goals) *before* the LLM reasons over them, and
-surfaces those objects to a Claude Sonnet 4.6 agent through 15 typed
-tools. On a 60-query benchmark across 10 user archetypes, Artha
-achieves a **75.0% pass rate** versus a **48.3% raw-baseline** pass
-rate — a controlled ablation-isolated lift of **+26.7 percentage
-points**.
+flags, budgets, and goals) before any LLM reasoning, and exposes
+those objects to a Claude agent through 15 typed tools.
 
-> Historically called "FinWise"; rebranded to "Artha" for
-> publication. Java packages remain `com.finwise.*` to avoid a
-> destructive rename. Paper and branding use "Artha" throughout.
+> The original package name was "FinWise"; the project has been
+> rebranded to "Artha". During the migration, Java packages may
+> appear in either `com.finwise.*` or `com.artha.*` form depending
+> on the branch.
 
----
+## Tech stack
 
-## Contents
+- **Backend**: Java 21, Spring Boot 3.2.x, Spring Data JPA
+- **Database**: PostgreSQL 15
+- **LLM**: Anthropic Claude API (agent: `claude-sonnet-4-6`)
+- **Data generator**: Python 3.11+
 
-- [Quick links](#quick-links)
-- [Architecture](#architecture)
-- [Evaluation results](#evaluation-results)
-- [Repository layout](#repository-layout)
-- [Reproducing the evaluation](#reproducing-the-evaluation)
-- [Paper](#paper)
-- [Limitations](#limitations)
-- [License](#license)
+## Quick start
 
-## Quick links
+### Prerequisites
 
-- **Paper (LaTeX source)**: [`artha.tex`](./artha.tex)
-- **Paper (PDF, prior draft with projected numbers; do not cite)**:
-  [`artha_2.pdf`](./artha_2.pdf)
-- **arXiv submission package**:
-  [`arxiv_submission/`](./arxiv_submission/)
-- **Project state doc**: [`PROJECT_STATE.md`](./PROJECT_STATE.md)
-- **Evaluation outputs**: [`eval_results/`](./eval_results/)
-- **Scoring rubric**: [`SCORING_RUBRIC.md`](./SCORING_RUBRIC.md)
+- Java 21+ (OpenJDK / Oracle)
+- Maven 3.9+
+- PostgreSQL 15+
+- An Anthropic API key (https://console.anthropic.com)
+
+### Install and configure
+
+```bash
+cp .env.example .env
+# Edit .env and set ANTHROPIC_API_KEY
+```
+
+Create the database (defaults to `postgres` on `localhost:5432`):
+
+```sql
+CREATE DATABASE postgres;
+-- or use any existing DB; see application.yml
+```
+
+### Generate synthetic data (optional)
+
+```bash
+python generate_finwise_data_v2.py --count 100 --save-map
+```
+
+This produces 100 synthetic user profiles with realistic
+transaction histories across 10 behavioral archetypes and writes
+the user-UUID-to-archetype map to `finwise_users_v2.json`.
+
+### Run the service
+
+```bash
+mvn spring-boot:run
+```
+
+The service comes up on `http://localhost:8081` (see
+`application.yml`). Health check:
+
+```bash
+curl http://localhost:8081/actuator/health
+```
+
+### Talk to the agent
+
+```bash
+curl -X POST http://localhost:8081/api/agent/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"How much did I spend this month?","userId":"<user-uuid>"}'
+```
 
 ## Architecture
 
 ```
-Raw transactions  +---->  Ontology enrichment
-(bank API)                  - rule-based classification (23 rules)
-                            - upstream-metadata fallback
-                            - statistical anomaly (z > 2.5)
-                            - recurring-bill detector
-                                     |
-                                     v
-                      Typed ontology (PostgreSQL, 9 object types,
-                      7 primary relationships)
-                                     |
-                                     v
+Raw transactions  ─────▶  Ontology enrichment
+(bank / generator)          ─ rule-based classification
+                            ─ upstream-metadata fallback
+                            ─ statistical anomaly (z > 2.5)
+                            ─ recurring-bill detector
+                                     │
+                                     ▼
+                      Typed ontology (PostgreSQL)
+                      9 object types, 7 primary relationships
+                                     │
+                                     ▼
                       15 typed agent tools
-                                     |
-                                     v
-                      Claude Sonnet 4.6 agent (max 8 tool iters)
-                                     |
-                                     v
-                      Natural-language answer
+                                     │
+                                     ▼
+                      Claude Sonnet agent
+                      (bounded tool-call loop)
+                                     │
+                                     ▼
+                      Natural-language response
 ```
 
-- **Backend**: Java 21, Spring Boot 3.2.x, Spring Data JPA.
-- **Database**: PostgreSQL 15.
-- **LLM**: Anthropic Claude API
-  (agent: `claude-sonnet-4-6`; judge: `claude-opus-4-7`).
-- **Eval harness**: Python 3.13 (`anthropic` + `requests`).
+See [DATABASE_DESIGN.md](./DATABASE_DESIGN.md) for the ontology
+schema.
 
-## Evaluation results
-
-60 queries = 6 reasoning categories × 10 user archetypes. LLM-as-judge
-(Claude Opus 4.7) scores on 4 dimensions; pass = all 4 dimensions ≥ 3/5.
-
-| Condition | Enrichment | Tools | Pass % | Avg/5 | Δ vs A |
-|---|---|---|---|---|---|
-| **A — Full** | yes | yes | **75.0%** | 3.67 | — |
-| B — Tools OFF | yes | no | 50.0% | 2.97 | −25.0 pp |
-| C — Enrichment OFF | no | yes | 70.0% | 3.56 | −5.0 pp |
-| D — Both OFF | no | no | 48.3% | 2.86 | **−26.7 pp** |
-
-Per-category pass rates (Condition A): spending_summary 100%,
-behavioral_analysis 90%, subscription_audit 90%, financial_health 80%,
-goal_tracking 60%, anomaly_detection 30%.
-
-Machine-readable numbers: `eval_results/summary_{A,B,C,D}.json`.
-
-## Repository layout
+## Layout
 
 ```
 src/main/java/com/finwise/
     agent/
-        core/                 ReferenceDateProvider, FeatureFlags,
-                              AgentOrchestrator, Tool interfaces
-        ontology/             OntologyEnrichmentService,
-                              StatisticalAnomalyDetector,
-                              SubscriptionDetector
+        core/                 Orchestrator, feature flags,
+                              tool interfaces
+        ontology/             Enrichment service,
+                              anomaly detector,
+                              subscription detector
         tools/                15 typed tools (Get*Tool.java)
-        api/                  Spring controllers
+        api/                  Spring REST controllers
         domain/               JPA entities + repositories
-artha_eval.py                 60-query benchmark harness
-eval_setup/                   SQL + Python scripts for test-data setup
-eval_results/                 Raw results + summaries (conditions A-D)
-arxiv_submission/             Self-contained arXiv upload bundle
-artha.tex                     Paper LaTeX source (current)
-artha_2.pdf                   Prior paper draft (projected numbers)
-SCORING_RUBRIC.md             4-dimension rubric for human annotation
-PROJECT_STATE.md              Full project state
-CLAUDE.md                     AI-agent context doc
+src/main/resources/
+    application.yml           Configuration
+    db/migration/             Flyway migrations
+generate_finwise_data*.py     Synthetic data generator
+ingest_finwise_data.py        Data ingestion helper
+docker-compose.yml            Local dev dependencies
 ```
 
-## Reproducing the evaluation
+## Configuration (env vars)
 
-Prerequisites: PostgreSQL 15 running locally, Java 21, Maven, Python
-3.11+, and an Anthropic API key with credits for agent (Sonnet 4.6) +
-judge (Opus 4.7) tool use.
+| Variable | Default | Purpose |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | (required) | Agent LLM calls |
+| `ARTHA_EVAL_REFERENCE_DATE` | (unset) | ISO date to pin "today" for reproducible benchmarks; unset in prod |
+| `ARTHA_ONTOLOGY_TOOLS_ENABLED` | `true` | When `false`, bypasses ontology paths in anomaly/category/health/subscription tools |
 
-### 1. Load the dataset
+## Research materials
 
-The synthetic dataset (509 users, 128,096 transactions across 10
-archetypes) is generated by `generate_finwise_data_v2.py` and
-persisted in PostgreSQL. The user-UUID-to-archetype map is
-`finwise_users_v2.json`.
-
-```powershell
-py -3 generate_finwise_data_v2.py --count 500 --clear --save-map
-```
-
-### 2. Launch Spring Boot in eval mode
-
-```powershell
-$env:ANTHROPIC_API_KEY = "sk-ant-..."
-$env:ARTHA_EVAL_REFERENCE_DATE = "2024-12-31"
-mvn spring-boot:run
-```
-
-On startup, look for the log line:
-
-```
-WARN  ...ReferenceDateProvider: eval override active — treating 'today' as 2024-12-31
-```
-
-### 3. Enrich the eval users
-
-```powershell
-py -3 eval_setup/run_java_enrichment.py
-```
-
-### 4. Run Condition A (full system)
-
-```powershell
-py -3 artha_eval.py --condition A --api-url http://localhost:8081/api/agent/chat
-```
-
-Expected ~18-22 min wall-clock, ~$2-5 in Anthropic credits.
-
-### 5. Run the ablation (Conditions B, C, D)
-
-- **Condition C**: clear enrichment data, keep tools enabled.
-- **Condition B**: keep enrichment, disable ontology tool paths
-  (`ARTHA_ONTOLOGY_TOOLS_ENABLED=false`, restart Spring Boot).
-- **Condition D**: both of the above.
-
-See [PROJECT_STATE.md](./PROJECT_STATE.md#8-how-to-reproduce) for
-step-by-step commands.
-
-## Paper
-
-The paper is being finalized in [`artha.tex`](./artha.tex). It
-reports the measured 75.0% Condition A pass rate, the full
-A-vs-B-vs-C-vs-D ablation, and honest methodological disclosures
-(reference-date override, post-hoc detector threshold tuning,
-same-provider LLM judge, single-seed-user per archetype, no Cohen's
-kappa yet).
-
-**Do not cite or submit `artha_2.pdf`.** It is a prior draft that
-contains projected numbers (e.g., 88.7% pass rate, κ = 0.71, 847
-rules) that **do not match the actual measurements in
-`eval_results/`**. It is retained in the repo as a reference for the
-paper's original structure and literary framing only.
-
-## Limitations
-
-Disclosed in full in
-[PROJECT_STATE.md §6](./PROJECT_STATE.md#6-known-limitations-disclosed-in-paper)
-and in the paper's Limitations section:
-
-1. Single seed user per archetype (n=1); expand to n≥5 in future work.
-2. Synthetic dataset only.
-3. Post-hoc subscription-detector threshold tuning (5-40 day interval,
-   amount-variance filter disabled for this generator).
-4. Reference-date substitution at 2024-12-31 (disabled in production).
-5. Same-provider LLM judge (Anthropic Sonnet vs Anthropic Opus).
-6. Cohen's kappa not yet computed (rubric released).
-7. Goals and budgets are seeded evaluation-setup data, not outputs of
-   Artha.
-8. 23 classification rules (production would scale to hundreds).
+Paper, evaluation harness, scoring rubric, full ablation results,
+and reproduction scripts are maintained **separately** and are not
+included in this repository. Contact the author for access to the
+research artifacts.
 
 ## License
 
-This repository is research code released for reproducibility of the
-Artha paper. A permissive license (MIT or Apache 2.0) is recommended
-— add a `LICENSE` file before publishing the repository.
+TBD — add a `LICENSE` file before wider distribution.
 
 ## Contact
 
 Tejas Katika — tejashwar1029@gmail.com
-Department of Computer Science, University of North Texas.
+Department of Computer Science, University of North Texas

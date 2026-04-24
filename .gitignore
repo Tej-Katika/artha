@@ -48,6 +48,13 @@ jacoco/
 tmp_*.py
 /user_maxdate.csv
 
+# Research / paper / evaluation artifacts — kept locally only.
+# All files needed to compile and submit the paper, plus eval outputs,
+# live under research/ and are not published in the public codebase repo.
+research/
+# Task tracking used by Claude Code tooling (local only)
+tasks/
+
 # Optional: the LaTeX build archives in arxiv_submission/ can always
 # be regenerated from artha.tex; comment out these lines if you want
 # to version-control the packaged artifacts.
