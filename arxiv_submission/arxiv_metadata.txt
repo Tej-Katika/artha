@@ -36,12 +36,12 @@ MSC CLASS / ACM CLASS (optional, leave blank unless required)
 
 COMMENTS (shown under the abstract on arXiv)
 --------------------------------------------
-Preprint. 5 tables, 1 figure. Targeting IEEE Big Data 2026.
+Preprint. ~10 pages, 8 tables, 1 figure, 34 references.
+Targeting IEEE Big Data 2026.
 Full 4-condition ablation study (Conditions A-D, n=60 each).
 Code, evaluation harness, scoring rubric, and raw judge
 transcripts released for reproducibility at:
-https://github.com/<your-username>/finwise-agent
-(update this URL before uploading, or omit the comment block if repo not yet public)
+https://github.com/Tej-Katika/artha
 
 
 JOURNAL REFERENCE / DOI / REPORT NUMBER

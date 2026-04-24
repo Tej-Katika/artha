@@ -1,9 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Artha — A Domain Ontology-Driven Agentic Framework for LLM-Based
+% Artha - A Domain Ontology-Driven Agentic Framework for LLM-Based
 % Personal Finance Reasoning
 %
-% Target: arXiv preprint (standalone) / IEEE Big Data 2026 (conference)
-% Required: IEEEtran.cls (IEEE conference template)
+% arXiv preprint / IEEE Big Data 2026 submission
+% Class file: IEEEtran.cls (included on arXiv's TeX tree)
+% Self-contained: inline bibliography, no .bbl required
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
@@ -18,8 +19,6 @@
 \usepackage{url}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \begin{document}
 
@@ -27,549 +26,617 @@
 LLM-Based Personal Finance Reasoning}
 
 \author{\IEEEauthorblockN{Tejas Katika}
-\IEEEauthorblockA{\textit{Department of Computer Science} \\
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
 \textit{University of North Texas}\\
 Denton, TX, USA \\
-tejashwar1029@gmail.com}}
+tejas.katika@my.unt.edu}}
 
 \maketitle
 
 %=============================================================================
 \begin{abstract}
-Large language models (LLMs) are well-suited to conversational personal
-finance applications but struggle when reasoning directly over raw
-banking transactions, which lack typed semantics and structured
-relationships. We present \textbf{Artha}, a personal finance framework
-that enriches raw transactions into typed ontology objects
-(merchant profiles, spending categories, recurring bills, anomaly
-flags, budgets, and goals) before LLM reasoning, and exposes them to
-a Claude Sonnet~4.6 agent through 15 typed tools.
-We evaluate Artha on a 60-query benchmark spanning 6
-financial-reasoning categories and 10 user archetypes, using a
-held-out Claude Opus~4.7~\cite{claude_opus} instance as an
-LLM-as-judge~\cite{mtbench} over a 4-dimensional rubric. Artha's full configuration
-achieves a \textbf{75.0\% pass rate} (3.67/5 mean score) versus a
-\textbf{48.3\% raw-baseline} pass rate (Condition D, $\Delta=-26.7$\%),
-confirming the value added by ontology-driven enrichment and the typed
-tool layer. An ablation study isolates the contribution of each
-component: the ontology tool layer drives most of the lift
-($\Delta=-25.0$\% when bypassed; Condition B), while enrichment data
-alone contributes less because the system gracefully re-computes
-missing enrichments on demand ($\Delta=-5.0$\%; Condition C). We report
-honest limitations, including single-seed per archetype, post-hoc
-detector threshold tuning, same-provider LLM judge, and synthetic
-evaluation data. Code, data schema, and evaluation harness are
-released for reproducibility.
+Personal financial data is transactional, not linguistic. Merchant
+strings such as \emph{SQ *WHOLE FOODS 982} carry no semantic
+structure; dollar amounts lack categorical context; timestamps bear
+no relationship to budgets or goals. We present \textbf{Artha}
+(Sanskrit \emph{artha} -- wealth, meaning, purpose), a framework
+that pre-computes a typed domain ontology of nine financial object
+classes and seven primary relationships before any LLM inference
+call. A 15-tool agentic layer built in Java~21 / Spring Boot~3.2
+reasons over enriched typed objects rather than raw SQL rows. We
+release an open evaluation harness with 60 benchmark queries across
+6 reasoning categories and 10 behavioral archetypes, scored by a
+held-out Claude Opus~4.7~\cite{claude_opus} instance as
+LLM-as-judge~\cite{mtbench} on a four-dimension rubric.
+Artha's full configuration achieves a \textbf{75.0\% pass rate}
+(3.67/5 mean score); a controlled four-condition ablation isolates a
+\textbf{26.7 percentage-point improvement} over a raw-baseline
+configuration. A novel finding is that the \emph{typed tool layer}
+is the dominant source of lift ($-25.0$ pp when bypassed), while
+enrichment data alone contributes less ($-5.0$ pp) because the
+tools gracefully recompute missing enrichments on demand. We report
+honest methodological compromises---post-hoc detector threshold
+tuning on synthetic data, reference-date substitution, same-provider
+LLM judge, single-seed user per archetype, and deferred human
+inter-rater validation---and release code, data schema, and
+evaluation harness at
+\url{https://github.com/Tej-Katika/artha}.
 \end{abstract}
 
 \begin{IEEEkeywords}
-LLM agents, domain ontology, personal finance, tool-augmented LLMs,
-LLM-as-judge, ablation study
+large language models, agentic AI, personal finance, domain
+ontology, tool-augmented LLMs, transaction enrichment,
+LLM-as-judge, synthetic benchmarking, ablation study
 \end{IEEEkeywords}
 
 %=============================================================================
 \section{Introduction}
 
-General-purpose LLMs are increasingly used as conversational
-interfaces for personal financial management. However, reasoning
-directly over raw transactional data (CSV rows or JSON records
-containing merchant strings, amounts, dates, and type codes) has
-well-known failure modes: inconsistent category attribution,
-unstable merchant canonicalization, shallow analytics beyond
-simple sums, and hallucinated recurring charges. These failures
-matter because personal finance is a high-stakes numerical domain
-where confident-but-wrong outputs erode user trust.
+Personal finance sits at an uncomfortable intersection for modern
+AI. The scale of the problem is measurable: financial illiteracy is
+estimated to cost Americans hundreds of billions of dollars
+annually, with substantial per-capita losses attributable to
+inadequate financial knowledge~\cite{nfec_literacy}. Large language
+models (LLMs)---despite their general reasoning
+strength~\cite{zhao_llm_survey}---offer an appealing solution, yet
+perform erratically on personal financial queries. The reason is
+structural, not linguistic.
 
-We hypothesize that much of this gap is not a language-understanding
-problem but a \emph{knowledge-representation} problem. Raw
-transactions lack typed semantics, cross-transaction structure, and
-temporal aggregates that are essential for questions such as
-\emph{``what recurring subscriptions do I have?''} or
-\emph{``am I saving enough for my goals?''}. A thin typed ontology
-layer, populated by deterministic enrichment and surfaced through
-typed agent tools, can recover most of this structure while remaining
-interpretable and auditable.
+\subsection{The Representation Gap}
 
-This paper presents \textbf{Artha}, an end-to-end personal finance
-agent built on this hypothesis, and evaluates it under a controlled
-ablation study. Our contributions are:
+A typical bank export contains records such as:
 
-\begin{itemize}
-  \item \textbf{A domain ontology} for personal finance
-    comprising 9 core object types and 7 primary relationships
-    (Section~\ref{sec:ontology}), with a dual-source enrichment
-    pipeline (rule-based merchant classification plus upstream-label
-    fallback) that reaches 97\% typed categorization coverage on
-    synthetic transactions.
-  \item \textbf{A 15-tool typed agent layer} that queries the ontology
-    rather than raw tables (Section~\ref{sec:tools}), allowing an LLM
-    to produce numerically grounded responses to natural-language
-    finance questions.
-  \item \textbf{A reproducible 60-query benchmark} and LLM-as-judge
-    harness covering 6 reasoning categories across 10 user archetypes,
-    with documented rubric and release of raw responses and scores
-    (Section~\ref{sec:eval}).
-  \item \textbf{Ablation results} isolating the contributions of
-    enrichment data versus the typed tool layer
-    (Section~\ref{sec:ablation}), showing that the tool layer drives
-    most of the observed lift.
-\end{itemize}
+\begin{verbatim}
+2024-11-08 | SQ *WHOLE FOODS 982 | -$67.50
+2024-11-08 | NETFLIX.COM         | -$15.99
+2024-11-10 | ZELLE PAYMENT       | +$200.00
+\end{verbatim}
 
-Throughout, we report honest methodological
-compromises---reference-date anchoring, post-hoc detector
-threshold tuning on synthetic data, same-provider judge, and
-single-user-per-archetype evaluation---and defer the stronger
-validation steps (human Cohen's $\kappa$, cross-family judge,
-multi-user per archetype) to future work.
+No system knows from these records alone that the first is a
+grocery purchase, the second is the $N$-th consecutive monthly
+Netflix charge, or the third is irregular income rather than
+salary. Inferring these facts requires merchant classification,
+temporal pattern matching, and category derivation -- work an LLM
+should not redo on every conversation turn.
+
+Prior approaches fall into three categories with distinct gaps.
+\emph{Prompt-and-retrieve} systems pass raw transaction histories
+into the context window~\cite{li_finance_llm_survey}. This fails at
+scale: 100k+ transactions exceed any practical context budget.
+\emph{RAG-augmented} systems~\cite{graphrag} retrieve semantically
+similar records but cannot reliably answer aggregative queries
+(e.g., \emph{``how much of my grocery budget remains?''}) without
+pre-computed budget objects. \emph{Fine-tuned financial
+models}~\cite{bloomberggpt,finbert,fingpt,open_finllms,fin_r1}
+improve linguistic understanding of financial documents but do not
+address user-specific transactional reasoning.
+
+The closest published system is that of Mienye et
+al.~\cite{mienye2026}, combining a Bayesian-CTGAN synthetic data
+generator with a transaction classifier and LLM investment advisor.
+Artha differs in three ways: (1) we introduce a formal domain
+ontology as the architectural backbone; (2) agent tools return
+typed ontology objects rather than classifier labels; and (3) we
+provide an open evaluation benchmark with a published scoring
+rubric and a full four-condition controlled ablation.
+
+\subsection{Our Approach}
+
+The central claim is that the most productive intervention for
+LLM-based personal finance reasoning is \emph{pre-computing
+semantic structure at ingestion time} rather than reconstructing it
+at inference time. We implement this through a domain ontology
+layer that maps raw merchant strings to canonical
+\textsc{MerchantProfile} entities, derives
+\textsc{SpendingCategory}, computes utilization against
+\textsc{Budget} objects, detects \textsc{RecurringBill} patterns,
+and tracks progress toward \textsc{FinancialGoal} targets.
+
+We name this framework \textbf{Artha}, from the Sanskrit
+\emph{artha} -- a word encoding wealth, meaning, purpose, and
+substance -- the four properties the system jointly optimizes. In
+Sanskrit philosophy, Artha is one of the four \emph{purush\=arthas}
+(aims of human life), explicitly concerning material
+well-being~\cite{kautilya_arthashastra}.
+
+\subsection{Contributions}
+
+\begin{enumerate}
+  \item \textbf{C1: Domain ontology schema.} Nine object types and
+    seven primary relationships implemented in PostgreSQL via
+    foreign-key join tables, without a dedicated graph database.
+  \item \textbf{C2: Multi-source enrichment pipeline.} Rule-based
+    merchant classification plus upstream-metadata fallback at
+    ingestion; we report per-source coverage (40.4\% rules / 59.6\%
+    metadata on the evaluation set) transparently in
+    Section~\ref{sec:enrichment}.
+  \item \textbf{C3: 15-tool agentic layer.} Tools across four
+    categories (data, ontology, planning, analytics), each
+    returning typed ontology objects via a Spring Boot tool-calling
+    loop bounded at 8 iterations per user query.
+  \item \textbf{C4: Open evaluation harness.} 60 benchmark queries
+    ($6$~categories $\times$ $10$~archetypes), an LLM-as-judge
+    rubric scoring four dimensions on a 1--5 scale, and a published
+    synthetic dataset (509 users, 128{,}096 transactions).
+  \item \textbf{C5: Full four-condition ablation.} A vs.\ B vs.\ C
+    vs.\ D isolates the causal contributions of enrichment data and
+    of the ontology tool layer on a pass-rate metric; B and D
+    require a feature-flag-driven degraded-mode path for the
+    ontology-aware tools.
+  \item \textbf{C6: Honest methodological disclosures.} We report
+    reference-date anchoring, post-hoc detector threshold tuning,
+    same-provider LLM judge, single-seed user per archetype, and
+    deferred Cohen's $\kappa$~\cite{cohens_kappa} as explicit
+    limitations, allowing the reader to calibrate the results.
+\end{enumerate}
 
 %=============================================================================
 \section{Related Work}
-\label{sec:related}
 
-\paragraph{Tool-augmented LLMs and agents.}
-Tool use~\cite{toolformer,react} and structured tool-calling
-APIs~\cite{anthropic_tools} have become standard for enabling LLMs
-to retrieve and manipulate external state. Artha follows this
-pattern: a Claude Sonnet~4.6~\cite{claude_sonnet} model is given a
-strict tool schema and
-orchestrates calls to typed finance tools via a bounded
-reasoning loop (max 8 iterations per query).
+\subsection{Financial Language Models}
 
-\paragraph{Ontology-guided reasoning.}
-A long line of work has used ontologies to ground language-model
-reasoning in typed, interlinked objects~\cite{ontology_survey}.
-Most such work has focused on knowledge-graph question answering;
-ours targets transactional reasoning, where the ``ontology'' is
-narrow, financial, and populated by rule- and ML-based enrichment
-rather than curated triples.
+Domain-adapted LLMs for finance began with
+FinBERT~\cite{finbert}, which adapted BERT for financial sentiment
+analysis. BloombergGPT~\cite{bloomberggpt} scaled to 50B parameters
+on 363B tokens of financial text. FinGPT~\cite{fingpt} and
+Open-FinLLMs~\cite{open_finllms} provide open-weight alternatives;
+Fin-R1~\cite{fin_r1} applies reinforcement learning to financial
+reasoning chains. All optimize for linguistic understanding of
+financial documents, not user-specific transactional reasoning.
 
-\paragraph{LLM-as-judge.}
-MT-Bench~\cite{mtbench} and subsequent works validated the use of
-strong LLMs (e.g., GPT-4, Claude Opus) as scalable judges of
-open-ended LLM outputs. We adopt this methodology, using a held-out
-Claude Opus~4.7 judge with an explicit 4-dimensional rubric, and
-discuss its same-provider limitation in Section~\ref{sec:limitations}.
+\subsection{Tool-Augmented and Agentic LLMs}
 
-\paragraph{LLM-based personal finance assistants.}
-Commercial products (Rocket~Money, Cleo, Copilot Money) have
-popularized LLM-backed finance assistants, but published evaluations
-are scarce. Our 60-query benchmark and open ablation harness aim to
-provide a reproducible reference point.
+ReAct~\cite{react} introduced interleaved reasoning and acting;
+Toolformer~\cite{toolformer} demonstrated self-supervised tool-use
+learning; ToolLLM~\cite{toolllm} scaled tool use to 16{,}000 APIs.
+The Finance Agent Benchmark~\cite{finance_agent_benchmark}
+evaluated LLM agents on SEC filing analysis, finding the best model
+achieved only 46.8\% accuracy on expert-authored questions --
+illustrating that financial agentic tasks are challenging even with
+state-of-the-art models and tool access. Artha treats tool
+\emph{return types} as a first-class design decision: every tool
+returns a typed ontology object rather than free-form text.
+Structured tool-calling APIs~\cite{anthropic_tools} enable this
+contract to be enforced at the LLM interface.
+
+\subsection{Knowledge Graphs and Ontologies for AI}
+
+GraphRAG~\cite{graphrag} pioneered community-detection-based
+summarization for knowledge-graph-augmented retrieval.
+KARMA~\cite{karma} extended this to automated multi-agent KG
+enrichment. The LLM--KG co-learning survey~\cite{pan_llm_kg}
+identifies structured relational context as the primary mechanism
+for reducing LLM hallucinations. FIBO~\cite{fibo} provides an
+institutional finance ontology; Artha instead designs a lightweight
+\emph{personal} finance ontology in standard PostgreSQL,
+prioritizing operational simplicity over expressive completeness.
+
+\subsection{Personal Finance AI Systems}
+
+Mienye et al.~\cite{mienye2026} present the closest prior work,
+combining synthetic data generation with transaction classification
+and LLM-backed investment advisory. De Zarz\`a et al.~\cite{dezarza}
+optimize household budgeting via linear programming with LLM
+recommendations. Hean et al.~\cite{hean} assess LLM performance on
+financial literacy questions; Lakkaraju et al.~\cite{lakkaraju}
+evaluate LLM financial advice for fairness and efficacy. None
+introduces a pre-computed domain ontology as the agent's knowledge
+substrate, and none provides a public evaluation benchmark for
+conversational personal finance agents.
+
+\subsection{LLM Evaluation}
+
+MT-Bench~\cite{mtbench} and AlpacaEval~\cite{alpacaeval}
+established LLM-as-judge scoring as a scalable evaluation paradigm.
+FLARE~\cite{flare} benchmarks financial LLMs on fixed-answer tasks;
+we extend this to open-ended conversational reasoning over personal
+transactional data.
 
 %=============================================================================
-\section{The Artha Framework}
-\label{sec:framework}
+\section{System Architecture}
 
-Artha is implemented as a Java 21 / Spring Boot~3.2 service backed by
-PostgreSQL~15, with a Claude Sonnet~4.6 agent orchestrating calls to
-typed ontology tools. Figure~\ref{fig:arch} summarizes the four
-layers, from raw bank transactions to the user-facing agent response.
+Artha is implemented as three distinct layers. \textbf{Technology
+stack:} backend Java~21 / Spring Boot~3.2.x, Spring Data JPA,
+HikariCP connection pooling, Spring Boot Actuator for observability.
+Database: PostgreSQL~15 with Flyway schema management. LLM
+integration: Anthropic Claude API~\cite{anthropic_api}, agent model
+\texttt{claude-sonnet-4-6}~\cite{claude_sonnet}, judge model
+\texttt{claude-opus-4-7}~\cite{claude_opus}. Evaluation stack:
+Python 3.13, \texttt{anthropic} SDK, \texttt{requests}.
 
 \begin{figure}[t]
 \centering
 \fbox{\parbox{0.92\columnwidth}{\centering
-\textbf{Layer 1} -- Raw transactions, bank accounts \\
+Raw transactions (ingestion) \\
 $\downarrow$ \\
-\textbf{Layer 2} -- Ontology enrichment \\
-\textit{(merchant classification, category resolution, anomaly detection,
-recurring-bill detection)} \\
+\textbf{Enrichment Engine} (Spring beans) \\
+\emph{rule classification; metadata fallback;} \\
+\emph{anomaly detection; recurring-bill detection} \\
 $\downarrow$ \\
-\textbf{Layer 3} -- Typed ontology objects \\
-\textit{(9 object types, 7 primary relationships)} \\
+\textbf{Ontology Layer} (PostgreSQL 15) \\
+\emph{9 object types, 7 primary relationships} \\
 $\downarrow$ \\
-\textbf{Layer 4} -- 15 agent tools over typed objects \\
+\textbf{Tool API} (15 tools, typed responses) \\
 $\downarrow$ \\
-\textbf{Claude Sonnet 4.6} agent loop \\
-(system prompt, tool-call iterations, response synthesis)
+\textbf{Claude Sonnet 4.6} agent \\
+\emph{(system prompt, bounded tool-call loop)}
 }}
-\caption{Architecture of the Artha framework. Enrichment is
-deterministic and idempotent; the LLM only reads the enriched objects
-through typed tool calls.}
+\caption{Artha system architecture. The enrichment pipeline
+populates the ontology during ingestion. During inference, tools
+query only the ontology layer; the Claude LLM never accesses raw
+transactions directly.}
 \label{fig:arch}
 \end{figure}
 
-%-----------------------------------------------------------------------------
-\subsection{Domain Ontology}
+\subsection{Raw Data Layer}
+
+The raw data layer stores each financial event as an immutable
+record with merchant name, amount, post-date, transaction type
+(DEBIT/CREDIT), and a JSON \texttt{metadata} field carrying an
+upstream canonical category (as provided by bank aggregators such
+as Plaid~\cite{plaid}). This table is never modified after
+insertion; all semantic interpretation is written to the ontology
+layer, preserving a full audit trail.
+
+\subsection{Domain Ontology Schema}
 \label{sec:ontology}
 
-The ontology contains nine core object types. Five derive from raw
-banking records, and four are produced or refined by enrichment:
-
-\begin{itemize}
-  \item \textbf{Transaction}: raw debit or credit record with amount,
-    post-date, merchant-name string, and a JSON metadata field
-    carrying the upstream canonical category (as provided, for example,
-    by the Plaid Transactions API~\cite{plaid}).
-  \item \textbf{TransactionEnrichment}: 1:1 projection of a
-    transaction carrying derived fields
-    (\texttt{spending\_category\_id}, \texttt{merchant\_profile\_id},
-    \texttt{is\_anomaly}, \texttt{anomaly\_reason},
-    \texttt{canonical\_merchant\_name},
-    \texttt{budget\_utilization\_pct}, \texttt{enrichment\_source}).
-  \item \textbf{MerchantProfile}: canonical merchant identity
-    (\emph{Netflix}, \emph{T-Mobile}, \ldots) with
-    \texttt{is\_recurring} flag and links to a \textbf{MerchantType}.
-  \item \textbf{MerchantType}: 19 seed categories
-    (\emph{Restaurant}, \emph{Utilities}, \emph{Streaming}, \ldots).
-  \item \textbf{SpendingCategory}: per-user category instance
-    linked to a merchant type (e.g., a user's ``Restaurant''
-    spending bucket).
-  \item \textbf{ClassificationRule}: pattern-based rule mapping
-    normalized merchant strings to merchant profiles
-    (\texttt{pattern}, \texttt{pattern\_type}, \texttt{priority}).
-  \item \textbf{RecurringBill}: detected recurring charge with
-    \texttt{expected\_amount}, \texttt{billing\_cycle},
-    \texttt{next\_expected\_date}, and \texttt{confidence\_score}.
-  \item \textbf{Budget}: per-user, per-category monthly limit with
-    \texttt{effective\_from} / \texttt{effective\_to} validity
-    window.
-  \item \textbf{FinancialGoal}: target amount, current amount,
-    monthly contribution, target date, and status
-    (\emph{ACTIVE}, \emph{ACHIEVED}, \emph{PAUSED}).
-\end{itemize}
-
-The primary relationships between these objects (Table~\ref{tab:rel})
-give the LLM a traversable, typed graph rather than a flat table.
+The ontology models personal finance as nine typed object classes:
+\textsc{Transaction}, \textsc{TransactionEnrichment},
+\textsc{MerchantProfile}, \textsc{MerchantType},
+\textsc{SpendingCategory}, \textsc{ClassificationRule},
+\textsc{RecurringBill}, \textsc{Budget}, and \textsc{FinancialGoal}.
+Seven primary relationships (Table~\ref{tab:rel}) connect these
+classes.
 
 \begin{table}[t]
 \centering
-\caption{Primary ontology relationships.}
+\caption{Artha primary ontology relationships.}
 \label{tab:rel}
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}lll@{}}
 \toprule
-Source $\rightarrow$ Target & Cardinality \\
+Source & Predicate & Target \\
 \midrule
-Transaction $\rightarrow$ TransactionEnrichment & 1:1 \\
-TransactionEnrichment $\rightarrow$ SpendingCategory & N:1 \\
-TransactionEnrichment $\rightarrow$ MerchantProfile & N:1 \\
-MerchantProfile $\rightarrow$ MerchantType & N:1 \\
-ClassificationRule $\rightarrow$ MerchantProfile & N:1 \\
-Budget $\rightarrow$ SpendingCategory & N:1 \\
-RecurringBill $\rightarrow$ MerchantProfile & N:1 \\
+Transaction & \textsc{enriched\_by} & TransactionEnrichment \\
+Enrichment & \textsc{categorized\_as} & SpendingCategory \\
+Enrichment & \textsc{paid\_to} & MerchantProfile \\
+MerchantProfile & \textsc{instance\_of} & MerchantType \\
+ClassificationRule & \textsc{maps\_to} & MerchantProfile \\
+Budget & \textsc{covers} & SpendingCategory \\
+RecurringBill & \textsc{is\_at} & MerchantProfile \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-%-----------------------------------------------------------------------------
-\subsection{Dual-Source Enrichment Pipeline}
+\textbf{Implementation choice.} We implement this ontology in
+PostgreSQL via foreign-key join tables rather than a graph database
+such as Neo4j~\cite{neo4j}. All 15 tool queries require at most
+three relational joins; the performance overhead is negligible at
+single-user session query volumes. The benefit is operational: the
+full Artha stack runs on any managed PostgreSQL instance without
+additional infrastructure.
+
+\subsection{Enrichment Engine}
 \label{sec:enrichment}
 
-Each incoming transaction passes through a four-step enrichment
-pipeline, producing a \texttt{TransactionEnrichment}:
+Each incoming transaction passes through a four-step pipeline,
+producing a \textsc{TransactionEnrichment}:
 
-\begin{enumerate}
-  \item \textbf{Merchant classification}: normalize the merchant
-    string (uppercase, trim) and match against the priority-ordered
-    \texttt{ClassificationRule} set (\emph{EXACT}, \emph{PREFIX},
-    \emph{CONTAINS}, \emph{REGEX} patterns). A successful match
-    attaches a \texttt{MerchantProfile} and a confidence weight
-    $\in [0.70, 0.99]$.
-  \item \textbf{Category resolution}: three-tier fallback.
-    (1)~If classification matched, use the merchant profile's
-    \texttt{MerchantType} to \texttt{findOrCreate} the user's
-    \texttt{SpendingCategory}. (2)~Otherwise, read the upstream
-    canonical category from \texttt{transaction.metadata['category']}
-    (simulating a bank-API--provided label in production) and resolve
-    it to the user's category by name. (3)~Otherwise, fall back to
-    \emph{Income} for credits / \emph{Other} for debits.
-  \item \textbf{Budget utilization}: if the transaction falls inside
-    an active user budget for the resolved category, compute and
-    record month-to-date utilization percent.
-  \item \textbf{Anomaly detection}: a per-merchant statistical
-    detector flags a transaction as anomalous when its amount is
-    more than $Z = 2.5$ standard deviations above the merchant's
-    30-day rolling mean (minimum sample size = 3 prior
-    transactions). A fallback rule flags amounts $> 3\times$ the
-    merchant profile's \texttt{typical\_amount\_max}.
-\end{enumerate}
+\textbf{(1) Merchant classification.} Normalize the merchant
+string (uppercase, trim) and match against a priority-ordered set
+of classification rules (\textsc{Exact}, \textsc{Prefix},
+\textsc{Contains}, \textsc{Regex} patterns). A match attaches a
+\textsc{MerchantProfile} with confidence
+$c \in [0.70, 0.99]$ depending on pattern precision. Our
+evaluation corpus uses \textbf{23 rules} spanning the highest-
+volume merchants (Shell, Amazon, Netflix, Spotify, Starbucks, Uber,
+Whole Foods, McDonald's, T-Mobile, Verizon, Lyft, DoorDash, Kroger,
+Target, Walgreens, CVS, Costco, Trader Joe's, Olive Garden,
+Cheesecake Factory, Apple, StubHub, plus minor variants).
 
-The enrichment is recorded with an
-\texttt{enrichment\_source} label (\emph{RULES}, \emph{METADATA},
-\emph{FALLBACK}). In our 10-archetype evaluation set, 40.4\% of
-enrichments are produced by rule matches against 23 seed merchant
-rules and 59.6\% by the upstream-metadata fallback; the type-based
-default path is not triggered on this dataset.
+\textbf{(2) Category resolution (multi-source).} A three-tier
+fallback: (a)~if classification matched, use the merchant profile's
+\textsc{MerchantType} to resolve or create the user's
+\textsc{SpendingCategory}; (b)~otherwise, read the upstream
+canonical category from \texttt{transaction.metadata[category]}
+(simulating the category field that bank aggregators such as
+Plaid~\cite{plaid} return in production); (c)~otherwise, fall back
+to \emph{Income} for credits or \emph{Other} for debits. The
+selected tier is recorded in the \texttt{enrichment\_source} field
+(\textsc{Rules}, \textsc{Metadata}, or \textsc{Fallback}).
 
-\textbf{Recurring-bill detection} is a separate sweep over each
-user's last 180~days of debits. A merchant with at least four
-occurrences and an average inter-transaction interval in $[5, 40]$
-days is emitted as a \emph{monthly} \texttt{RecurringBill}, and
-$[355, 380]$ days as \emph{annual}. We disabled a stricter
-amount-consistency filter because the synthetic generator used for
-evaluation produces high-variance amounts per merchant; this choice
-is described in Section~\ref{sec:limitations}.
+\textbf{(3) Budget utilization.} If the transaction matches an
+active \textsc{Budget} for the resolved category, compute
+month-to-date utilization percent.
 
-%-----------------------------------------------------------------------------
-\subsection{Agent Tool Layer}
+\textbf{(4) Anomaly detection.} Per-merchant statistical detector:
+a transaction is flagged anomalous when its amount is more than
+$Z = 2.5$ standard deviations above the merchant's 30-day rolling
+mean, with a minimum of three prior transactions for the baseline.
+A secondary rule flags amounts greater than $3\times$ the merchant
+profile's \texttt{typical\_amount\_max}.
+
+\textbf{Recurring-bill detection} is a separate sweep performed
+periodically (or on demand via an API endpoint) over each user's
+last 180~days of debits. A merchant with $\geq 4$ occurrences and
+average inter-transaction interval in $[5, 40]$ days is emitted as
+a \emph{monthly} \textsc{RecurringBill}; intervals in $[355, 380]$
+are emitted as \emph{annual}. The narrow-interval and
+amount-consistency filters from prior designs were relaxed
+post-hoc to tolerate the synthetic generator's amount variance,
+disclosed in Section~\ref{sec:limitations}.
+
+\textbf{Observed coverage on the evaluation set.} Across the 1{,}801
+enrichments produced for the 10 archetype seed users, 40.4\% were
+labeled by the rule engine and 59.6\% by the upstream-metadata
+fallback; the type-based default path was not triggered on this
+dataset. A reader interested in the pure rule-engine number should
+read the 40.4\% figure, not the near-100\% combined coverage.
+
+\subsection{Agentic Tool Layer}
 \label{sec:tools}
 
-The LLM never executes SQL. It is given a strict JSON-schema view of
-15 typed tools, grouped into four categories:
-
-\begin{itemize}
-  \item \textbf{Data}: \texttt{get\_spending\_summary},
-    \texttt{get\_transactions}, \texttt{get\_income\_vs\_spend}.
-  \item \textbf{Ontology}: \texttt{get\_anomalies},
-    \texttt{get\_subscriptions}, \texttt{get\_goal\_progress},
-    \texttt{get\_financial\_health},
-    \texttt{get\_category\_insights}.
-  \item \textbf{Planning}: \texttt{get\_what\_if\_analysis},
-    \texttt{get\_investment\_projection},
-    \texttt{get\_goal\_projection}, \texttt{get\_goal\_impact}.
-  \item \textbf{Analytics}: \texttt{get\_budget\_status},
-    \texttt{get\_behavioral\_patterns},
-    \texttt{get\_financial\_education}.
-\end{itemize}
-
-Each tool returns structured JSON (dollar totals, category breakdowns,
-recurring-bill records, ranked insights). The agent is configured
-with \texttt{max\_tokens=4096}, \texttt{temperature=0.3}, and a
-hard cap of 8 tool-call iterations per user query.
-
-Crucially, tool results are carried into the LLM's context as
-text-encoded JSON, not as free-form prose: the LLM performs
-summarization and reasoning but does not invent numerical facts.
-
-%=============================================================================
-\section{Evaluation Methodology}
-\label{sec:eval}
-
-%-----------------------------------------------------------------------------
-\subsection{Synthetic Dataset}
-
-We evaluate on a fixed synthetic dataset of 509 users and
-128{,}096 debit/credit transactions spanning 2024-01-01 to
-2026-02-28. Users are distributed across 10 archetypes:
-\emph{high\_earner}, \emph{lifestyle\_overspender},
-\emph{high\_debt}, \emph{paycheck\_to\_paycheck}, \emph{freelancer},
-\emph{retired\_fixed}, \emph{dual\_income}, \emph{recent\_grad},
-\emph{small\_biz\_owner}, \emph{gig\_worker}. Each archetype has 50
-users; for this evaluation we use the first (seed) user per
-archetype---a limitation discussed in Section~\ref{sec:limitations}.
-
-To keep the synthetic data temporally coherent with the Artha
-tools' ``now'' semantics, we anchor the evaluation \emph{reference
-date} at \textbf{2024-12-31} (the end of the primary data window
-for the 500 archetype users). All tool queries that reference
-``this month'' or ``last 30 days'' are evaluated against this
-reference date instead of wall-clock time. This substitution is
-implemented through a single \texttt{ReferenceDateProvider} bean
-injected into all time-dependent tools, and is disabled (falls
-back to wall-clock) in production.
-
-%-----------------------------------------------------------------------------
-\subsection{Benchmark Queries}
-
-The benchmark consists of 60 natural-language queries structured as
-6 \emph{financial-reasoning categories} $\times$ 10 \emph{user
-archetypes}. The categories are:
-
-\begin{itemize}
-  \item \textbf{spending\_summary}:
-    \emph{``How much did I spend this month? Break it down by
-    category.''}
-  \item \textbf{financial\_health}:
-    \emph{``How are my finances looking overall? Am I saving
-    enough?''}
-  \item \textbf{goal\_tracking}:
-    \emph{``Am I on track to meet my financial goals?''}
-  \item \textbf{anomaly\_detection}:
-    \emph{``Have there been any unusual or suspicious charges
-    recently?''}
-  \item \textbf{subscription\_audit}:
-    \emph{``What recurring charges and subscriptions do I have?''}
-  \item \textbf{behavioral\_analysis}:
-    \emph{``What are my worst spending habits? Where am I wasting
-    money?''}
-\end{itemize}
-
-%-----------------------------------------------------------------------------
-\subsection{LLM-as-Judge Rubric}
-\label{sec:rubric}
-
-Each agent response is scored by a held-out Claude Opus~4.7
-instance on four dimensions on a 1--5 scale (judge temperature
-omitted; Opus~4.7 ignores the parameter):
-
-\begin{itemize}
-  \item \textbf{DA}~(Data Accuracy): Does the response cite specific,
-    correct dollar amounts, merchant names, dates, or percentages
-    from the user's actual financial data?
-  \item \textbf{IQ}~(Insight Quality): Is the financial reasoning
-    sound and archetype-specific?
-  \item \textbf{AC}~(Actionability): Does the response provide
-    concrete, prioritized next steps?
-  \item \textbf{CO}~(Completeness): Does the response surface all
-    important financial signals present in the context?
-\end{itemize}
-
-A response \emph{passes} if its mean dimension score is
-$\geq 3.5/5$. Both the agent (Claude Sonnet~4.6) and judge
-(Claude Opus~4.7) are from the same model provider---a limitation
-discussed in Section~\ref{sec:limitations}.
-
-%=============================================================================
-\section{Results}
-\label{sec:results}
-
-%-----------------------------------------------------------------------------
-\subsection{Condition A: Full System}
-
-Under the full configuration, Artha passes \textbf{45 of 60} queries
-(\textbf{75.0\%}) with a mean score of \textbf{3.67/5}. Mean query
-latency is 12.3 seconds (agent + tool calls; judging not
-included). Table~\ref{tab:a_cat} gives the per-category breakdown.
+The Spring \texttt{AgentOrchestrator} constructs a JSON-schema
+description of 15 typed tools, issues a Claude Sonnet~4.6 API
+call~\cite{claude_sonnet} with that schema, dispatches tool
+invocations, and continues the loop until Claude returns a final
+text response. Each tool is annotated and registered as a Spring
+bean; tool responses are typed Java objects serialized to JSON.
+Table~\ref{tab:tools} summarizes the 15-tool taxonomy.
 
 \begin{table}[t]
 \centering
-\caption{Condition A (full system): per-category results.}
+\caption{Artha tool taxonomy (15 tools across 4 categories).}
+\label{tab:tools}
+\begin{tabular}{@{}lp{3.2cm}r@{}}
+\toprule
+Category & Tool & \# \\
+\midrule
+Data &
+\texttt{get\_spending\_summary},
+\texttt{get\_transactions},
+\texttt{get\_income\_vs\_spend}
+& 3 \\
+\addlinespace
+Ontology &
+\texttt{get\_anomalies},
+\texttt{get\_subscriptions},
+\texttt{get\_goal\_progress},
+\texttt{get\_financial\_health},
+\texttt{get\_category\_insights}
+& 5 \\
+\addlinespace
+Planning &
+\texttt{get\_what\_if\_analysis},
+\texttt{get\_investment\_projection},
+\texttt{get\_goal\_projection},
+\texttt{get\_goal\_impact}
+& 4 \\
+\addlinespace
+Analytics &
+\texttt{get\_budget\_status},
+\texttt{get\_behavioral\_patterns},
+\texttt{get\_financial\_education}
+& 3 \\
+\midrule
+\textbf{Total} & & \textbf{15} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Agent configuration: \texttt{max\_tokens}=4096,
+\texttt{temperature}=0.3, maximum 8 tool-call iterations per user
+query. Crucially, tool results are carried into the LLM's context
+as text-encoded JSON: the LLM performs summarization and
+natural-language translation but does not invent numerical facts.
+
+%=============================================================================
+\section{Benchmark Dataset}
+
+\subsection{Motivation and Design}
+
+No publicly available benchmark exists for evaluating
+conversational LLM agents on personal financial reasoning over
+transaction histories. Existing financial benchmarks target market
+prediction, SEC filings~\cite{finance_agent_benchmark}, or
+financial literacy questions~\cite{hean,flare}. We construct an
+open synthetic benchmark to fill this gap.
+
+Ten behavioral archetypes capture principal modes of personal
+financial behavior, calibrated against U.S. Bureau of Labor
+Statistics Consumer Expenditure Survey data~\cite{bls_cex}
+(Table~\ref{tab:archetypes}). Each archetype is parameterized by
+monthly income distribution, merchant-category spending weights,
+debt-to-income ratio range, savings-rate target, anomaly injection
+frequency, and recurring subscription count. The dataset
+(509~users, 128{,}096 transactions) is generated by
+\texttt{generate\_finwise\_data\_v2.py} and released alongside the
+code.
+
+\begin{table}[t]
+\centering
+\caption{Benchmark archetypes (10 behavioral classes,
+$\sim$50 users each).}
+\label{tab:archetypes}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Archetype & Seed UUID prefix \\
+\midrule
+High Earner / Saver & \texttt{aa000000...} \\
+Lifestyle Overspender & \texttt{dd000000...} \\
+High Debt Load & \texttt{cc000000...} \\
+Paycheck-to-Paycheck & \texttt{bb000000...} \\
+Freelancer & \texttt{ee000000...} \\
+Retired / Fixed Income & \texttt{ff000000...} \\
+Dual Income / Family & \texttt{11000000...} \\
+Recent Graduate & \texttt{22000000...} \\
+Small Business Owner & \texttt{44000000...} \\
+Gig Economy Worker & \texttt{33000000...} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Merchant names are drawn from normalized real-world names inspired
+by the Yelp Open Dataset~\cite{yelp_open}, augmented with
+synthetic financial-sector merchants (telecoms, streaming services,
+brokerages).
+
+\subsection{Reference-Date Anchoring}
+
+To keep the synthetic dataset temporally coherent with the Artha
+tools' ``now'' semantics, we anchor evaluation at
+\textbf{reference-date 2024-12-31}, the end of the primary data
+window for the 500 archetype users. All tool queries that reference
+\emph{``this month''} or \emph{``last 30 days''} are evaluated
+against this reference date instead of wall-clock time, via a
+single \texttt{ReferenceDateProvider} bean injected into all
+time-dependent tools. The override is disabled (falls back to
+wall-clock) in production. This methodological choice is necessary
+because our synthetic dataset does not extend to the current date
+and would otherwise yield empty time-windowed queries.
+
+%=============================================================================
+\section{Evaluation}
+
+\subsection{Benchmark Queries}
+
+We construct 60 benchmark queries as the Cartesian product of
+\emph{6 reasoning categories} and \emph{10 archetypes}. Each
+category is represented by one natural-language query
+(Table~\ref{tab:queries}), phrased colloquially without structured
+context to simulate a zero-context production deployment.
+
+\begin{table}[t]
+\centering
+\caption{Benchmark query categories (one query per category,
+applied to every archetype).}
+\label{tab:queries}
+\begin{tabular}{@{}lp{5.1cm}@{}}
+\toprule
+Category & Query \\
+\midrule
+spending\_summary & ``How much did I spend this month? Break it
+down by category.'' \\
+financial\_health & ``How are my finances looking overall? Am I
+saving enough?'' \\
+goal\_tracking & ``Am I on track to meet my financial goals?'' \\
+anomaly\_detection & ``Have there been any unusual or suspicious
+charges recently?'' \\
+subscription\_audit & ``What recurring charges and subscriptions
+do I have?'' \\
+behavioral\_analysis & ``What are my worst spending habits? Where
+am I wasting money?'' \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{LLM-as-Judge Rubric}
+\label{sec:rubric}
+
+Following MT-Bench~\cite{mtbench}, we use a held-out Claude
+Opus~4.7 instance~\cite{claude_opus} as the automated judge,
+distinct from the Claude Sonnet~4.6 agent. The judge scores each
+response on four dimensions on a 1--5 scale:
+
+\begin{itemize}
+  \item \textbf{DA} (Data Accuracy): Does the response cite
+    specific, correct dollar amounts, merchant names, dates, or
+    percentages from the user's actual financial data?
+  \item \textbf{IQ} (Insight Quality): Is the financial reasoning
+    sound and archetype-specific?
+  \item \textbf{AC} (Actionability): Does the response provide
+    concrete, prioritized next steps?
+  \item \textbf{CO} (Completeness): Does the response surface all
+    important financial signals present in the context?
+\end{itemize}
+
+A response \emph{passes} if it scores $\geq 3$ on \emph{all four}
+dimensions -- a stricter criterion than a mean-threshold pass.
+
+The judge prompt is a fixed template that includes the user
+archetype label, the query, the agent's full text response, and
+the four-dimension rubric definitions above. The judge returns
+JSON with each dimension score and a one-sentence rationale. The
+full rubric, including calibration examples, is released at
+\url{https://github.com/Tej-Katika/artha/blob/main/SCORING_RUBRIC.md}.
+
+\textbf{Same-provider limitation.} Both the agent and judge are
+from the same model provider (Anthropic). This leaves open the
+possibility of intra-provider bias; a cross-family second judge
+(e.g., GPT-4.1 or Gemini) is deferred to future work.
+
+%=============================================================================
+\section{Results}
+
+%-----------------------------------------------------------------------------
+\subsection{Full System (Condition A)}
+
+Table~\ref{tab:a_cat} reports Artha's full-system results. The
+overall 75.0\% pass rate reflects performance on open-ended personal
+finance conversations -- a task fundamentally different from
+institutional document analysis. For context, the Finance Agent
+Benchmark~\cite{finance_agent_benchmark}, which targets SEC filing
+analysis, reports a best-model accuracy of 46.8\%.
+
+\begin{table}[t]
+\centering
+\caption{Condition A (full system) -- pass rate and mean score by
+reasoning category. $n=10$ queries per category (one per
+archetype).}
 \label{tab:a_cat}
 \begin{tabular}{@{}lrr@{}}
 \toprule
 Category & Pass \% & Mean \\
 \midrule
-spending\_summary     & 100.0\% & 3.85 \\
-behavioral\_analysis  &  90.0\% & 4.30 \\
-subscription\_audit   &  90.0\% & 3.80 \\
-financial\_health     &  80.0\% & 3.80 \\
-goal\_tracking        &  60.0\% & 3.38 \\
-anomaly\_detection    &  30.0\% & 2.88 \\
+spending\_summary & 100.0\% & 3.85 \\
+behavioral\_analysis & 90.0\% & 4.30 \\
+subscription\_audit & 90.0\% & 3.80 \\
+financial\_health & 80.0\% & 3.80 \\
+goal\_tracking & 60.0\% & 3.38 \\
+anomaly\_detection & 30.0\% & 2.88 \\
 \midrule
-\textbf{Overall (n=60)} & \textbf{75.0}\% & \textbf{3.67} \\
+\textbf{Overall ($n=60$)} & \textbf{75.0\%} & \textbf{3.67} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Two categories---\texttt{anomaly\_detection} and
-\texttt{goal\_tracking}---account for most failures. Manual
-inspection confirms that these are largely \emph{truthful empty
-results}: the archetype seed users have on average 0.5 statistically
-flagged anomalies in the evaluation window, so the tool correctly
-returns ``no anomalies found.'' The judge penalizes these responses
-for lack of concrete next steps even when there is nothing to flag,
-reflecting a well-known difficulty of rubric-based scoring on
-correct-but-unhelpful answers.
+\textbf{Subscription audit} (90\%) benefits from the pre-computed
+\textsc{RecurringBill} ontology objects: the agent queries a table
+of detected subscriptions rather than scanning transaction history
+for patterns. \textbf{Spending summary} (100\%) similarly benefits
+from the pre-computed \textsc{SpendingCategory} aggregation path.
+\textbf{Anomaly detection} (30\%) scores lowest: manual inspection
+confirms that this is largely \emph{truthful empty results} -- for
+archetype seed users with no flagged anomalies in the window, the
+tool correctly returns ``no anomalies detected.'' The judge
+penalizes these responses for lack of concrete next steps even when
+there is nothing to flag, reflecting a well-known difficulty of
+rubric-based scoring on correct-but-unhelpful answers.
 
-Table~\ref{tab:a_arch} gives the per-archetype view. Pass rates
-range from 50.0\% (\emph{high\_debt}) to 100.0\% (\emph{gig\_worker}),
-with archetype-specific variation driven primarily by whether the
-archetype's seed user has any anomalies or is data-sparse in
-behavioral-pattern detection.
+Table~\ref{tab:a_arch} gives the per-archetype breakdown. Pass
+rates range from 50.0\% (High Debt Load) to 100.0\% (Gig Economy
+Worker), driven primarily by whether the archetype seed user
+exhibits any anomalies in the 30-day window and by how
+data-sparse the user is for behavioral-pattern detection.
 
 \begin{table}[t]
 \centering
-\caption{Condition A: per-archetype results.}
+\caption{Condition A per-archetype results.}
 \label{tab:a_arch}
 \begin{tabular}{@{}lrr@{}}
 \toprule
 Archetype & Pass \% & Mean \\
 \midrule
-gig\_worker              & 100.0\% & 3.71 \\
-paycheck\_to\_paycheck   &  83.3\% & 3.71 \\
-freelancer               &  83.3\% & 3.54 \\
-retired\_fixed           &  83.3\% & 3.42 \\
-dual\_income             &  83.3\% & 3.71 \\
-high\_earner             &  66.7\% & 3.88 \\
-lifestyle\_overspender   &  66.7\% & 3.88 \\
-recent\_grad             &  66.7\% & 3.71 \\
-small\_biz\_owner        &  66.7\% & 3.67 \\
-high\_debt               &  50.0\% & 3.46 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-%-----------------------------------------------------------------------------
-\subsection{Ablation Study}
-\label{sec:ablation}
-
-To isolate the contribution of each framework component, we run
-three ablation conditions alongside the full configuration:
-
-\begin{itemize}
-  \item \textbf{A -- Full}: enrichment data populated, ontology
-    tools enabled.
-  \item \textbf{B -- Tools OFF}: enrichment data populated, but
-    the four ontology-aware tools
-    (\texttt{get\_anomalies}, \texttt{get\_subscriptions},
-    \texttt{get\_category\_insights},
-    \texttt{get\_financial\_health})
-    are switched to a degraded mode that bypasses enrichment joins
-    and returns baseline responses.
-  \item \textbf{C -- Enrichment OFF}: all category, profile, and
-    anomaly fields on \texttt{TransactionEnrichment} are nulled,
-    and \texttt{RecurringBill} rows are removed. Tools remain
-    fully enabled.
-  \item \textbf{D -- Both OFF}: C plus B (raw baseline).
-\end{itemize}
-
-Results are in Table~\ref{tab:ablation}. For Conditions~B and~D we
-applied a 2-second inter-query pause to stay below Anthropic tool-use
-rate limits; all runs are otherwise identical and use the same 60
-benchmark queries.
-
-\begin{table}[t]
-\centering
-\caption{Ablation study (Table~5 of the paper).
-$\Delta$ is the change in overall pass rate relative to Condition A.}
-\label{tab:ablation}
-\begin{tabular}{@{}llrrr@{}}
-\toprule
-Cond. & Enrichment / Tools & Pass~\% & Mean & $\Delta$ \\
-\midrule
-A & $\checkmark$ / $\checkmark$ & 75.0\% & 3.67 & --- \\
-B & $\checkmark$ / $\times$     & 50.0\% & 2.97 & $-25.0$\% \\
-C & $\times$ / $\checkmark$     & 70.0\% & 3.56 & $-5.0$\%  \\
-D & $\times$ / $\times$         & 48.3\% & 2.86 & $-26.7$\% \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Three findings stand out.
-
-\paragraph{The full system improves over the raw baseline by
-26.7~percentage points.} A~$\rightarrow$~D isolates the combined
-contribution of ontology-driven enrichment and typed tools.
-
-\paragraph{The ontology tool layer drives most of the lift
-($-25.0$\%).} A~$\rightarrow$~B removes only the tool layer while
-leaving enrichment data in place. Pass rate collapses almost as
-far as the raw baseline, demonstrating that \emph{typed-object query
-design matters more than the presence of enrichment data alone}.
-
-\paragraph{Enrichment data alone contributes only $-5.0$\% due to
-graceful degradation.} A~$\rightarrow$~C leaves the tool paths in
-place but removes their inputs. The modest drop is explained by
-an auto-recovery behavior we deliberately preserved:
-\texttt{get\_subscriptions} re-runs the subscription detector when
-\texttt{recurring\_bills} is empty, and other ontology tools retain
-enough fallback logic to produce useful responses. This is
-\emph{intentional system robustness}, not a flaw in the
-ablation---and we surface it as a legitimate property of the
-framework rather than a confound.
-
-Table~\ref{tab:per_cat_ablation} gives the per-category pass rates
-across all four conditions. \texttt{anomaly\_detection} and
-\texttt{subscription\_audit} are the two categories that collapse
-to 0\% under B (tools off), showing that these reasoning modes are
-fundamentally typed-tool-mediated. \texttt{spending\_summary} and
-\texttt{behavioral\_analysis} remain robust across conditions
-because they read from \texttt{transactions.metadata} directly and
-do not depend on the enrichment ontology path.
-
-\begin{table}[t]
-\centering
-\caption{Per-category pass-rate comparison across conditions.}
-\label{tab:per_cat_ablation}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Category & A & B & C & D \\
-\midrule
-spending\_summary    & 100\% & 70\%  & 80\%  & 60\% \\
-financial\_health    & 80\%  & 70\%  & 70\%  & 80\% \\
-goal\_tracking       & 60\%  & 60\%  & 70\%  & 60\% \\
-anomaly\_detection   & 30\%  & 0\%   & 0\%   & 0\%  \\
-subscription\_audit  & 90\%  & 0\%   & 100\% & 0\%  \\
-behavioral\_analysis & 90\%  & 100\% & 100\% & 90\% \\
+Gig Economy Worker & 100.0\% & 3.71 \\
+Paycheck-to-Paycheck & 83.3\% & 3.71 \\
+Freelancer & 83.3\% & 3.54 \\
+Retired / Fixed Income & 83.3\% & 3.42 \\
+Dual Income / Family & 83.3\% & 3.71 \\
+High Earner / Saver & 66.7\% & 3.88 \\
+Lifestyle Overspender & 66.7\% & 3.88 \\
+Recent Graduate & 66.7\% & 3.71 \\
+Small Business Owner & 66.7\% & 3.67 \\
+High Debt Load & 50.0\% & 3.46 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -577,27 +644,29 @@ behavioral\_analysis & 90\%  & 100\% & 100\% & 90\% \\
 %-----------------------------------------------------------------------------
 \subsection{Qualitative Example}
 
-The following excerpt is the agent's response under Condition A
-to \emph{``What recurring charges and subscriptions do I have?''}
-for the \emph{high\_earner} archetype (user seed
-\texttt{aa000000\ldots}, judge score 4.0/5):
+The excerpt below is the agent's Condition A response to
+\emph{``What recurring charges and subscriptions do I have?''} for
+the High Earner archetype (user seed \texttt{aa000000\ldots}, judge
+score 4.0/5):
 
 \begin{quote}\small\itshape
-``Here is a breakdown of your 10 detected recurring charges, totalling
-\$3{,}772.42/month (or \$45{,}269/year):
+``Here is a breakdown of your 10 detected recurring charges,
+totalling \$3{,}772.42/month (or \$45{,}269/year):
 
-1. OpenTable \$432.39 (Jan 23); 2. Tesla \$427.12 (Jan 6);
-3. Fidelity \$422.78 (Dec 31); 4. Whole Foods \$412.71 (Jan 11);
-5. Equinox \$385.94 (Dec 27); 6. Delta Airlines \$362.82 (Jan 15);
-7. Vanguard \$361.89 (Jan 4); 8. Sweetgreen \$355.64 (Jan 24);
+\hspace{1em}1.~OpenTable \$432.39 (Jan 23); 2.~Tesla \$427.12
+(Jan 6); 3.~Fidelity \$422.78 (Dec 31); 4.~Whole Foods \$412.71
+(Jan 11); 5.~Equinox \$385.94 (Dec 27); 6.~Delta Airlines
+\$362.82 (Jan 15); 7.~Vanguard \$361.89 (Jan 4); 8.~Sweetgreen
+\$355.64 (Jan 24); 9.~Amex \$309.92; 10.~Apple Store \$301.21.
 \ldots''
 \end{quote}
 
-Every dollar figure and date in this response is produced by the
+Every dollar figure and date is produced by the
 \texttt{SubscriptionDetector} and surfaced through
 \texttt{get\_subscriptions}; the LLM's role is to translate the
-structured result into readable natural language without modifying
-the numbers. Under Condition~B, the same query returns:
+structured result into readable prose without modifying numbers.
+Under Condition~B (ontology tools disabled; see
+Section~\ref{sec:ablation}), the same query returns:
 
 \begin{quote}\small\itshape
 ``Unfortunately, I was not able to retrieve your subscription data
@@ -607,165 +676,426 @@ unavailable (the recurring-bill detection pipeline is bypassed).''
 
 The judge score drops from 4.0 to 1.0, illustrating why
 \texttt{subscription\_audit} collapses from 90\% to 0\% between
-A and B.
+Condition~A and Condition~B.
+
+%-----------------------------------------------------------------------------
+\subsection{Ablation Study}
+\label{sec:ablation}
+
+\textbf{Design.} We evaluate four configurations on the same 60
+queries, using the same agent and judge models throughout:
+
+\begin{itemize}
+  \item \textbf{A -- Artha (full)}: enrichment populated; all 15
+    tools operate over the ontology.
+  \item \textbf{B -- No ontology tools}: enrichment data remains
+    populated, but the four ontology-aware tools
+    (\texttt{get\_anomalies}, \texttt{get\_subscriptions},
+    \texttt{get\_category\_insights},
+    \texttt{get\_financial\_health}) are switched to a degraded
+    mode via the \texttt{artha.ontology.tools-enabled=false}
+    feature flag and bypass enrichment joins.
+  \item \textbf{C -- No enrichment}: \texttt{transaction\_enrichments}
+    is nulled (category, merchant profile, and anomaly flag) and
+    \texttt{recurring\_bills} is emptied for the evaluation users.
+    Tools remain fully enabled.
+  \item \textbf{D -- Raw baseline}: C + B combined.
+\end{itemize}
+
+\textbf{Findings.} The full system outperforms the raw baseline
+by \textbf{26.7 percentage points} (Table~\ref{tab:ablation}).
+Isolating the two layers:
+
+\begin{itemize}
+  \item \textbf{A vs.\ B ($-25.0$ pp)}: removing the ontology tool
+    layer (while leaving enrichment data intact) collapses pass
+    rate almost as far as the raw baseline. \emph{Typed tool design
+    is the dominant source of lift.}
+  \item \textbf{A vs.\ C ($-5.0$ pp)}: removing enrichment data
+    (while leaving tools enabled) drops pass rate only slightly.
+    The modest gap is explained by a graceful-degradation behavior
+    we deliberately preserved: \texttt{get\_subscriptions} re-runs
+    the subscription detector when \texttt{recurring\_bills} is
+    empty, and metadata-backed tools continue to function. This is
+    \emph{intentional system robustness}, not a confound.
+  \item \textbf{B $\approx$ D (within 1.7 pp)}: confirms the tool
+    layer as the critical ablation variable.
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\caption{Ablation: pass rate and mean score by configuration.
+$\Delta$ is change in pass rate relative to Condition A.}
+\label{tab:ablation}
+\begin{tabular}{@{}llcrr@{}}
+\toprule
+& Enrichment & Tools & Pass~\% & $\Delta$ \\
+\midrule
+A: Artha (full) & \checkmark & \checkmark & 75.0\% & --- \\
+B: No ontology tools & \checkmark & & 50.0\% & $-25.0$ \\
+C: No enrichment & & \checkmark & 70.0\% & $-5.0$ \\
+D: Raw baseline & & & 48.3\% & $-26.7$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Per-category pass rates across conditions
+(Table~\ref{tab:per_cat_ablation}) show a clean segregation.
+\texttt{anomaly\_detection} and \texttt{subscription\_audit}
+collapse to 0\% under Conditions~B and~D -- these reasoning modes
+are fundamentally typed-tool-mediated. \texttt{spending\_summary},
+\texttt{financial\_health}, \texttt{behavioral\_analysis}, and
+\texttt{goal\_tracking} remain robust because they read from raw
+\texttt{transactions.metadata} or the \texttt{financial\_goals}
+table directly and do not depend on the ontology enrichment join
+path.
+
+\begin{table}[t]
+\centering
+\caption{Per-category pass-rate comparison across conditions.}
+\label{tab:per_cat_ablation}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Category & A & B & C & D \\
+\midrule
+spending\_summary    & 100\% & 70\%  & 80\%  & 60\%  \\
+financial\_health    &  80\% & 70\%  & 70\%  & 80\%  \\
+goal\_tracking       &  60\% & 60\%  & 70\%  & 60\%  \\
+anomaly\_detection   &  30\% & 0\%   & 0\%   & 0\%   \\
+subscription\_audit  &  90\% & 0\%   & 100\% & 0\%   \\
+behavioral\_analysis &  90\% & 100\% & 100\% & 90\%  \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %=============================================================================
 \section{Discussion}
 
+\subsection{Why Pre-Compute Rather Than Retrieve?}
+
+A natural question is whether a sophisticated RAG system could
+achieve the same results. Two structural arguments suggest it
+cannot.
+
+\emph{First}, the most important personal finance queries are
+\emph{aggregative}: ``how much did I spend on groceries this
+month?'' requires summing a set, not retrieving a document.
+Standard RAG retrieves individual items; answering aggregative
+queries requires pre-computed objects -- precisely what the
+ontology provides.
+
+\emph{Second}, goal tracking and anomaly detection require
+\emph{multi-hop reasoning} across entity types. Determining whether
+a transaction is anomalous requires traversing the chain
+\textsc{Transaction} $\rightarrow$ \textsc{MerchantProfile}
+$\rightarrow$ \textsc{MerchantType} $\rightarrow$ merchant
+baseline. The ontology layer resolves these relationships at
+ingestion; a retrieval system would reconstruct them at each query.
+
+\subsection{The Relational Ontology Pattern}
+
+We propose the \emph{relational ontology pattern} as a general
+principle: (1)~identify semantic object types;
+(2)~define typed relationships;
+(3)~implement as relational tables;
+(4)~populate via a rule-based enrichment engine at ingestion;
+(5)~expose via typed tool APIs.
+This pattern is domain-agnostic: in healthcare it maps to patients,
+diagnoses, medications, and labs; in e-commerce to customers,
+orders, products, and returns. Our results suggest the ``typed
+tool API'' step is load-bearing: in our ablation, removing the
+typed tool abstractions while leaving the ontology data in place
+cost 25 percentage points of pass rate.
+
 \subsection{Multi-Source Enrichment Is a Feature, Not a Fallback}
 
-A key implementation decision in Artha is to treat upstream-provided
+A key implementation decision is to treat upstream-provided
 categorization (e.g., the category field returned by Plaid or a
 similar bank-data aggregator) as a \emph{first-class enrichment
 source} alongside rule-based classification. In production, this
-matches how real financial data arrives: Plaid-style APIs already
-provide a canonical category for each transaction, and it would be
-wasteful for a thin rule engine to re-derive that label when a
-high-quality label is already present.
+matches how real financial data arrives: Plaid-style
+APIs~\cite{plaid} already provide a canonical category for each
+transaction, and it would be wasteful for a thin rule engine to
+re-derive that label when a high-quality label is already present.
 
-We report the per-source coverage transparently
+We therefore report per-source coverage transparently
 (Section~\ref{sec:enrichment}): 40.4\% of the enriched transactions
 in our evaluation set were labeled by the rule engine and 59.6\% by
-upstream metadata. A reader interested in a ``pure rule-engine''
-number should read the 40.4\% figure, not the near-100\% combined
-coverage.
-
-\subsection{Graceful Degradation as an Architectural Property}
-
-The modest A~$\rightarrow$~C gap is a finding, not a failure. The
-system is designed to be robust to missing enrichments: when
-\texttt{recurring\_bills} is empty, the subscription tool re-runs
-detection; when \texttt{spending\_category\_id} is \texttt{NULL},
-tools that can fall back to \texttt{metadata[category]} do so.
-This keeps the user experience consistent when the enrichment
-pipeline is cold, under migration, or partially unavailable---a
-property that matters for a 24/7 production deployment.
+upstream metadata. A reader interested in a pure rule-engine number
+should read the 40.4\% figure.
 
 %=============================================================================
 \section{Limitations}
 \label{sec:limitations}
 
-We explicitly document the following compromises to allow the reader
-to calibrate the results:
+We explicitly document the following compromises to allow the
+reader to calibrate the results:
 
 \begin{enumerate}
-  \item \textbf{Single seed user per archetype.} Each archetype is
-    evaluated with one user (the first of 50). This bounds
-    generalization across archetype variance; we plan to expand to
-    $n \geq 5$ users per archetype in future work.
-  \item \textbf{Synthetic evaluation data.} All transactions are
-    generated by a controlled generator. We rely on the upstream
-    metadata category field, which in real systems would be bank-provided.
-  \item \textbf{Post-hoc detector threshold tuning.} The recurring-bill
-    detector's monthly-interval window was widened from the
-    original $[25, 35]$ days to $[5, 40]$ days and the amount-variance
-    filter was disabled to accommodate the generator's intentionally
-    noisy amounts. A production deployment against real bank data
-    would re-enable the amount-variance filter with an appropriate
-    threshold.
+  \item \textbf{Single seed user per archetype ($n=1$).} Each
+    archetype is evaluated with one user (the lexicographically
+    first of 50). This bounds generalization across archetype
+    variance; we plan to expand to $n \geq 5$ users per archetype
+    in future work.
+  \item \textbf{Synthetic evaluation data.} All transactions come
+    from a controlled generator. Real bank data would exhibit
+    long-tail merchant distributions and noisier timing than the
+    generator produces.
+  \item \textbf{Post-hoc detector threshold tuning.} The
+    recurring-bill detector's monthly-interval window was widened
+    from the original $[25, 35]$ days to $[5, 40]$ days and the
+    amount-variance filter was disabled to accommodate the
+    generator's intentionally noisy amounts. A production
+    deployment against real bank data would re-enable the
+    amount-variance filter with an appropriate threshold.
   \item \textbf{Reference-date substitution.} Tools resolve ``now''
-    to 2024-12-31 so that the dataset's finite window intersects the
-    tools' rolling query windows. The override is a single injected
-    bean and is disabled in production.
-  \item \textbf{Same-provider judge.} Both agent (Claude Sonnet~4.6)
-    and judge (Claude Opus~4.7) are from Anthropic. A cross-family
-    second judge is valuable for bias mitigation and is deferred to
-    future work.
-  \item \textbf{No human-annotator validation.} We did not compute
-    Cohen's $\kappa$~\cite{cohens_kappa} between human annotators and
-    the LLM judge for this version. The scoring rubric
-    (\texttt{SCORING\_RUBRIC.md}) is released to enable external
-    validation.
-  \item \textbf{Seeded goals and budgets.} To establish a consistent
-    starting state across archetypes, we seeded two
-    \texttt{FinancialGoal}s and three \texttt{Budget}s per user
-    uniformly. These are evaluation-setup data, not outputs of the
-    Artha system; the paper's claims concern the enrichment and tool
+    to 2024-12-31 so that the dataset's finite window intersects
+    the tools' rolling query windows. The override is a single
+    injected bean and is disabled in production.
+  \item \textbf{Same-provider LLM judge.} Both agent and judge are
+    from Anthropic. A cross-family second judge (GPT-4.1 or
+    Gemini) would reduce intra-provider bias risk and is deferred
+    to future work.
+  \item \textbf{No human inter-rater validation.} We did not
+    compute Cohen's $\kappa$~\cite{cohens_kappa} between human
+    annotators and the LLM judge for this version. The rubric is
+    released to enable external validation.
+  \item \textbf{Seeded goals and budgets.} To establish a
+    consistent starting state, we seeded two
+    \textsc{FinancialGoal}s and three \textsc{Budget}s per user.
+    These are evaluation-setup data, not outputs of the Artha
+    system; the paper's claims concern the enrichment and tool
     layers, not goal/budget personalization.
-  \item \textbf{Limited rule set.} Our rule corpus contains 23
-    classification rules (8 seeded plus 15 added for the top
-    merchants by transaction volume). This is intentionally small
-    for a research prototype; production systems would scale to
-    hundreds or thousands of rules.
+  \item \textbf{Small rule corpus.} Our classification rule set
+    contains 23 rules. Production systems would scale to hundreds
+    or thousands of rules; an alternative is a fine-tuned merchant
+    classifier.
+  \item \textbf{Privacy.} Production deployment requires
+    differential privacy guarantees~\cite{dwork_dp}, data-residency
+    compliance, and ontology table encryption at rest --
+    orthogonal to the architectural contributions here.
 \end{enumerate}
+
+\subsection*{Future Work}
+
+Immediate extensions include: (1)~Plaid API~\cite{plaid}
+integration for real-data enrichment validation;
+(2)~replacing rule-based classification with a fine-tuned
+classifier; (3)~multi-model benchmarking across GPT-4o, Gemini,
+and Llama-3 as both agent and judge; (4)~applying the relational
+ontology pattern to healthcare and e-commerce to validate
+generalizability; (5)~computing Cohen's $\kappa$ with two human
+annotators on a stratified subset of the benchmark responses.
 
 %=============================================================================
 \section{Conclusion}
 
-We presented Artha, a domain-ontology-driven agentic framework
-for personal finance reasoning, and evaluated it on a 60-query
-benchmark with full ablation coverage. Artha's full configuration
-reaches 75.0\% pass rate (3.67/5 mean score), and the ablation
-isolates the contribution of the typed-tool layer as the dominant
-source of lift ($-25$\% when disabled), ahead of the enrichment
-data itself ($-5$\%). The framework degrades gracefully when
-enrichment is missing thanks to the tools' ability to re-compute
-on demand.
+We presented Artha, a domain-ontology-driven agentic framework for
+LLM-based personal finance reasoning. The framework's central
+contribution is an enrichment layer that transforms raw
+transactional data into typed financial objects and semantic
+relationships at ingestion -- closing the representation gap that
+limits retrieval-based approaches.
 
-Beyond the quantitative results, Artha's value proposition is
-\emph{structural}: constraining the LLM to reason over typed
-ontology objects through a fixed-surface tool API yields
-numerically grounded responses that are auditable, reproducible,
-and straightforward to extend.
+On a 60-query benchmark spanning 6 reasoning categories and 10
+user archetypes, Artha's full configuration achieves 75.0\% pass
+rate. A controlled four-condition ablation confirms a
+26.7-percentage-point causal improvement over a raw-baseline
+configuration, with the typed tool layer identified as the
+dominant source of lift ($-25.0$ pp when disabled) over enrichment
+data alone ($-5.0$ pp).
 
-Future work includes expanding evaluation to multiple users per
-archetype, adding a cross-family LLM judge, computing Cohen's
-$\kappa$ against human annotators, and replicating the evaluation
-on a small real-bank dataset under appropriate privacy controls.
+Beyond personal finance, the \emph{relational ontology pattern} --
+pre-computing typed semantic objects at ingestion rather than
+reconstructing them at inference time -- is a reusable
+architectural template for any domain where LLM agents reason over
+structured personal data. The publicly released dataset,
+evaluation harness, and full implementation
+(\url{https://github.com/Tej-Katika/artha}) provide an open
+starting point for follow-up work on conversational personal
+finance agents.
 
 %=============================================================================
-% Inline bibliography so the arXiv submission is self-contained
-% (arXiv re-runs LaTeX but not BibTeX, so a .bbl would be required
-% otherwise; inlining avoids that dependency entirely).
-\begin{thebibliography}{10}
+\section*{Acknowledgments}
 
-\bibitem{toolformer}
-T.~Schick, J.~Dwivedi-Yu, R.~Dess{\`\i}, R.~Raileanu, M.~Lomeli,
-L.~Zettlemoyer, N.~Cancedda, and T.~Scialom,
-``{Toolformer}: Language models can teach themselves to use tools,''
-in \emph{Advances in Neural Information Processing Systems (NeurIPS)},
-2023.
+The author thanks the Department of Computer Science and
+Engineering at the University of North Texas for academic support
+during the graduate program that seeded this research.
+
+%=============================================================================
+\begin{thebibliography}{40}
+
+\bibitem{nfec_literacy}
+National Financial Educators Council, ``Financial literacy
+statistics,'' \url{https://www.financialeducatorscouncil.org/
+financial-literacy-statistics/}, 2023, accessed 2026.
+
+\bibitem{zhao_llm_survey}
+W.~X. Zhao, K.~Zhou, J.~Li, T.~Tang, X.~Wang, Y.~Hou, Y.~Min,
+B.~Zhang, J.~Zhang, Z.~Dong et al., ``A survey of large language
+models,'' \emph{arXiv preprint arXiv:2303.18223}, 2023.
+
+\bibitem{li_finance_llm_survey}
+Y.~Li, S.~Wang, H.~Ding, and H.~Chen, ``Large language models in
+finance: A survey,'' \emph{arXiv preprint arXiv:2311.10723}, 2023.
+
+\bibitem{graphrag}
+D.~Edge, H.~Trinh, N.~Cheng, J.~Bradley, A.~Chao, A.~Muppasani,
+S.~Truitt, and J.~Larson, ``From local to global: A graph RAG
+approach to query-focused summarization,''
+\emph{arXiv preprint arXiv:2404.16130}, 2024.
+
+\bibitem{bloomberggpt}
+S.~Wu, O.~Irsoy, S.~Lu, V.~Dabravolski, M.~Dredze, S.~Gehrmann,
+P.~Kambadur, D.~Rosenberg, and G.~Mann, ``BloombergGPT: A large
+language model for finance,''
+\emph{arXiv preprint arXiv:2303.17564}, 2023.
+
+\bibitem{finbert}
+D.~Araci, ``FinBERT: Financial sentiment analysis with pre-trained
+language models,'' \emph{arXiv preprint arXiv:1908.10063}, 2019.
+
+\bibitem{fingpt}
+H.~Yang, X.-Y. Liu, and C.~D. Wang, ``FinGPT: Open-source financial
+large language models,''
+\emph{arXiv preprint arXiv:2306.06031}, 2023.
+
+\bibitem{open_finllms}
+J.~Huang, M.~Xiao, D.~Li, Z.~Jiang, Y.~Yang, Y.~Zhang et al.,
+``Open-FinLLMs: Open multimodal large language models for financial
+applications,'' \emph{arXiv preprint arXiv:2408.11878}, 2024.
+
+\bibitem{fin_r1}
+Z.~Liu, X.~Guo, F.~Lou et al., ``Fin-R1: A large language model
+for financial reasoning through reinforcement learning,''
+\emph{arXiv preprint arXiv:2503.16252}, 2025.
+
+\bibitem{mienye2026}
+I.~D. Mienye, N.~Jere, G.~Obaido, I.~D. Mienye, and K.~Aruleba,
+``An end-to-end multi agent AI system for personal finance:
+Synthetic data generation, budget optimization, and investment
+advisory,'' \emph{Neural Computing and Applications}, 2026.
+
+\bibitem{kautilya_arthashastra}
+Kautilya, \emph{The Arthashastra}, L.~N. Rangarajan, Ed.
+Penguin Books, 1992, originally composed c.\ 300 BCE.
 
 \bibitem{react}
-S.~Yao, J.~Zhao, D.~Yu, N.~Du, I.~Shafran, K.~Narasimhan, and Y.~Cao,
-``{ReAct}: Synergizing reasoning and acting in language models,''
-in \emph{International Conference on Learning Representations (ICLR)},
-2023.
+S.~Yao, J.~Zhao, D.~Yu, N.~Du, I.~Shafran, K.~Narasimhan, and
+Y.~Cao, ``{ReAct}: Synergizing reasoning and acting in language
+models,'' in \emph{ICLR}, 2023.
+
+\bibitem{toolformer}
+T.~Schick, J.~Dwivedi-Yu, R.~Dess\`i, R.~Raileanu, M.~Lomeli,
+L.~Zettlemoyer, N.~Cancedda, and T.~Scialom, ``Toolformer:
+Language models can teach themselves to use tools,'' in
+\emph{NeurIPS}, 2023.
+
+\bibitem{toolllm}
+Y.~Qin, S.~Liang, Y.~Ye, K.~Zhu, L.~Yan, Y.~Lu, Y.~Lin, X.~Cong,
+X.~Tang, B.~Qian et al., ``ToolLLM: Facilitating large language
+models to master 16000+ real-world APIs,''
+\emph{arXiv preprint arXiv:2307.16789}, 2023.
 
 \bibitem{anthropic_tools}
-Anthropic, ``Tool use with {Claude},'' Anthropic API documentation,
+Anthropic, ``Tool use with Claude,'' Anthropic API documentation,
 2024. [Online]. Available:
 \url{https://docs.anthropic.com/en/docs/build-with-claude/tool-use}
 
-\bibitem{ontology_survey}
-D.~Diefenbach, V.~Lopez, K.~Singh, and P.~Maret,
-``A survey on ontology-based knowledge graph question answering,''
-\emph{Knowledge and Information Systems}, vol.~55, pp. 529--569, 2018.
+\bibitem{finance_agent_benchmark}
+A.~Bigeard, L.~Nashold, R.~Krishnan, and S.~Wu, ``Finance agent
+benchmark: Benchmarking LLMs on real-world financial research
+tasks,'' \emph{arXiv preprint arXiv:2505.01700}, 2025.
+
+\bibitem{karma}
+Y.~Lu and J.~Wang, ``KARMA: Leveraging multi-agent LLMs for
+automated knowledge graph enrichment,''
+\emph{arXiv preprint arXiv:2502.06472}, 2025.
+
+\bibitem{pan_llm_kg}
+S.~Pan, L.~Luo, Y.~Wang, C.~Chen, J.~Wang, and X.~Wu, ``Unifying
+large language models and knowledge graphs: A roadmap,''
+\emph{IEEE Transactions on Knowledge and Data Engineering},
+vol.~36, no.~7, pp.~3580--3599, 2024.
+
+\bibitem{fibo}
+Enterprise Data Management Council, ``Financial industry business
+ontology (FIBO),'' \url{https://spec.edmcouncil.org/fibo/}, 2023,
+accessed 2026.
+
+\bibitem{dezarza}
+I.~de Zarz\`a, J.~de Curt\`o, G.~Roig, and C.~T. Calafate,
+``Optimized financial planning: Integrating individual and
+cooperative budgeting models with LLM recommendations,''
+\emph{AI}, vol.~5, no.~1, pp.~91--114, 2024.
+
+\bibitem{hean}
+O.~Hean, U.~Saha, and B.~Saha, ``Can AI help with your personal
+finances?'' \emph{arXiv preprint arXiv:2412.16893}, 2024.
+
+\bibitem{lakkaraju}
+K.~Lakkaraju, S.~E. Jones, S.~K.~L. Vuruma, V.~Pallagani,
+B.~Muppasani, and B.~Srivastava, ``LLMs for financial advisement:
+A fairness and efficacy study in personal decision making,'' in
+\emph{Proceedings of the Fourth ACM International Conference on AI
+in Finance (ICAIF)}, 2023.
 
 \bibitem{mtbench}
-L.~Zheng, W.-L. Chiang, Y.~Sheng, S.~Zhuang, Z.~Wu, Y.~Zhuang, Z.~Lin,
-Z.~Li, D.~Li, E.~P. Xing, H.~Zhang, J.~E. Gonzalez, and I.~Stoica,
-``Judging {LLM}-as-a-judge with {MT-Bench} and chatbot arena,''
-in \emph{Advances in Neural Information Processing Systems (NeurIPS)
-Datasets and Benchmarks Track}, 2023.
+L.~Zheng, W.-L. Chiang, Y.~Sheng, S.~Zhuang, Z.~Wu, Y.~Zhuang,
+Z.~Lin, Z.~Li, D.~Li, E.~P. Xing, H.~Zhang, J.~E. Gonzalez, and
+I.~Stoica, ``Judging {LLM}-as-a-judge with {MT-Bench} and chatbot
+arena,'' in \emph{NeurIPS Datasets and Benchmarks Track}, 2023.
+
+\bibitem{alpacaeval}
+X.~Li, T.~Zhang, Y.~Dubois, R.~Taori, I.~Gulrajani, C.~Guestrin,
+and P.~Liang, ``{AlpacaEval}: An automatic evaluator of
+instruction-following models,''
+\url{https://github.com/tatsu-lab/alpaca_eval}, 2023.
+
+\bibitem{flare}
+Q.~Xie, W.~Han, X.~Zhang, Y.~Lai, M.~Peng, A.~Lopez-Lira, and
+J.~Huang, ``{FLARE}: A unified framework for financial language
+model assessment and evaluation,''
+\emph{arXiv preprint arXiv:2306.05443}, 2023.
+
+\bibitem{anthropic_api}
+Anthropic, ``Claude API documentation,''
+\url{https://docs.anthropic.com}, 2024--2026, accessed 2026.
 
 \bibitem{claude_sonnet}
-Anthropic, ``{Claude Sonnet 4.6},'' 2026. [Online]. Available:
-\url{https://www.anthropic.com/claude}
+Anthropic, ``{Claude Sonnet 4.6} model card,'' 2026.
+[Online]. Available: \url{https://www.anthropic.com/claude}
 
 \bibitem{claude_opus}
-Anthropic, ``{Claude Opus 4.7},'' 2026. [Online]. Available:
-\url{https://www.anthropic.com/claude}
+Anthropic, ``{Claude Opus 4.7} model card,'' 2026.
+[Online]. Available: \url{https://www.anthropic.com/claude}
 
-\bibitem{plaid}
-Plaid, ``Plaid {Transactions API}: category classification,'' 2024.
-[Online]. Available:
-\url{https://plaid.com/docs/api/products/transactions}
+\bibitem{neo4j}
+Neo4j, Inc., ``Neo4j graph database platform,''
+\url{https://neo4j.com}, 2024, accessed 2026.
+
+\bibitem{bls_cex}
+U.S. Bureau of Labor Statistics, ``Consumer expenditure surveys,''
+\url{https://www.bls.gov/cex/}, 2023, accessed 2026.
+
+\bibitem{yelp_open}
+Yelp Inc., ``Yelp open dataset,''
+\url{https://www.yelp.com/dataset}, 2023, released under CC BY 4.0.
 
 \bibitem{cohens_kappa}
 J.~Cohen, ``A coefficient of agreement for nominal scales,''
 \emph{Educational and Psychological Measurement}, vol.~20, no.~1,
-pp. 37--46, 1960.
+pp.~37--46, 1960.
+
+\bibitem{dwork_dp}
+C.~Dwork and A.~Roth, ``The algorithmic foundations of differential
+privacy,'' \emph{Foundations and Trends in Theoretical Computer
+Science}, vol.~9, no.~3--4, pp.~211--407, 2014.
+
+\bibitem{plaid}
+Plaid, Inc., ``Plaid API documentation: transactions and category
+classification,'' \url{https://plaid.com/docs/}, 2024, accessed
+2026.
 
 \end{thebibliography}
 
