@@ -135,9 +135,7 @@ research artifacts.
 
 ## License
 
-TBD — add a `LICENSE` file before wider distribution.
-
-## Contact
-
-Tejas Katika — tejashwar1029@gmail.com
-Department of Computer Science, University of North Texas
+This project is released under the MIT License — see
+[`LICENSE`](./LICENSE) for the full text. In short: you can use,
+copy, modify, distribute, and use commercially, with attribution
+and without warranty.
