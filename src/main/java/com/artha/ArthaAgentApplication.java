@@ -1,0 +1,11 @@
+package com.artha;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ArthaAgentApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ArthaAgentApplication.class, args);
+    }
+}

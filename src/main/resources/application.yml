@@ -56,13 +56,11 @@ artha:
     max-tokens: 4096
     max-tool-iterations: 8
     temperature: 0.3
-
-# ── Evaluation overrides ─────────────────────────────────────────
-# When set to an ISO-8601 date, tool query windows ("last 30 days",
-# "this month", etc.) anchor on that date instead of real wall-clock.
-# Used for reproducible benchmark runs against a fixed-range dataset.
-# Leave blank / unset in production.
-artha:
+  # ── Evaluation overrides ─────────────────────────────────────────
+  # reference-date: when set to an ISO-8601 date, tool query windows
+  # ("last 30 days", "this month", etc.) anchor on that date instead
+  # of real wall-clock. Used for reproducible benchmark runs against a
+  # fixed-range dataset. Leave blank / unset in production.
   eval:
     reference-date: ${ARTHA_EVAL_REFERENCE_DATE:}
   ontology:
