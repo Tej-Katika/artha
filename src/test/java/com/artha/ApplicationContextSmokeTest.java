@@ -63,17 +63,26 @@ class ApplicationContextSmokeTest {
     void allV1ToolsAreRegistered() {
         Set<String> registered = toolRegistry.getRegisteredNames();
         assertThat(registered)
-            .as("expected exactly the 15 v1 tools -- registry: %s", registered)
-            .containsExactlyInAnyOrderElementsOf(EXPECTED_V1_TOOLS);
+            .as("v1 tool set must remain present -- registry: %s", registered)
+            .containsAll(EXPECTED_V1_TOOLS);
+    }
+
+    /**
+     * Week-3+ tools that wrap typed Actions. As more Actions land
+     * (CreateGoal, SplitTransaction, ...), add their tool names here.
+     */
+    @Test
+    void v2BankingActionToolsAreRegistered() {
+        assertThat(toolRegistry.getRegisteredNames())
+            .contains("recategorize_transaction");
     }
 
     /**
      * After the Week-2 refactor, ArthaAgentApplication is at the com.artha
      * root, so Spring scans com.artha.core.{action,provenance,constraint}
-     * automatically. The v2 component beans are now scannable (registered
-     * in the context) but are NOT yet wired into AgentOrchestrator's
-     * reasoning loop. Wiring is the explicit step that gates each axis
-     * going live in Weeks 3 / 5 / 6.
+     * automatically. The v2 component beans are scannable; concrete
+     * Actions / Constraints get registered as their domain implementations
+     * land.
      */
     @Test
     void v2CorePackagesAreScannable() {
@@ -98,23 +107,26 @@ class ApplicationContextSmokeTest {
     }
 
     /**
-     * The v2 axes have empty registries until concrete Actions /
-     * Constraints land in banking/investments domains (Weeks 3 / 6 / 8).
-     * Verifying empty registries here confirms no accidental discovery
-     * of unfinished implementations.
+     * Tracks how many Actions / Constraints are implemented vs. the
+     * IEEE_PLAN.md targets (banking: 6 actions, 8 constraints;
+     * investments: 6 actions, 6 constraints). Update the expected
+     * minimums as each axis fills in.
      */
     @Test
-    void v2RegistriesAreEmptyBeforeAxesGoLive() {
+    void v2RegistrySizesReflectImplementedAxes() {
         com.artha.core.action.ActionRegistry actions =
             ctx.getBean(com.artha.core.action.ActionRegistry.class);
         com.artha.core.constraint.ConstraintRegistry constraints =
             ctx.getBean(com.artha.core.constraint.ConstraintRegistry.class);
 
-        assertThat(actions.size())
-            .as("no Actions implemented yet")
-            .isZero();
+        // Week 3: RecategorizeTransaction (1 of 6 banking actions)
+        assertThat(actions.registeredKeys())
+            .as("at least the Week-3 banking Actions are registered")
+            .contains("banking::RecategorizeTransaction");
+
+        // Constraints come online in Week 6
         assertThat(constraints.size())
-            .as("no Constraints implemented yet")
+            .as("Constraint axis goes live Week 6 — none registered yet")
             .isZero();
     }
 }
