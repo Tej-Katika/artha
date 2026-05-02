@@ -69,12 +69,17 @@ class ApplicationContextSmokeTest {
 
     /**
      * Week-3+ tools that wrap typed Actions. As more Actions land
-     * (CreateGoal, SplitTransaction, ...), add their tool names here.
+     * (UpdateBudget, MarkRecurring, SplitTransaction, ...), add their
+     * tool names here.
      */
     @Test
     void v2BankingActionToolsAreRegistered() {
         assertThat(toolRegistry.getRegisteredNames())
-            .contains("recategorize_transaction");
+            .contains(
+                "recategorize_transaction",
+                "create_goal",
+                "dismiss_anomaly"
+            );
     }
 
     /**
@@ -119,10 +124,14 @@ class ApplicationContextSmokeTest {
         com.artha.core.constraint.ConstraintRegistry constraints =
             ctx.getBean(com.artha.core.constraint.ConstraintRegistry.class);
 
-        // Week 3: RecategorizeTransaction (1 of 6 banking actions)
+        // Week 3: 3 of 6 banking actions implemented so far
         assertThat(actions.registeredKeys())
-            .as("at least the Week-3 banking Actions are registered")
-            .contains("banking::RecategorizeTransaction");
+            .as("Week-3 banking Actions registered so far")
+            .contains(
+                "banking::RecategorizeTransaction",
+                "banking::CreateGoal",
+                "banking::DismissAnomaly"
+            );
 
         // Constraints come online in Week 6
         assertThat(constraints.size())
