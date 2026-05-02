@@ -48,4 +48,17 @@ public interface TransactionEnrichmentRepository
         @Param("to")         Instant to);
 
     List<TransactionEnrichment> findByIsAnomalyTrue();
+
+    /**
+     * Count the rows currently flagged as anomalous for one user.
+     * Used by AnomalyEvidenceConstraint to verify agent claims about
+     * anomaly counts.
+     */
+    @Query(value =
+        "SELECT COUNT(*) FROM transaction_enrichments e " +
+        "JOIN transactions t ON t.id = e.transaction_id " +
+        "WHERE e.is_anomaly = true " +
+        "  AND t.user_id = CAST(:userId AS uuid)",
+        nativeQuery = true)
+    long countAnomaliesByUserId(@Param("userId") UUID userId);
 }

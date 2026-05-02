@@ -96,6 +96,24 @@ class ApplicationContextSmokeTest {
     }
 
     /**
+     * Constraints axis (Week 6) — first batch of banking constraints
+     * registered. Remaining 5 constraints from spec §6.5 land in a
+     * follow-up commit alongside agent-loop wiring.
+     */
+    @Test
+    void v2BankingConstraintsAreRegistered() {
+        com.artha.core.constraint.ConstraintRegistry constraints =
+            ctx.getBean(com.artha.core.constraint.ConstraintRegistry.class);
+        assertThat(constraints.forDomain("banking"))
+            .extracting(com.artha.core.constraint.Constraint::name)
+            .contains(
+                "GoalProgressBound",
+                "AnomalyEvidence",
+                "SpendingMagnitude"
+            );
+    }
+
+    /**
      * After the Week-2 refactor, ArthaAgentApplication is at the com.artha
      * root, so Spring scans com.artha.core.{action,provenance,constraint}
      * automatically. The v2 component beans are scannable; concrete
@@ -148,9 +166,9 @@ class ApplicationContextSmokeTest {
                 "banking::MarkRecurring"
             );
 
-        // Constraints come online in Week 6
+        // Week 6 first batch: 3 of 8 banking constraints registered
         assertThat(constraints.size())
-            .as("Constraint axis goes live Week 6 — none registered yet")
-            .isZero();
+            .as("Week-6 constraints — first batch")
+            .isGreaterThanOrEqualTo(3);
     }
 }
