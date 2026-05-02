@@ -68,9 +68,10 @@ class ApplicationContextSmokeTest {
     }
 
     /**
-     * Week-3+ tools that wrap typed Actions. As more Actions land
-     * (UpdateBudget, MarkRecurring, SplitTransaction, ...), add their
-     * tool names here.
+     * Week-3+ tools that wrap typed Actions. SplitTransaction is
+     * deferred — needs a schema decision (TransactionEnrichment is
+     * 1:1 with Transaction; splits would need either a new table or
+     * a JSON splits column).
      */
     @Test
     void v2BankingActionToolsAreRegistered() {
@@ -78,7 +79,9 @@ class ApplicationContextSmokeTest {
             .contains(
                 "recategorize_transaction",
                 "create_goal",
-                "dismiss_anomaly"
+                "dismiss_anomaly",
+                "update_budget",
+                "mark_recurring"
             );
     }
 
@@ -124,13 +127,15 @@ class ApplicationContextSmokeTest {
         com.artha.core.constraint.ConstraintRegistry constraints =
             ctx.getBean(com.artha.core.constraint.ConstraintRegistry.class);
 
-        // Week 3: 3 of 6 banking actions implemented so far
+        // Week 3: 5 of 6 banking actions in (SplitTransaction deferred)
         assertThat(actions.registeredKeys())
             .as("Week-3 banking Actions registered so far")
             .contains(
                 "banking::RecategorizeTransaction",
                 "banking::CreateGoal",
-                "banking::DismissAnomaly"
+                "banking::DismissAnomaly",
+                "banking::UpdateBudget",
+                "banking::MarkRecurring"
             );
 
         // Constraints come online in Week 6
