@@ -4,50 +4,50 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Read interface for fact provenance.
+ * Aggregates per-domain {@link ProvenanceResolver}s and answers
+ * fact-level provenance queries.
  *
- * The Week-2 scaffold defines the surface; the implementations are
- * filled in during Week 5 (research/IEEE_PLAN.md) when the schema
- * migration adds provenance columns to enrichment-bearing tables.
+ * Resolvers are auto-discovered at startup via Spring component
+ * scanning. {@link #why(UUID)} consults each resolver in turn and
+ * returns the first match. Order is unspecified — fact ids are
+ * UUIDs and naturally non-overlapping across entity types.
  *
- * The service intentionally does not own a store of provenance
- * records itself — it dispatches to per-entity-type lookups against
- * domain repositories. Concrete dispatch is a Week-5 decision once
- * we see the actual lookup patterns the constraint checker needs.
+ * The Week-2 stub returned {@link Optional#empty()} for everything;
+ * Week-5 wires this up against a real list of resolvers (banking's
+ * {@code TransactionEnrichmentProvenanceResolver} is the first).
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProvenanceService {
 
+    private final List<ProvenanceResolver> resolvers;
+
     /**
      * Single-step provenance for a fact.
      *
-     * @param factId UUID of any provenance-bearing entity
-     * @return Provenance if the fact has been recorded; empty if the
-     *         fact predates the v2 migration or the entity type is
-     *         not yet provenance-tracked.
+     * @return the assembled Provenance if any registered resolver
+     *         claims this fact id; otherwise empty.
      */
     public Optional<Provenance> why(UUID factId) {
-        // Week-5: dispatch to (TransactionEnrichment | MerchantProfile |
-        // RecurringBill | Anomaly | Position | FeeAttribution).provenance
-        // by querying each domain repository. Stub returns empty.
-        log.debug("ProvenanceService.why({}) called — Week-5 stub returns empty", factId);
+        for (ProvenanceResolver r : resolvers) {
+            Optional<Provenance> hit = r.resolve(factId);
+            if (hit.isPresent()) return hit;
+        }
+        log.debug("ProvenanceService.why({}) — no resolver claimed the id", factId);
         return Optional.empty();
     }
 
     /**
      * Full derivation tree (depth-first walk through deps).
-     *
-     * Cycles are not possible by construction (provenance is append-
-     * only and refers only to earlier facts).
+     * Implementation pending in Week 6 once Constraints need it.
      */
     public Optional<DerivationTree> trace(UUID factId) {
-        log.debug("ProvenanceService.trace({}) called — Week-5 stub returns empty", factId);
-        return Optional.empty();
+        return why(factId).map(p -> new DerivationTree(factId, p, List.of()));
     }
 }

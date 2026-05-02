@@ -86,6 +86,16 @@ class ApplicationContextSmokeTest {
     }
 
     /**
+     * Provenance axis went live in Week 5 — the read-only
+     * get_fact_provenance tool exposes ProvenanceService to the agent.
+     */
+    @Test
+    void v2ProvenanceToolIsRegistered() {
+        assertThat(toolRegistry.getRegisteredNames())
+            .contains("get_fact_provenance");
+    }
+
+    /**
      * After the Week-2 refactor, ArthaAgentApplication is at the com.artha
      * root, so Spring scans com.artha.core.{action,provenance,constraint}
      * automatically. The v2 component beans are scannable; concrete

@@ -35,7 +35,7 @@ public class TransactionEnrichment {
     private BigDecimal enrichmentConfidence;  // 0.00 - 1.00
 
     @Column(length = 20)
-    private String enrichmentSource = "RULES"; // RULES, AI, MANUAL
+    private String enrichmentSource = "RULES"; // RULES | METADATA | FALLBACK | AGENT_ACTION
 
     private Boolean isAnomaly = false;
 
@@ -46,6 +46,26 @@ public class TransactionEnrichment {
 
     @Column(precision = 5, scale = 2)
     private BigDecimal budgetUtilizationPct;  // 34.50 = 34.5%
+
+    // ── Provenance tuple (research/ONTOLOGY_V2_SPEC.md §5.2) ─────────
+    // sourceType + confidence are recorded above (enrichmentSource +
+    // enrichmentConfidence). The fields below complete the tuple:
+    //
+    //   provenanceRuleId  — the classifier rule_id that fired
+    //                       (NULL when sourceType ≠ RULES)
+    //   provenanceDepsJson — JSON-encoded list of dependent fact UUIDs
+    //                        (NULL or empty for leaf facts)
+    //   provenanceAsof    — when this derivation was performed
+    //                       (NULL for legacy rows; falls back to updatedAt)
+
+    @Column(name = "provenance_rule_id", length = 80)
+    private String provenanceRuleId;
+
+    @Column(name = "provenance_deps_json", columnDefinition = "text")
+    private String provenanceDepsJson;
+
+    @Column(name = "provenance_asof")
+    private Instant provenanceAsof;
 
     private Instant createdAt;
     private Instant updatedAt;

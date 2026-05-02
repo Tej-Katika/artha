@@ -12,6 +12,7 @@ import com.artha.core.action.PreconditionViolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -45,6 +46,9 @@ public class RecategorizeTransactionAction
 
     /** Indicates the row was last written by an agent action. */
     public static final String AGENT_ACTION_SOURCE = "AGENT_ACTION";
+
+    /** Provenance rule_id stamped when this action writes an enrichment. */
+    public static final String PROVENANCE_RULE_ID = "ACTION:RecategorizeTransaction";
 
     private final TransactionRepository           txRepo;
     private final TransactionEnrichmentRepository enrichRepo;
@@ -116,6 +120,10 @@ public class RecategorizeTransactionAction
 
         enrichment.setSpendingCategory(newCategory);
         enrichment.setEnrichmentSource(AGENT_ACTION_SOURCE);
+        enrichment.setProvenanceRuleId(PROVENANCE_RULE_ID);
+        enrichment.setProvenanceDepsJson(
+            "[\"" + input.transactionId() + "\"]");
+        enrichment.setProvenanceAsof(Instant.now());
 
         TransactionEnrichment saved = enrichRepo.save(enrichment);
         return new Output(saved.getId(), oldCategoryId);
@@ -143,6 +151,14 @@ public class RecategorizeTransactionAction
             throw new PostconditionViolation(
                 "Enrichment source not stamped — got "
                 + fresh.getEnrichmentSource());
+        }
+        if (!PROVENANCE_RULE_ID.equals(fresh.getProvenanceRuleId())) {
+            throw new PostconditionViolation(
+                "Provenance rule_id not stamped — got "
+                + fresh.getProvenanceRuleId());
+        }
+        if (fresh.getProvenanceAsof() == null) {
+            throw new PostconditionViolation("Provenance asof must be set");
         }
     }
 }

@@ -10,6 +10,7 @@ import com.artha.core.action.PreconditionViolation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -30,6 +31,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DismissAnomalyAction
         implements Action<DismissAnomalyAction.Input, DismissAnomalyAction.Output> {
+
+    /** Provenance rule_id stamped when this action writes an enrichment. */
+    public static final String PROVENANCE_RULE_ID = "ACTION:DismissAnomaly";
 
     private final TransactionRepository           txRepo;
     private final TransactionEnrichmentRepository enrichRepo;
@@ -86,6 +90,10 @@ public class DismissAnomalyAction
         enrichment.setIsAnomaly(false);
         enrichment.setEnrichmentSource(
             RecategorizeTransactionAction.AGENT_ACTION_SOURCE);
+        enrichment.setProvenanceRuleId(PROVENANCE_RULE_ID);
+        enrichment.setProvenanceDepsJson(
+            "[\"" + input.transactionId() + "\"]");
+        enrichment.setProvenanceAsof(Instant.now());
 
         TransactionEnrichment saved = enrichRepo.save(enrichment);
         return new Output(saved.getId(), previousReason);
@@ -108,6 +116,14 @@ public class DismissAnomalyAction
             throw new PostconditionViolation(
                 "enrichment_source not stamped — got "
                 + fresh.getEnrichmentSource());
+        }
+        if (!PROVENANCE_RULE_ID.equals(fresh.getProvenanceRuleId())) {
+            throw new PostconditionViolation(
+                "Provenance rule_id not stamped — got "
+                + fresh.getProvenanceRuleId());
+        }
+        if (fresh.getProvenanceAsof() == null) {
+            throw new PostconditionViolation("Provenance asof must be set");
         }
     }
 }

@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Set;
 import java.util.UUID;
@@ -39,6 +40,8 @@ public class MarkRecurringAction
 
     public static final Set<String> ALLOWED_BILLING_CYCLES =
         Set.of("WEEKLY", "MONTHLY", "ANNUAL");
+
+    public static final String PROVENANCE_RULE_ID = "ACTION:MarkRecurring";
 
     private final TransactionRepository           txRepo;
     private final TransactionEnrichmentRepository enrichRepo;
@@ -142,6 +145,10 @@ public class MarkRecurringAction
         enrichment.setRecurringBillId(saved.getId());
         enrichment.setEnrichmentSource(
             RecategorizeTransactionAction.AGENT_ACTION_SOURCE);
+        enrichment.setProvenanceRuleId(PROVENANCE_RULE_ID);
+        enrichment.setProvenanceDepsJson(
+            "[\"" + input.transactionId() + "\"]");
+        enrichment.setProvenanceAsof(Instant.now());
         enrichRepo.save(enrichment);
 
         return new Output(saved.getId(), merchant.getId(), expectedAmount);
