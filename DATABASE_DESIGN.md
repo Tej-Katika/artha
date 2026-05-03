@@ -1,346 +1,105 @@
-# Artha Database Design
-
-Complete reference for how PostgreSQL stores W2 forms, bank statements, and Plaid data.
-
----
-
-## The Big Picture
-
-```
-Three data sources → Three ingestion paths → One unified query layer
-
-W2 PDF ──────────────→ w2_records              (structured IRS box data)
-                    ↘
-                      document_uploads          (audit: every file ever uploaded)
-Bank Statement PDF ──→ statement_imports        (metadata: bank, period, counts)
-                    ↘ transactions (source=STATEMENT)  ←─┐
-                                                          │  Same table.
-Plaid Bank Link ─────→ transactions (source=PLAID)  ─────┘  Same queries.
-```
-
-The key design decision: **all transactions — whether from Plaid or a PDF — live in the same `transactions` table.** This means every agent tool (`getSpendingByCategory`, `getTransactions`, etc.) works identically regardless of how the data arrived. The `source` column distinguishes them, but tools don't need to care about it.
-
----
-
-## Tables
-
-### `transactions` (extended in V2)
-
-Exists from V1. V2 adds two columns:
-
-| Column | Type | Purpose |
-|--------|------|---------|
-| `source` | VARCHAR(20) | `PLAID` / `STATEMENT` / `MANUAL` |
-| `source_import_id` | UUID | FK to `statement_imports` when `source=STATEMENT` |
-
-**Why not separate tables for Plaid vs statement transactions?**
-
-Because the agent asks questions like "how much did I spend on groceries last month?" — it doesn't care whether the data came from Plaid or a PDF. Keeping one table means one query, one index, one tool implementation. Separate tables would require UNION queries everywhere and complicate every tool.
-
----
-
-### `w2_records`
-
-One row per W2 form per user per tax year. Every IRS box is its own column.
-
-```sql
-w2_id           UUID PK
-user_id         UUID → users
-tax_year        INTEGER          -- 2024, 2025, etc.
-employer_name   VARCHAR
-employer_ein    VARCHAR          -- XX-XXXXXXX
-
--- Income
-box1_wages      DECIMAL(15,2)   -- THE most important field
-box2_federal_tax DECIMAL(15,2)  -- For effective tax rate
-
--- Social Security + Medicare (FICA)
-box3_ss_wages   DECIMAL(15,2)
-box4_ss_tax     DECIMAL(15,2)
-box5_medicare_wages DECIMAL(15,2)
-box6_medicare_tax   DECIMAL(15,2)
-
--- Retirement (Box 12 codes)
-box12_code_d    DECIMAL(15,2)   -- Traditional 401(k)
-box12_code_aa   DECIMAL(15,2)   -- Roth 401(k)
-box12_code_e    DECIMAL(15,2)   -- 403(b)
-box12_code_w    DECIMAL(15,2)   -- HSA employer contributions
-
--- State
-box15_state     VARCHAR(2)       -- 'TX', 'CA', etc.
-box16_state_wages   DECIMAL(15,2)
-box17_state_tax     DECIMAL(15,2)
-```
-
-**Why individual columns instead of JSONB?**
-
-Three reasons:
-1. The `getIncomeAnalysis` agent tool reads `box1_wages`, `box2_federal_tax` directly. Column access is faster and simpler than JSON extraction.
-2. PostgreSQL can index individual columns. `WHERE box1_wages > 100000` uses an index; `WHERE data->>'box1' > '100000'` does not.
-3. The schema self-documents what data exists. JSONB hides structure.
-
-**Duplicate prevention:**
-
-```sql
-CONSTRAINT uq_w2_user_year_employer UNIQUE (user_id, tax_year, employer_ein)
-```
-
-A user can't accidentally import the same W2 twice. If they have two jobs, they'll have two rows for the same year (different EINs) — which is correct.
-
----
-
-### `document_uploads`
-
-Immutable audit log. One row per file, never updated.
-
-```sql
-upload_id       UUID PK
-user_id         UUID → users
-filename        VARCHAR
-file_size_bytes BIGINT
-document_type   VARCHAR    -- W2 | BANK_STATEMENT | TAX_1099 | OTHER
-parse_status    VARCHAR    -- PENDING | SUCCESS | PARTIAL | FAILED
-parse_confidence VARCHAR   -- HIGH | MEDIUM | LOW
-parse_error     TEXT       -- Error message if parsing failed
-content_hash    VARCHAR(64) -- SHA-256 of file bytes (dedup)
-uploaded_at     TIMESTAMPTZ
-```
-
-**Why track uploads separately from parsed data?**
-
-- **Dedup:** `content_hash` prevents processing the exact same file twice. The user uploads the same PDF again → we check the hash, find a match, return the cached result.
-- **Debugging:** Parse failed? We have the filename, file size, and error message without needing the original file.
-- **UI:** "Show me what I've uploaded" — this table answers that query instantly without scanning w2_records or statement_imports.
-- **Partial success:** A statement PDF might parse 47 of 50 transactions. `parse_status=PARTIAL` records this; the user knows something was missed.
-
----
-
-### `statement_imports`
-
-Metadata for each bank statement PDF. One row per file.
-
-```sql
-import_id       UUID PK
-user_id         UUID → users
-bank_name       VARCHAR    -- CHASE | BANK_OF_AMERICA | WELLS_FARGO | etc.
-account_type    VARCHAR    -- CHECKING | SAVINGS | CREDIT_CARD
-period_start    DATE       -- Statement start date
-period_end      DATE       -- Statement end date
-transaction_count INTEGER  -- How many transactions were extracted
-total_debits    DECIMAL    -- Sum of all spending in this statement
-total_credits   DECIMAL    -- Sum of all income/deposits
-opening_balance DECIMAL    -- Balance at start (if found in PDF)
-closing_balance DECIMAL    -- Balance at end (if found in PDF)
-```
-
-**Duplicate prevention:**
-
-```sql
-CONSTRAINT uq_statement_user_bank_period
-    UNIQUE (user_id, bank_name, period_start, period_end)
-```
-
-Can't import the same Chase January statement twice.
-
-**What the agent uses this for:**
-
-When a user asks "what data do you have about me?" the agent calls a data-availability check that queries `statement_imports` — it can answer "I have your Chase checking statements from October 2024 through February 2026" without scanning every transaction row.
-
----
-
-### `user_data_summary` (view)
-
-A computed view the agent reads to know what's available before deciding which tools to call:
-
-```sql
-SELECT
-    user_id,
-    plaid_connected,
-    plaid_transaction_count,
-    w2_count,
-    latest_w2_year,
-    latest_w2_wages,
-    statement_count,
-    statement_transaction_count,
-    oldest_statement_date,
-    newest_statement_date,
-    transactions_from,
-    transactions_to,
-    total_transactions
-FROM user_data_summary
-WHERE user_id = ?
-```
-
-This lets the agent give context-aware answers. If `w2_count = 0`, the agent proactively tells the user "upload your W2 and I can tell you your exact savings rate."
-
----
-
-## How Flyway Runs The Migrations
-
-Flyway reads migration files in version order at startup:
-
-```
-src/main/resources/db/migration/
-  V1__initial_schema.sql     ← Runs first (always, on fresh DB)
-  V2__document_storage.sql   ← Runs second
-  V3__...sql                 ← Future migrations
-```
-
-Flyway tracks what's been applied in its own `flyway_schema_history` table. If V1 is already applied, it skips it and only runs new migrations. This means:
-
-- **Fresh database:** Both V1 and V2 run on first startup
-- **Existing database (V1 applied):** Only V2 runs
-- **Up-to-date database:** Nothing runs — app starts immediately
-
-You never manually apply SQL. Flyway does it automatically every time the Spring Boot app starts.
-
----
-
-## Running It Locally
-
-### Step 1: Start PostgreSQL with pgvector
-
-```bash
-docker compose up -d
-```
-
-This starts the `pgvector/pgvector:pg16` image which has the `vector` extension pre-installed. The `init.sql` script enables it on first run.
-
-### Step 2: Verify extensions loaded
-
-```bash
-docker exec artha-db psql -U artha -d artha -c "\dx"
-```
-
-Expected output:
-```
-   Name    | ...  | Description
------------+------+--------------------------------
- uuid-ossp | ...  | generate universally unique identifiers
- vector    | ...  | vector data type and ivfflat access method
-```
-
-### Step 3: Start the app — Flyway runs automatically
-
-```bash
-./mvnw spring-boot:run
-```
-
-On first run you'll see in the logs:
-```
-Flyway Community Edition ... by Redgate
-Database: jdbc:postgresql://localhost:5432/artha (PostgreSQL 16)
-Successfully validated 2 migrations
-Migrating schema "public" to version "1 - initial schema"
-Migrating schema "public" to version "2 - document storage"
-Successfully applied 2 migrations to schema "public"
-```
-
-### Step 4: Explore the database (optional)
-
-Connect with any PostgreSQL client (pgAdmin, TablePlus, DBeaver, or psql):
-
-```
-Host:     localhost
-Port:     5432
-Database: artha
-Username: artha
-Password: artha
-```
-
-Or with psql directly:
-```bash
-docker exec -it artha-db psql -U artha -d artha
-
-# List all tables
-\dt
-
-# Describe w2_records
-\d w2_records
-
-# Check data summary view
-SELECT * FROM user_data_summary;
-
-# See what transactions are loaded
-SELECT source, COUNT(*), MIN(date), MAX(date)
-FROM transactions
-GROUP BY source;
-```
-
----
-
-## Data Flow: W2 Upload
-
-```
-User uploads W2 PDF
-         ↓
-DocumentUploadController.uploadW2()
-         ↓
-  1. Validate: is it PDF? size < 10MB?
-  2. Compute SHA-256 hash → check document_uploads for duplicates
-  3. W2ParserService.parse() → extracts text via PDFBox
-         ↓
-  4. Regex patterns extract each IRS box value
-  5. Confidence scoring: HIGH if box1 + box2 + year found
-         ↓
-  6. Save W2Record → w2_records table
-  7. Save DocumentUpload (audit) → document_uploads table
-         ↓
-  8. Return: wages, tax rate, confidence, "capabilities unlocked" list
-         ↓
-Agent can now answer:
-  - "What's my gross income?"     → getIncomeAnalysis → box1_wages
-  - "What's my effective tax rate?" → box2 / box1
-  - "Am I maxing my 401k?"        → box12_code_d vs $23,500 limit
-  - "What's my take-home pay?"    → box1 - box2 - box4 - box6 - box12
-```
-
-## Data Flow: Bank Statement Upload
-
-```
-User uploads Chase January statement PDF
-         ↓
-DocumentUploadController.uploadStatement()
-         ↓
-  1. Validate: PDF, size < 25MB
-  2. BankStatementParserService.parse()
-         ↓
-  3. Detect bank: scan first 500 chars for "JPMorgan Chase" → BankType.CHASE
-  4. Extract statement period: "01/01/2026 through 01/31/2026"
-  5. Check statement_imports: duplicate? → return cached result
-         ↓
-  6. Apply Chase-specific transaction parser (regex for MM/DD format)
-  7. Rule-based categorization: "WHOLEFDS" → "Groceries"
-         ↓
-  8. Save to transactions (source='STATEMENT', source_import_id=<import>)
-  9. Save StatementImport metadata
- 10. Save DocumentUpload (audit)
-         ↓
-Agent can now answer everything getTransactions/getSpendingByCategory can answer
-— using the same tools, same queries, same code as Plaid data
-```
-
-## Data Flow: Plaid Connection
-
-```
-User clicks "Connect Bank" in React frontend
-         ↓
-GET /api/plaid/link-token
-  → plaidClient.linkTokenCreate() → returns link_token
-         ↓
-Frontend: initialize Plaid Link widget with link_token
-User authenticates with Chase on Plaid's interface
-Plaid calls onSuccess(public_token, metadata)
-         ↓
-POST /api/plaid/exchange-token { publicToken }
-  → plaidClient.itemPublicTokenExchange() → access_token + item_id
-  → Encrypt access_token with AES-256
-  → Save to users.plaid_access_token (BYTEA)
-         ↓
-Async: PlaidService.syncTransactions(last 90 days)
-  → Paginate through Plaid's /transactions/get (500 per page)
-  → Normalize to Transaction entities (source='PLAID')
-  → Upsert into transactions table
-         ↓
-Scheduler: re-sync every 6 hours (configured in application.yml)
-```
+# Database design
+
+PostgreSQL schema reference for the Artha agent platform. The
+authoritative definitions live in
+`src/main/resources/db/migration/` — this document is a high-level
+map for navigating them.
+
+## Migrations
+
+| Version | File | Adds |
+|---|---|---|
+| V1 | `V1__initial_schema.sql` | Banking ontology (users, bank_accounts, transactions, transaction_enrichments, merchant_profiles, merchant_types, spending_categories, classification_rules, recurring_bills, budgets, financial_goals). |
+| V2 | `V2__action_audit.sql` | `action_audit` — append-only Hoare-triple audit log for state-changing actions. |
+| V2 | `V2__violation_log.sql` | `violation_log` — telemetry for constraint violations and repair outcomes. |
+| V3 | `V3__provenance_on_enrichment.sql` | Adds provenance columns to `transaction_enrichments` (source, confidence, combiner). |
+| V4 | `V4__investments_ontology.sql` | Investments domain: securities, daily_prices, risk_free_rate, portfolios, positions, lots, trades, dividends, fees, risk_profiles, benchmarks. |
+
+Flyway is disabled (`spring.flyway.enabled: false` in
+`application.yml`); apply migrations manually with `psql -f`.
+`ddl-auto` is set to `none` so the SQL files are the single source
+of truth for schema.
+
+## Banking ontology (V1)
+
+Nine ontology object types, all keyed by `UUID` and FK-linked to
+`users(id)` with `ON DELETE CASCADE`.
+
+| Table | Purpose |
+|---|---|
+| `users` | Identity. Email + full_name only. |
+| `bank_accounts` | Linked institutions; one row per account. |
+| `transactions` | Raw, source-of-truth transaction events. Indexed on `(user_id, post_date)`. |
+| `transaction_enrichments` | Typed annotations on a transaction (1:1): category, merchant profile, anomaly score, recurring-bill linkage. V3 adds provenance columns. |
+| `merchant_profiles` / `merchant_types` | Canonical merchant identity (e.g., "Whole Foods" → `MerchantType.GROCERY`). Used by the agent's category/anomaly tools to classify spending consistently. |
+| `spending_categories` | Per-user category taxonomy (Groceries, Dining, etc.). |
+| `classification_rules` | User-overridable rules for merchant → category mapping. |
+| `recurring_bills` | Detected subscriptions; one row per cadence. |
+| `budgets` | Per-category monthly limits with rollover semantics. |
+| `financial_goals` | Savings / debt-payoff goals with target amount and date. |
+
+## v2 cross-cutting tables (V2 / V3)
+
+These tables are domain-agnostic — they record events from any
+domain via a `domain VARCHAR(20)` column.
+
+| Table | Purpose |
+|---|---|
+| `action_audit` | One row per Action invocation, regardless of outcome. Columns: `action_name`, `domain`, `actor` (AGENT/USER/SYSTEM), `outcome` (SUCCESS / FAILURE_PRECONDITION / FAILURE_EXECUTION / FAILURE_POSTCONDITION / ROLLED_BACK), `input_json`, `output_json`, `error_message`, `started_at`, `ended_at`. |
+| `violation_log` | One row per constraint violation. Columns: `constraint_name`, `domain`, `grade` (HARD/SOFT/ADVISORY), `message`, `repair_hint`, `repaired` (set after the orchestrator's retry loop terminates), `observed_at`. |
+
+Provenance is stored inline on `transaction_enrichments` (V3): a
+provenance value object captures the source set, combiner that
+produced the fact, and a calibrated confidence in `[0, 1]`.
+
+## Investments ontology (V4)
+
+Eleven tables: nine ontology types plus two reference-data tables
+(daily_prices, risk_free_rate).
+
+| Table | Purpose |
+|---|---|
+| `securities` | Tradable universe (50 equities/ETFs + `^TNX` for the risk-free rate). Populated from `src/main/resources/investments/tickers.json`. |
+| `daily_prices` | OHLCV per (security, date). Composite primary key. Populated from Yahoo Finance via `data/fetchers/fetch_yahoo.py`. |
+| `risk_free_rate` | Daily 10-year Treasury yield (DGS10 equivalent), keyed by date. |
+| `portfolios` | Root entity per portfolio. `archetype` lives on the portfolio so a single user can hold multiple archetype portfolios. |
+| `positions` | Aggregated current holding (one row per portfolio × security). |
+| `lots` | Tax-lot granularity. Each BUY trade opens a new lot; SELL trades close lots according to `lot_method` (FIFO / LIFO / SPEC_ID). |
+| `trades` | Append-only trade record. Corrections write a reversing trade rather than UPDATEing this row. |
+| `dividends` | Cash-dividend events received on a position. |
+| `fees` | Cost-basis-eroding events (ADVISORY / EXPENSE_RATIO / COMMISSION / SLIPPAGE). |
+| `risk_profiles` | One row per portfolio (UNIQUE constraint). Target equity / bond / alt allocation must sum to 100% ± 0.5; max-drawdown tolerance bounded `[0, 100]`. |
+| `benchmarks` | Reference indices for portfolio_health comparisons (SPY, AGG, IEFA, BITO, XLK, ICLN). |
+
+Money columns use `NUMERIC(19, 4)` to avoid float drift. Quantities
+use `NUMERIC(19, 8)` to support fractional shares and crypto.
+Timestamps are `TIMESTAMPTZ`; calendar days (trade dates, dividend
+ex-dates, fee periods, daily-price dates) are `DATE`.
+
+## Indexing
+
+All FKs and natural-search columns have explicit `idx_<table>_<cols>`
+indexes. The hottest paths are:
+
+- `idx_transactions_user_post_date` — every banking spending query
+  scans this.
+- `idx_action_audit_session` — used by the agent loop to look up the
+  current session's actions.
+- `idx_daily_prices_date` — covers historical-price scans for
+  portfolio_health.
+- `idx_trades_portfolio_executed` — covers behavioral-bias and
+  fee-audit queries.
+
+## Data lifecycle
+
+| Direction | Path |
+|---|---|
+| Banking ingest | bank API or `generate_artha_data_v2.py` → `transactions` → `EnrichmentService` writes `transaction_enrichments` (with provenance) → `RecurringBillDetector` populates `recurring_bills` |
+| Banking write actions | Agent → tool → `ActionExecutor` (precondition check, transactional run, postcondition check) → ontology mutation + `action_audit` row |
+| Investments ingest | `data/fetchers/fetch_yahoo.py` → CSV cache → `InvestmentsDataLoader` (`--load-investments-data` flag) → `securities`, `daily_prices`, `risk_free_rate` |
+| Investments synth | `data/fetchers/generate_investments.py` → `portfolios`, `positions`, `trades`, `fees`, `risk_profiles`, `benchmarks` |
+| Constraint check | After every agent end-of-turn → `ClaimExtractor` extracts factual claims → `ConstraintChecker` evaluates → `ViolationLog` rows persisted via `REQUIRES_NEW` → `repaired` stamped at session end |
+
+For the read-side surface, see the typed agent tools under
+`src/main/java/com/artha/banking/tools/` and the orchestrator at
+`src/main/java/com/artha/core/agent/AgentOrchestrator.java`.
