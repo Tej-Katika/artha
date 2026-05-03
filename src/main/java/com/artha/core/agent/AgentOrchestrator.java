@@ -280,7 +280,9 @@ public class AgentOrchestrator {
                 .bodyToMono(String.class)
                 .block();
 
-            return objectMapper.readTree(responseBody);
+            JsonNode parsed = objectMapper.readTree(responseBody);
+            logUsage(parsed.path("usage"));
+            return parsed;
 
         } catch (WebClientResponseException e) {
             log.error("Claude API error — status={} body={}", e.getStatusCode(), e.getResponseBodyAsString());
@@ -313,10 +315,38 @@ public class AgentOrchestrator {
 
     private ArrayNode buildToolDefinitions() {
         try {
-            return toolRegistry.buildToolDefinitions();
+            ArrayNode tools = toolRegistry.buildToolDefinitions();
+            // Tag the last tool with cache_control=ephemeral. Anthropic
+            // caches the entire prefix up through this block (system
+            // prompt + every tool definition), which dominates the
+            // input-token cost on every turn. The K=2 repair loop
+            // reuses the same prefix, so cache reads land on retries
+            // and on back-to-back calls within the 5-minute TTL.
+            if (tools.size() > 0) {
+                ObjectNode lastTool = (ObjectNode) tools.get(tools.size() - 1);
+                ObjectNode cacheControl = objectMapper.createObjectNode();
+                cacheControl.put("type", "ephemeral");
+                lastTool.set("cache_control", cacheControl);
+            }
+            return tools;
         } catch (Exception e) {
             log.error("Failed to build tool definitions: {}", e.getMessage(), e);
             return objectMapper.createArrayNode();
+        }
+    }
+
+    private void logUsage(JsonNode usage) {
+        if (usage == null || usage.isMissingNode() || usage.isNull()) return;
+        long input        = usage.path("input_tokens").asLong(0);
+        long cacheCreate  = usage.path("cache_creation_input_tokens").asLong(0);
+        long cacheRead    = usage.path("cache_read_input_tokens").asLong(0);
+        long output       = usage.path("output_tokens").asLong(0);
+        if (cacheCreate + cacheRead == 0) {
+            log.debug("Anthropic usage — input={} output={}", input, output);
+        } else {
+            log.info(
+                "Anthropic usage — input={} cache_create={} cache_read={} output={}",
+                input, cacheCreate, cacheRead, output);
         }
     }
 
