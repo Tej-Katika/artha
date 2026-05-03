@@ -13,8 +13,9 @@ import java.util.UUID;
  * {@code REQUIRES_NEW} so that a violation row is durable even if the
  * surrounding agent call is rolled back, retried, or crashes mid-turn.
  *
- * The IEEE eval relies on every constraint firing being captured; we
- * cannot afford to lose telemetry to caller-side error handling.
+ * Telemetry on every constraint firing is load-bearing for the
+ * downstream catch-rate / false-positive-rate metrics; we deliberately
+ * decouple it from caller-side error handling.
  */
 @Service
 @RequiredArgsConstructor

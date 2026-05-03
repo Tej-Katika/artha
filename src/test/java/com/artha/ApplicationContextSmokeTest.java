@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Smoke test: Spring context loads cleanly, every v1 tool is registered,
  * and every v2 core component is scannable (post-Week-2-refactor).
  *
- * Created in Week 2 of the IEEE v2 plan as a safety net for the
- * com.artha.agent.* -> com.artha.{core,banking}.* package refactor.
- * Without this, Spring config errors (broken @ComponentScan,
- * @EntityScan, @EnableJpaRepositories) only surface at app-startup
- * time -- too late to bisect.
+ * Acts as a safety net for the com.artha.agent.* ->
+ * com.artha.{core,banking,investments}.* package layout. Without
+ * this, Spring config errors (broken @ComponentScan, @EntityScan,
+ * @EnableJpaRepositories) only surface at app-startup time --
+ * too late to bisect.
  *
  * Requires a live PostgreSQL on localhost:5432 (per application.yml).
  * Does NOT call the Anthropic API; the API key may be "not-set".
@@ -181,10 +181,11 @@ class ApplicationContextSmokeTest {
     }
 
     /**
-     * Tracks how many Actions / Constraints are implemented vs. the
-     * IEEE_PLAN.md targets (banking: 6 actions, 8 constraints;
-     * investments: 6 actions, 6 constraints). Update the expected
-     * minimums as each axis fills in.
+     * Tracks how many Actions / Constraints are wired in. Banking
+     * targets: 6 actions (5 shipped, split-transaction deferred), 8
+     * constraints. Investments-domain Actions / Constraints follow
+     * a separate roadmap. Update the expected minimums as each axis
+     * fills in.
      */
     @Test
     void v2RegistrySizesReflectImplementedAxes() {

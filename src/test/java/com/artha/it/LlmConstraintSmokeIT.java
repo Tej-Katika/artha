@@ -43,8 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * extractor + real Claude rarely fires a HARD or SOFT violation
  * deterministically — Claude's tool-grounded responses are usually
  * clean. The synthetic constraint forces the retry path so the test
- * actually exercises the persistence loop the IEEE Big Data 2026 paper
- * relies on for the Constraints-axis ablation.
+ * actually exercises the K-bounded repair loop end to end.
  *
  * Disabled unless {@code ARTHA_LIVE_LLM=true}. To run:
  *

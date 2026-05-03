@@ -65,9 +65,10 @@ public class GetSubscriptionsTool implements FinancialTool {
             long start    = System.currentTimeMillis();
             UUID userUUID = UUID.fromString(context.userId());
 
-            // Ablation: without ontology, there is no recurring_bills table
-            // and no subscription-detection pipeline. Return a degraded-mode
-            // response so the eval can contrast against Condition A.
+            // Ontology-disabled path: without the ontology, there is no
+            // recurring_bills table and no subscription-detection
+            // pipeline. Return a degraded-mode response so the caller
+            // can compare against the full ontology path.
             if (!flags.ontologyToolsEnabled()) {
                 return ToolResult.okWithTiming(Map.of(
                     "subscription_count", 0,

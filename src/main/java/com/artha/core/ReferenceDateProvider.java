@@ -16,9 +16,9 @@ import java.time.ZoneOffset;
  * date like {@code 2024-12-25}, every call returns values anchored to that
  * date; otherwise falls back to the real wall-clock.
  *
- * This exists to make paper benchmarks reproducible against a fixed-range
- * synthetic dataset without mutating data or shifting timestamps. Do not use
- * for audit timestamps (createdAt/updatedAt) â€” those must stay on wall-clock.
+ * Lets benchmark runs target a fixed-range synthetic dataset without
+ * mutating data or shifting timestamps. Do not use for audit timestamps
+ * (createdAt/updatedAt) — those must stay on wall-clock.
  */
 @Slf4j
 @Component

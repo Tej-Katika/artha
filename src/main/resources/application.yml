@@ -64,9 +64,10 @@ artha:
   eval:
     reference-date: ${ARTHA_EVAL_REFERENCE_DATE:}
   ontology:
-    # Ablation flag: when false, anomaly/category/health/subscription tools
-    # bypass the enrichment+recurring_bills ontology layer. Used to produce
-    # paper-table ablation conditions B and D.
+    # When false, anomaly/category/health/subscription tools bypass
+    # the enrichment+recurring_bills ontology layer and return a
+    # raw-baseline response. Used for A/B comparisons against the
+    # full ontology path.
     tools-enabled: ${ARTHA_ONTOLOGY_TOOLS_ENABLED:true}
 
 # ── Logging ───────────────────────────────────────────────────────

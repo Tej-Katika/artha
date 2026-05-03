@@ -251,7 +251,7 @@ public class GetCategoryInsightsTool implements FinancialTool {
         }
     }
 
-    // Ablation path: no ontology joins. Read category from transactions.metadata['category'].
+    // Ontology-disabled path: no ontology joins. Read category from transactions.metadata['category'].
     private Map<String, BigDecimal> buildCategorySpendRaw(UUID userUUID, Instant from, Instant to) {
         List<Transaction> txns = transactionRepository
             .findByUserIdAndPostDateBetweenOrderByPostDateDesc(userUUID, from, to);

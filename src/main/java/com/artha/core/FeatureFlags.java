@@ -5,10 +5,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Ablation-study feature flags for the Artha evaluation.
- * Disabling ontology-tools switches off the enrichment-joined query paths
- * in anomaly, category-insights, financial-health and subscription tools.
- * Set via env var ARTHA_ONTOLOGY_TOOLS_ENABLED or application.yml.
+ * Runtime feature flags. Disabling {@code ontology-tools} switches off
+ * the enrichment-joined query paths in the anomaly, category-insights,
+ * financial-health, and subscription tools — useful for A/B comparisons
+ * between the ontology layer and a raw-data baseline. Set via the
+ * {@code ARTHA_ONTOLOGY_TOOLS_ENABLED} env var or {@code application.yml}.
  */
 @Slf4j
 @Component
@@ -21,7 +22,7 @@ public class FeatureFlags {
     ) {
         this.ontologyToolsEnabled = ontologyToolsEnabled;
         if (!ontologyToolsEnabled) {
-            log.warn("FeatureFlags: ontology-tools DISABLED (ablation mode). "
+            log.warn("FeatureFlags: ontology-tools DISABLED. "
                 + "Anomaly, category-insights, financial-health, and subscription tools "
                 + "will bypass the enrichment/ontology layer and return degraded results.");
         }

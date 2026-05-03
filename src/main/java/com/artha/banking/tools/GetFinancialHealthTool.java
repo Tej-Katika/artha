@@ -124,8 +124,8 @@ public class GetFinancialHealthTool implements FinancialTool {
             BigDecimal projectedMonthlySpend = dailyPace.multiply(BigDecimal.valueOf(daysInMonth));
 
             // â”€â”€ Budget adherence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-            // Ablation: budget-per-category adherence relies on the ontology
-            // join (enrichment.spending_category_id â†’ budget.spending_category_id).
+            // Budget-per-category adherence relies on the ontology join
+            // (enrichment.spending_category_id -> budget.spending_category_id).
             // When ontology tools are disabled, we skip this signal.
             List<Budget> budgets = flags.ontologyToolsEnabled()
                 ? budgetRepository.findByUserId(userUUID)
@@ -174,7 +174,7 @@ public class GetFinancialHealthTool implements FinancialTool {
             }
 
             // â”€â”€ Anomalies this month â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-            // Ablation: anomaly flags are produced by the ontology enrichment
+            // Anomaly flags are produced by the ontology enrichment
             // pipeline. When disabled, treat anomaly count as unknown (0).
             long anomalyCount = 0L;
             if (flags.ontologyToolsEnabled()) {

@@ -3,8 +3,8 @@
 -- Run manually before activating the Constraint axis (Week 6+).
 -- ddl-auto=none, so this is the source of truth for schema.
 --
--- Used to compute catch-rate and false-positive-rate metrics for
--- the IEEE paper (research/ONTOLOGY_V2_SPEC.md §6.7 / §8).
+-- Feeds the catch-rate and false-positive-rate telemetry consumed
+-- by the constraint-axis dashboards.
 
 CREATE TABLE IF NOT EXISTS violation_log (
     id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),

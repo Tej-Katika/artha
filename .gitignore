@@ -64,3 +64,6 @@ arxiv_submission/artha-arxiv.zip
 # Investments data cache — fetched from Yahoo Finance, regenerable.
 # data/fetchers/ is code and stays tracked.
 data/investments/
+
+# Banking generator output — regenerable from generate_artha_data_v2.py.
+artha_users_v2.json

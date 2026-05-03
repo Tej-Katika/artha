@@ -8,11 +8,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Append-only telemetry of every Constraint violation observed in
- * production / eval. Fed by ConstraintChecker.
- *
- * Used to compute the catch-rate and false-positive-rate metrics
- * (research/ONTOLOGY_V2_SPEC.md §6.7 / §8) reported in the IEEE paper.
+ * Append-only telemetry of every Constraint violation observed at
+ * runtime. Fed by ConstraintChecker; used downstream to compute
+ * catch-rate and false-positive-rate metrics for the constraint axis.
  *
  * Schema: src/main/resources/db/migration/V2__violation_log.sql
  */

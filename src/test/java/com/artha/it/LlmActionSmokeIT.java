@@ -38,8 +38,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  *   2. An {@link ActionAudit} row is persisted
  *   3. The transaction_enrichments row reflects the new category
  *
- * Carry-over from Week 4 of the IEEE_PLAN — proves the Actions axis
- * round-trips through a real model, not just unit-tested transports.
+ * Proves the Actions axis round-trips through a real model, not just
+ * unit-tested transports.
  *
  * Disabled unless {@code ARTHA_LIVE_LLM=true} is set in the environment
  * so {@code mvn test} stays free. To run:

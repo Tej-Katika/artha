@@ -69,9 +69,9 @@ public class GetAnomalyTool implements FinancialTool {
             Instant to   = refDate.now();
             Instant from = to.minusSeconds((long) daysBack * 86400);
 
-            // Ablation: when ontology tools are disabled, this tool has no
-            // access to the pre-computed `is_anomaly` flags on enrichments.
-            // It returns an explicit degraded-mode response.
+            // Ontology-disabled path: this tool has no access to the
+            // pre-computed `is_anomaly` flags on enrichments and returns
+            // an explicit degraded-mode response.
             if (!flags.ontologyToolsEnabled()) {
                 long txScanned = transactionRepository
                     .findByUserIdAndPostDateBetweenOrderByPostDateDesc(userUUID, from, to)

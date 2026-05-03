@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * repair-prompt builder. No Spring context, no Anthropic calls — these
  * exercise the retry decision tree and prompt formatting in isolation.
  *
- * IEEE Big Data 2026 budget discipline: end-to-end orchestrator
- * coverage that requires hitting the Anthropic API is deferred until
- * pilot week.
+ * End-to-end orchestrator coverage that requires hitting the
+ * Anthropic API lives in the {@code *IT} smoke tests under
+ * {@code src/test/java/com/artha/it/}, gated by ARTHA_LIVE_LLM.
  */
 class AgentOrchestratorRetryTest {
 

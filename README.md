@@ -44,7 +44,8 @@ ingestion and exposes them to a Claude agent through three formal axes:
   failure, postcondition failure, rollback). Hoare-triple soundness
   is enforced by `ActionExecutor`.
 - **Reproducible inference** — feature flags and reference-date
-  overrides isolate ablation runs from real wall-clock drift.
+  overrides anchor benchmark runs to a fixed-range dataset, isolated
+  from wall-clock drift.
 - **Open synthetic data** — Python generators produce calibrated
   banking and investments datasets; investments prices come from
   real Yahoo Finance fetches via a Python ETL.
@@ -165,7 +166,7 @@ property placeholders in
 |---|---|---|
 | `ANTHROPIC_API_KEY` | _(required)_ | API key for the Claude agent. |
 | `ARTHA_EVAL_REFERENCE_DATE` | _(unset)_ | Pin "today" to an ISO date (e.g. `2024-12-31`) so tool query windows are reproducible. Falls back to wall-clock when unset. |
-| `ARTHA_ONTOLOGY_TOOLS_ENABLED` | `true` | When `false`, the anomaly, category-insights, financial-health, and subscription tools bypass the enrichment join path and return a degraded response. Used to produce ablation conditions. |
+| `ARTHA_ONTOLOGY_TOOLS_ENABLED` | `true` | When `false`, the anomaly, category-insights, financial-health, and subscription tools bypass the enrichment join path and return a degraded response. Used for A/B comparisons against the full ontology path. |
 
 The default model is set in `application.yml`
 (`artha.anthropic.model`). The orchestrator falls back to
@@ -298,6 +299,25 @@ Flyway is disabled (`spring.flyway.enabled: false`); migrations under
 -f`. The current versions are V1 (initial schema), V2 (action_audit
 + violation_log), V3 (provenance on enrichments), V4 (investments
 ontology).
+
+## Project history
+
+The single-domain v1 architecture — banking only, 9 ontology types,
+15 read-only tools, no formal Action / Provenance / Constraint axes —
+is preserved at the [`v1.0`](https://github.com/Tej-Katika/artha/releases/tag/v1.0)
+git tag. That snapshot is the codebase referenced in the v1 paper /
+preprint on ontology-driven LLM agents for personal finance. To
+inspect the repository at that point:
+
+```bash
+git checkout v1.0
+```
+
+The current `main` branch extends the framework to the dual-domain
+(banking + investments) v2 design described above, with the three
+formal axes (Actions, Provenance, Constraints) layered on top of the
+v1 baseline incrementally — see the commit log between `v1.0` and
+`HEAD` for the per-step evolution.
 
 ## License
 
