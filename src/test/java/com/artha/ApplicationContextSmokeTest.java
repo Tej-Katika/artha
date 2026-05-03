@@ -170,6 +170,27 @@ class ApplicationContextSmokeTest {
     }
 
     /**
+     * Week-8 write actions for the investments domain. Three of the
+     * six actions specified in IEEE_PLAN.md §4.7 are shipped this
+     * batch (MarkPositionAsCore needs a V5 schema column;
+     * RebalancePortfolio + SetReturnTarget deferred to a follow-up).
+     */
+    @Test
+    void v2InvestmentsActionsAreRegistered() {
+        com.artha.core.action.ActionRegistry actions =
+            ctx.getBean(com.artha.core.action.ActionRegistry.class);
+        assertThat(actions.registeredKeys())
+            .contains(
+                "investments::RecordTrade",
+                "investments::RecordDividend",
+                "investments::FlagFeeOverpayment"
+            );
+
+        assertThat(toolRegistry.getRegisteredNames())
+            .contains("record_trade", "record_dividend", "flag_fee_overpayment");
+    }
+
+    /**
      * Investments domain ontology (Week 7) — 9 entity repositories +
      * 2 reference-data repositories (DailyPrice, RiskFreeRate). Asserts
      * every repository bean is in the application context, which proves
