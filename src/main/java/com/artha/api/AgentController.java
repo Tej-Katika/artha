@@ -12,11 +12,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * REST controller for the Artha agent chat endpoint.
  *
- * POST /api/agent/chat
+ * POST /api/agent/chat[?domain=banking|investments]
  * Body: { "userId": "uuid", "message": "How much did I spend on food?" }
  */
 @Slf4j
@@ -24,6 +25,8 @@ import java.util.Map;
 @RequestMapping("/api/agent")
 @RequiredArgsConstructor
 public class AgentController {
+
+    private static final Set<String> KNOWN_DOMAINS = Set.of("banking", "investments");
 
     private final AgentOrchestrator orchestrator;
 
@@ -34,7 +37,10 @@ public class AgentController {
     private String model;
 
     @PostMapping("/chat")
-    public ResponseEntity<Map<String, Object>> chat(@RequestBody ChatRequest request) {
+    public ResponseEntity<Map<String, Object>> chat(
+            @RequestBody ChatRequest request,
+            @RequestParam(value = "domain", required = false, defaultValue = "banking")
+            String domain) {
         if (request.userId() == null || request.userId().isBlank()) {
             return ResponseEntity.badRequest()
                 .body(Map.of("error", "userId is required"));
@@ -43,12 +49,17 @@ public class AgentController {
             return ResponseEntity.badRequest()
                 .body(Map.of("error", "message is required"));
         }
+        if (!KNOWN_DOMAINS.contains(domain)) {
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", "domain must be one of " + KNOWN_DOMAINS));
+        }
 
-        log.info("Chat request â€” userId={}", request.userId());
-        String response = orchestrator.chat(request.userId(), request.message());
+        log.info("Chat request â€” userId={} domain={}", request.userId(), domain);
+        String response = orchestrator.chat(request.userId(), request.message(), domain);
 
         return ResponseEntity.ok(Map.of(
             "userId",   request.userId(),
+            "domain",   domain,
             "message",  request.message(),
             "response", response
         ));
