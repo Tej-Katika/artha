@@ -148,6 +148,39 @@ class ApplicationContextSmokeTest {
     }
 
     /**
+     * Investments domain ontology (Week 7) — 9 entity repositories +
+     * 2 reference-data repositories (DailyPrice, RiskFreeRate). Asserts
+     * every repository bean is in the application context, which proves
+     * the JPA entity scan reaches `com.artha.investments.ontology.*`
+     * and the V4 schema is mapped without ddl-auto=validate failures.
+     */
+    @Test
+    void v2InvestmentsOntologyRepositoriesAreScannable() {
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.SecurityRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.BenchmarkRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.DailyPriceRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.RiskFreeRateRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.PortfolioRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.PositionRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.LotRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.TradeRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.DividendRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.FeeRepository.class)).isNotEmpty();
+        assertThat(ctx.getBeanNamesForType(
+            com.artha.investments.ontology.RiskProfileRepository.class)).isNotEmpty();
+    }
+
+    /**
      * Tracks how many Actions / Constraints are implemented vs. the
      * IEEE_PLAN.md targets (banking: 6 actions, 8 constraints;
      * investments: 6 actions, 6 constraints). Update the expected
