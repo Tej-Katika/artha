@@ -60,3 +60,7 @@ tasks/
 # to version-control the packaged artifacts.
 arxiv_submission/artha-arxiv.tar.gz
 arxiv_submission/artha-arxiv.zip
+
+# Investments data cache — fetched from Yahoo Finance, regenerable.
+# data/fetchers/ is code and stays tracked.
+data/investments/
