@@ -170,9 +170,29 @@ class ApplicationContextSmokeTest {
     }
 
     /**
+     * Week-8 constraints for the investments domain. Four of the six
+     * constraints in the v2 design (PortfolioWeightSum + Trade-
+     * AuditConsistency are HARD ontology checks; FeeMagnitudePlausible
+     * + BenchmarkExists are SOFT claim-driven).
+     */
+    @Test
+    void v2InvestmentsConstraintsAreRegistered() {
+        com.artha.core.constraint.ConstraintRegistry constraints =
+            ctx.getBean(com.artha.core.constraint.ConstraintRegistry.class);
+        assertThat(constraints.forDomain("investments"))
+            .extracting(com.artha.core.constraint.Constraint::name)
+            .contains(
+                "PortfolioWeightSum",
+                "TradeAuditConsistency",
+                "FeeMagnitudePlausible",
+                "BenchmarkExists"
+            );
+    }
+
+    /**
      * Week-8 write actions for the investments domain. Three of the
-     * six actions specified in IEEE_PLAN.md §4.7 are shipped this
-     * batch (MarkPositionAsCore needs a V5 schema column;
+     * six actions specified in the v2 plan are shipped this batch
+     * (MarkPositionAsCore needs a V5 schema column;
      * RebalancePortfolio + SetReturnTarget deferred to a follow-up).
      */
     @Test

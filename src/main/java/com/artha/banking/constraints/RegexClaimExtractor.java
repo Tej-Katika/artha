@@ -101,21 +101,42 @@ public class RegexClaimExtractor implements ClaimExtractor {
         "(?i)\\b(?:in\\s+the\\s+)?(?:last|past|previous)\\s+(week|month|quarter|year)\\b(?!\\s+[0-9])"
     );
 
+    // ── investments-domain claim patterns ─────────────────────────
+
+    /** "$X in advisory fees", "$X in expense ratio", "$X in commissions". */
+    private static final Pattern FEE_AMOUNT_PATTERN = Pattern.compile(
+        "(?i)" + AMOUNT_RE
+        + "\\s+in\\s+(?:advisory|expense\\s+ratio|commissions?|fees?|slippage)"
+    );
+
+    /** "vs SPY", "compared to AGG", "against BITO" — capture ticker. */
+    private static final Pattern BENCHMARK_NAME_PATTERN = Pattern.compile(
+        "(?i)(?:vs\\.?|versus|compared\\s+to|against)\\s+"
+        + "(?:the\\s+)?([A-Z][A-Z0-9.\\^-]{1,7})\\b"
+    );
+
     @Override
     public Set<FactualClaim> extract(String responseText, String domain) {
         Set<FactualClaim> claims = new HashSet<>();
         if (responseText == null || responseText.isBlank()) return claims;
-        if (!"banking".equals(domain)) return claims;
 
-        addSpendingClaims(responseText, claims);
-        addIncomeClaims(responseText, claims);
-        addAnomalyCountClaims(responseText, claims);
-        addGoalProgressClaims(responseText, claims);
-        addMerchantClassClaims(responseText, claims);
-        addDateRangeClaims(responseText, claims);
+        if ("banking".equals(domain)) {
+            addSpendingClaims(responseText, claims);
+            addIncomeClaims(responseText, claims);
+            addAnomalyCountClaims(responseText, claims);
+            addGoalProgressClaims(responseText, claims);
+            addMerchantClassClaims(responseText, claims);
+            addDateRangeClaims(responseText, claims);
+        } else if ("investments".equals(domain)) {
+            addFeeAmountClaims(responseText, claims);
+            addBenchmarkNameClaims(responseText, claims);
+            addDateRangeClaims(responseText, claims);
+        } else {
+            return claims;
+        }
 
-        log.debug("Extracted {} claim(s) from {} chars of banking response",
-            claims.size(), responseText.length());
+        log.debug("Extracted {} claim(s) from {} chars of {} response",
+            claims.size(), responseText.length(), domain);
         return claims;
     }
 
@@ -214,6 +235,28 @@ public class RegexClaimExtractor implements ClaimExtractor {
             if (windowDays <= 0) continue;
             out.add(buildDateRangeClaim(
                 1, unit, windowDays, bare.start(), bare.end()));
+        }
+    }
+
+    private static void addFeeAmountClaims(String text, Set<FactualClaim> out) {
+        Matcher m = FEE_AMOUNT_PATTERN.matcher(text);
+        while (m.find()) {
+            BigDecimal value = parseAmount(m.group(1));
+            if (value == null) continue;
+            out.add(new FactualClaim(
+                "fee_amount", "user", value, Map.of(),
+                m.start(), m.end()));
+        }
+    }
+
+    private static void addBenchmarkNameClaims(String text, Set<FactualClaim> out) {
+        Matcher m = BENCHMARK_NAME_PATTERN.matcher(text);
+        while (m.find()) {
+            String ticker = m.group(1);
+            if (ticker == null || ticker.isBlank()) continue;
+            out.add(new FactualClaim(
+                "benchmark_name", ticker.trim().toUpperCase(), null, Map.of(),
+                m.start(), m.end()));
         }
     }
 
