@@ -19,20 +19,22 @@ import java.util.regex.Pattern;
  * Per research/ONTOLOGY_V2_SPEC.md §10.1, the v2 plan begins with a
  * regex extractor; if recall on a labelled pilot drops below 80% we
  * switch to a structured-output schema where the agent emits claims
- * as a JSON tool-call alongside the prose. This implementation is
- * deliberately narrow — pulls out the four claim shapes that exercise
- * the constraint axis end-to-end:
+ * as a JSON tool-call alongside the prose. This implementation pulls
+ * out six claim shapes:
  *
  * <ul>
  *   <li>{@code spending_amount} — "$X on Y" or "spent $X"</li>
  *   <li>{@code income_amount}   — "earned $X" or "received $X"</li>
  *   <li>{@code anomaly_count}   — "N anomalies" / "N flagged transactions"</li>
  *   <li>{@code goal_progress}   — "$X toward your $Y goal"</li>
+ *   <li>{@code merchant_class}  — "X is a Y" (e.g., "Starbucks is a coffee shop")</li>
+ *   <li>{@code date_range}      — "in the last N days/weeks/months/quarters/years"</li>
  * </ul>
  *
  * The patterns intentionally over-match (favour recall over precision)
  * — false positives are absorbed by the constraints themselves
- * (a bogus claim either trips the check or harmlessly resolves).
+ * (a bogus merchant_class lookup resolves Indeterminate; a sane
+ * date_range passes vacuously).
  *
  * No Provenance lookup happens here; this layer is text-only.
  */
@@ -74,6 +76,31 @@ public class RegexClaimExtractor implements ClaimExtractor {
         + "[^$]{0,40}(?:goal|target|fund|savings)"
     );
 
+    /**
+     * "X is a Y" — captures merchant name + claimed class. Liberal:
+     * matches non-merchant uses too ("Saving is a habit"). The
+     * MerchantClassMatchConstraint resolves false positives by
+     * looking the subject up in MerchantProfile and returning
+     * Indeterminate when the merchant is not in the ontology.
+     *
+     * The class is bounded to at most two words to avoid slurping
+     * trailing prose ("coffee shop you visited" → "coffee shop").
+     */
+    private static final Pattern MERCHANT_CLASS_PATTERN = Pattern.compile(
+        "\\b([A-Z][\\w&'\\-]*(?:\\s+[\\w&'\\-]+){0,4}?)\\s+is\\s+(?:a|an)\\s+"
+        + "([A-Za-z][A-Za-z&'\\-]*(?:\\s+[A-Za-z][A-Za-z&'\\-]*)?)"
+    );
+
+    /** "last 30 days", "in the past 6 months", "previous 2 quarters" — captures count + unit. */
+    private static final Pattern DATE_RANGE_NUMERIC_PATTERN = Pattern.compile(
+        "(?i)(?:in\\s+the\\s+)?(?:last|past|previous)\\s+([0-9]+)\\s+(day|week|month|quarter|year)s?\\b"
+    );
+
+    /** "last week", "last quarter" — bare unit, count defaults to 1. */
+    private static final Pattern DATE_RANGE_BARE_PATTERN = Pattern.compile(
+        "(?i)\\b(?:in\\s+the\\s+)?(?:last|past|previous)\\s+(week|month|quarter|year)\\b(?!\\s+[0-9])"
+    );
+
     @Override
     public Set<FactualClaim> extract(String responseText, String domain) {
         Set<FactualClaim> claims = new HashSet<>();
@@ -84,6 +111,8 @@ public class RegexClaimExtractor implements ClaimExtractor {
         addIncomeClaims(responseText, claims);
         addAnomalyCountClaims(responseText, claims);
         addGoalProgressClaims(responseText, claims);
+        addMerchantClassClaims(responseText, claims);
+        addDateRangeClaims(responseText, claims);
 
         log.debug("Extracted {} claim(s) from {} chars of banking response",
             claims.size(), responseText.length());
@@ -148,6 +177,68 @@ public class RegexClaimExtractor implements ClaimExtractor {
                 "goal_progress", "user", current, attrs,
                 m.start(), m.end()));
         }
+    }
+
+    private static void addMerchantClassClaims(String text, Set<FactualClaim> out) {
+        Matcher m = MERCHANT_CLASS_PATTERN.matcher(text);
+        while (m.find()) {
+            String merchant = m.group(1) == null ? null : m.group(1).trim();
+            String klass    = m.group(2) == null ? null : m.group(2).trim();
+            if (merchant == null || merchant.isBlank()) continue;
+            if (klass == null || klass.isBlank()) continue;
+            Map<String, Object> attrs = new LinkedHashMap<>();
+            attrs.put("merchant_type", klass);
+            out.add(new FactualClaim(
+                "merchant_class", merchant, null, attrs,
+                m.start(), m.end()));
+        }
+    }
+
+    private static void addDateRangeClaims(String text, Set<FactualClaim> out) {
+        Matcher num = DATE_RANGE_NUMERIC_PATTERN.matcher(text);
+        while (num.find()) {
+            int count;
+            try { count = Integer.parseInt(num.group(1)); }
+            catch (NumberFormatException ex) { continue; }
+            String unit = num.group(2).toLowerCase();
+            int windowDays = unitToDays(unit, count);
+            if (windowDays <= 0) continue;
+            out.add(buildDateRangeClaim(
+                count, unit, windowDays, num.start(), num.end()));
+        }
+
+        Matcher bare = DATE_RANGE_BARE_PATTERN.matcher(text);
+        while (bare.find()) {
+            String unit = bare.group(1).toLowerCase();
+            int windowDays = unitToDays(unit, 1);
+            if (windowDays <= 0) continue;
+            out.add(buildDateRangeClaim(
+                1, unit, windowDays, bare.start(), bare.end()));
+        }
+    }
+
+    private static FactualClaim buildDateRangeClaim(
+            int count, String unit, int windowDays, int start, int end) {
+        Map<String, Object> attrs = new LinkedHashMap<>();
+        attrs.put("count", count);
+        attrs.put("unit", unit);
+        attrs.put("window_days", windowDays);
+        return new FactualClaim(
+            "date_range", "user",
+            new java.math.BigDecimal(windowDays),
+            attrs, start, end);
+    }
+
+    /** Unit names mirror the spec; month/quarter/year use calendar averages. */
+    private static int unitToDays(String unit, int count) {
+        return switch (unit) {
+            case "day"     -> count;
+            case "week"    -> count * 7;
+            case "month"   -> count * 30;
+            case "quarter" -> count * 90;
+            case "year"    -> count * 365;
+            default        -> 0;
+        };
     }
 
     private static BigDecimal parseAmount(String raw) {

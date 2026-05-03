@@ -117,4 +117,73 @@ class RegexClaimExtractorTest {
         assertThat(kinds).contains(
             "spending_amount", "income_amount", "anomaly_count");
     }
+
+    @Test
+    void extractsMerchantClassClaim() {
+        Set<FactualClaim> claims = extractor.extract(
+            "Starbucks is a coffee shop you visited 3 times.", "banking");
+
+        FactualClaim c = claims.stream()
+            .filter(x -> "merchant_class".equals(x.kind()))
+            .findFirst()
+            .orElseThrow();
+        assertThat(c.subject()).isEqualTo("Starbucks");
+        assertThat(c.attrs().get("merchant_type")).isEqualTo("coffee shop");
+    }
+
+    @Test
+    void merchantClassRecallIncludesFalsePositives() {
+        // "Saving is a habit" matches the same shape — the extractor
+        // accepts this; MerchantClassMatchConstraint resolves to
+        // Indeterminate when the subject is not in MerchantProfile.
+        Set<FactualClaim> claims = extractor.extract(
+            "Saving is a habit worth building.", "banking");
+        assertThat(claims)
+            .extracting(FactualClaim::kind)
+            .contains("merchant_class");
+    }
+
+    @Test
+    void extractsDateRangeNumeric() {
+        Set<FactualClaim> claims = extractor.extract(
+            "In the last 30 days you spent $400 on dining.", "banking");
+
+        FactualClaim c = claims.stream()
+            .filter(x -> "date_range".equals(x.kind()))
+            .findFirst()
+            .orElseThrow();
+        assertThat(c.value()).isEqualByComparingTo("30");
+        assertThat(c.attrs().get("count")).isEqualTo(30);
+        assertThat(c.attrs().get("unit")).isEqualTo("day");
+        assertThat(c.attrs().get("window_days")).isEqualTo(30);
+    }
+
+    @Test
+    void extractsDateRangeBareUnit() {
+        Set<FactualClaim> claims = extractor.extract(
+            "Last quarter your subscription costs increased.", "banking");
+
+        FactualClaim c = claims.stream()
+            .filter(x -> "date_range".equals(x.kind()))
+            .findFirst()
+            .orElseThrow();
+        assertThat(c.attrs().get("count")).isEqualTo(1);
+        assertThat(c.attrs().get("unit")).isEqualTo("quarter");
+        assertThat(c.attrs().get("window_days")).isEqualTo(90);
+    }
+
+    @Test
+    void dateRangeUnitConversion() {
+        Set<FactualClaim> claims = extractor.extract(
+            "Looking at the past 6 months and the previous 2 weeks: " +
+            "you spent more in Q4 than Q3.", "banking");
+
+        Set<Integer> windowDays = claims.stream()
+            .filter(x -> "date_range".equals(x.kind()))
+            .map(x -> (Integer) x.attrs().get("window_days"))
+            .collect(Collectors.toSet());
+
+        // 6 months = 180, 2 weeks = 14
+        assertThat(windowDays).contains(180, 14);
+    }
 }
