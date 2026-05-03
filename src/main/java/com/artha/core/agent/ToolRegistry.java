@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
@@ -46,11 +47,20 @@ public class ToolRegistry {
                 continue;
             }
 
-            ArthaTool annotation = bean.getClass()
-                .getAnnotation(ArthaTool.class);
+            // Use findAnnotation so beans wrapped in Spring proxies
+            // (e.g., for @Transactional methods) still resolve their
+            // @ArthaTool metadata from the underlying class.
+            ArthaTool annotation = AnnotationUtils
+                .findAnnotation(bean.getClass(), ArthaTool.class);
 
+            if (annotation == null) {
+                log.warn("Bean '{}' is in @ArthaTool registry but the "
+                    + "annotation could not be resolved -- skipping",
+                    entry.getKey());
+                continue;
+            }
             if (!annotation.enabled()) {
-                log.info("Tool '{}' is disabled â€” skipping", tool.getName());
+                log.info("Tool '{}' is disabled -- skipping", tool.getName());
                 continue;
             }
 

@@ -148,6 +148,28 @@ class ApplicationContextSmokeTest {
     }
 
     /**
+     * Week-8 read-only tools for the investments domain. Asserts the
+     * 10 typed tools are registered with `ToolRegistry` and therefore
+     * routable from the agent loop when {@code domain=investments}.
+     */
+    @Test
+    void v2InvestmentsToolsAreRegistered() {
+        assertThat(toolRegistry.getRegisteredNames())
+            .contains(
+                "get_portfolio_summary",
+                "get_position_details",
+                "get_portfolio_health",
+                "get_trade_history",
+                "get_trade_anomalies",
+                "get_dividend_income",
+                "get_fee_breakdown",
+                "get_benchmark_comparison",
+                "get_portfolio_projection",
+                "get_behavioral_signals"
+            );
+    }
+
+    /**
      * Investments domain ontology (Week 7) — 9 entity repositories +
      * 2 reference-data repositories (DailyPrice, RiskFreeRate). Asserts
      * every repository bean is in the application context, which proves
