@@ -61,4 +61,21 @@ public interface TransactionEnrichmentRepository
         "  AND t.user_id = CAST(:userId AS uuid)",
         nativeQuery = true)
     long countAnomaliesByUserId(@Param("userId") UUID userId);
+
+    /**
+     * Count transactions belonging to a user that have more than one
+     * enrichment row. Should always be zero — the DB enforces uniqueness
+     * via {@code transaction_enrichments_transaction_id_key}. Exposed for
+     * CategoryMutexConstraint, which runs as an ontology-integrity canary
+     * against future schema relaxation (e.g., split transactions).
+     */
+    @Query(value =
+        "SELECT COUNT(*) FROM (" +
+        "  SELECT e.transaction_id FROM transaction_enrichments e " +
+        "  JOIN transactions t ON t.id = e.transaction_id " +
+        "  WHERE t.user_id = CAST(:userId AS uuid) " +
+        "  GROUP BY e.transaction_id HAVING COUNT(*) > 1" +
+        ") d",
+        nativeQuery = true)
+    long countDuplicateEnrichedTransactionsByUserId(@Param("userId") UUID userId);
 }

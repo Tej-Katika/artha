@@ -1,7 +1,11 @@
 package com.artha.banking.constraints;
 
+import com.artha.banking.ontology.Budget;
+import com.artha.banking.ontology.BudgetRepository;
 import com.artha.banking.ontology.FinancialGoal;
 import com.artha.banking.ontology.FinancialGoalRepository;
+import com.artha.banking.ontology.RecurringBill;
+import com.artha.banking.ontology.RecurringBillRepository;
 import com.artha.banking.ontology.TransactionRepository;
 import com.artha.banking.ontology.TransactionEnrichmentRepository;
 import com.artha.core.constraint.ConstraintChecker;
@@ -16,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,17 +46,28 @@ class BankingConstraintsTest {
     @Autowired private GoalProgressBoundConstraint   goalConstraint;
     @Autowired private AnomalyEvidenceConstraint     anomalyConstraint;
     @Autowired private SpendingMagnitudeConstraint   spendingConstraint;
+    @Autowired private RecurringCadenceConstraint    cadenceConstraint;
+    @Autowired private CategoryMutexConstraint       mutexConstraint;
+    @Autowired private BudgetArithmeticConstraint    budgetConstraint;
 
     @Autowired private FinancialGoalRepository       goalRepo;
     @Autowired private TransactionEnrichmentRepository enrichRepo;
     @Autowired private TransactionRepository         txRepo;
+    @Autowired private RecurringBillRepository       billRepo;
+    @Autowired private BudgetRepository              budgetRepo;
 
-    private final List<UUID> createdGoalIds = new ArrayList<>();
+    private final List<UUID> createdGoalIds   = new ArrayList<>();
+    private final List<UUID> createdBillIds   = new ArrayList<>();
+    private final List<UUID> createdBudgetIds = new ArrayList<>();
 
     @AfterEach
     void cleanUp() {
         createdGoalIds.forEach(goalRepo::deleteById);
         createdGoalIds.clear();
+        createdBillIds.forEach(billRepo::deleteById);
+        createdBillIds.clear();
+        createdBudgetIds.forEach(budgetRepo::deleteById);
+        createdBudgetIds.clear();
     }
 
     /**
@@ -173,12 +189,19 @@ class BankingConstraintsTest {
     }
 
     @Test
-    void checkerSatisfiedOnInnocuousResponse() {
+    void checkerNoSoftViolationsOnInnocuousResponse() {
+        // An innocuous response makes no factual claims, so claim-driven
+        // (SOFT) constraints should not fire. HARD ontology constraints
+        // run regardless of response text and are tested separately —
+        // they may legitimately fire on seed data when the state itself
+        // has integrity issues.
         ConstraintChecker.CheckResult result = checker.check(
             "banking", HIGH_EARNER, EVAL_REFERENCE_DATE,
             "Here is a summary of your finances. Let me know if anything stands out.");
 
-        assertThat(result.satisfied()).isTrue();
+        assertThat(result.violations())
+            .extracting(ConstraintChecker.Violation::grade)
+            .doesNotContain(ConstraintGrade.SOFT);
     }
 
     @Test
@@ -199,5 +222,83 @@ class BankingConstraintsTest {
         assertThat(result.violations())
             .extracting(ConstraintChecker.Violation::grade)
             .contains(ConstraintGrade.HARD);
+    }
+
+    // ── RecurringCadenceConstraint (HARD ontology) ──────────────
+
+    @Test
+    void recurringCadenceSatisfiedOnSeedData() {
+        // Seed bills all use canonical cadences.
+        assertThat(cadenceConstraint.evaluate(ctx(), Set.of()))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    @Test
+    void recurringCadenceCatchesUnknownCadence() {
+        RecurringBill b = new RecurringBill();
+        b.setUserId(HIGH_EARNER);
+        b.setName("CONSTRAINT_TEST_BAD_CADENCE");
+        b.setExpectedAmount(new BigDecimal("9.99"));
+        b.setBillingCycle("DAILY");           // not in whitelist
+        b.setIsActive(true);
+        createdBillIds.add(billRepo.save(b).getId());
+
+        ConstraintResult result = cadenceConstraint.evaluate(ctx(), Set.of());
+        assertThat(result).isInstanceOf(ConstraintResult.Violated.class);
+        assertThat(((ConstraintResult.Violated) result).message())
+            .contains("DAILY");
+    }
+
+    // ── CategoryMutexConstraint (HARD ontology canary) ──────────
+    // The DB unique index on transaction_enrichments.transaction_id makes
+    // the violation path unreachable via normal ORM writes. We assert
+    // Satisfied on seed data; the Java predicate is retained as a
+    // canary against future schema relaxation (split transactions, v3+).
+
+    @Test
+    void categoryMutexSatisfiedOnSeedData() {
+        assertThat(mutexConstraint.evaluate(ctx(), Set.of()))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    // ── BudgetArithmeticConstraint (HARD numeric) ───────────────
+
+    @Test
+    void budgetArithmeticSatisfiedForUserWithNoBudgets() {
+        UUID emptyUser = UUID.fromString(
+            "00000000-0000-0000-0000-000000000099");
+        EvaluationContext emptyCtx = new EvaluationContext(
+            emptyUser, EVAL_REFERENCE_DATE, "");
+        assertThat(budgetConstraint.evaluate(emptyCtx, Set.of()))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    @Test
+    void budgetArithmeticCatchesOvershoot() {
+        // Pick any existing budget for HIGH_EARNER to obtain a valid
+        // SpendingCategory FK; insert a synthetic tight budget on the
+        // same category so seed-data spending overshoots it.
+        List<Budget> existing = budgetRepo.findByUserId(HIGH_EARNER);
+        org.junit.jupiter.api.Assumptions.assumeTrue(
+            !existing.isEmpty(),
+            "Need at least one existing Budget for HIGH_EARNER");
+
+        Budget tight = new Budget();
+        tight.setUserId(HIGH_EARNER);
+        tight.setSpendingCategory(existing.get(0).getSpendingCategory());
+        tight.setMonthlyLimit(new BigDecimal("0.01"));
+        tight.setRolloverEnabled(false);
+        tight.setRolloverAmount(BigDecimal.ZERO);
+        tight.setEffectiveFrom(LocalDate.of(2024, 12, 1));
+        tight.setEffectiveTo(LocalDate.of(2024, 12, 31));
+        Budget saved = budgetRepo.save(tight);
+        createdBudgetIds.add(saved.getId());
+
+        ConstraintResult result = budgetConstraint.evaluate(ctx(), Set.of());
+        // Either the synthetic budget overshoots (likely) OR an existing
+        // budget already does. Both prove the predicate fires correctly.
+        assertThat(result).isInstanceOf(ConstraintResult.Violated.class);
+        assertThat(((ConstraintResult.Violated) result).message())
+            .contains("exceeds allowance");
     }
 }
