@@ -49,6 +49,8 @@ class BankingConstraintsTest {
     @Autowired private RecurringCadenceConstraint    cadenceConstraint;
     @Autowired private CategoryMutexConstraint       mutexConstraint;
     @Autowired private BudgetArithmeticConstraint    budgetConstraint;
+    @Autowired private MerchantClassMatchConstraint  merchantConstraint;
+    @Autowired private DateRangeBoundingConstraint   dateRangeConstraint;
 
     @Autowired private FinancialGoalRepository       goalRepo;
     @Autowired private TransactionEnrichmentRepository enrichRepo;
@@ -300,5 +302,77 @@ class BankingConstraintsTest {
         assertThat(result).isInstanceOf(ConstraintResult.Violated.class);
         assertThat(((ConstraintResult.Violated) result).message())
             .contains("exceeds allowance");
+    }
+
+    // ── MerchantClassMatchConstraint (SOFT claim-driven) ────────
+
+    @Test
+    void merchantClassVacuouslyPassesWhenNoClaim() {
+        assertThat(merchantConstraint.evaluate(ctx(), Set.of()))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    @Test
+    void merchantClassSilentlySkipsUnresolvedSubject() {
+        // "Saving" is not a merchant — constraint should not violate,
+        // it should treat as unresolved (FP-tolerant).
+        FactualClaim fp = new FactualClaim(
+            "merchant_class", "Saving", null,
+            java.util.Map.of("merchant_type", "habit"), 0, 0);
+
+        assertThat(merchantConstraint.evaluate(ctx(), Set.of(fp)))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    // ── DateRangeBoundingConstraint (SOFT claim-driven) ─────────
+
+    @Test
+    void dateRangeBoundingVacuouslyPassesWithoutClaims() {
+        assertThat(dateRangeConstraint.evaluate(ctx(), Set.of()))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    @Test
+    void dateRangeBoundingAcceptsReasonableWindow() {
+        FactualClaim c = new FactualClaim(
+            "date_range", "user", new BigDecimal("30"),
+            java.util.Map.of("count", 30, "unit", "day", "window_days", 30),
+            0, 0);
+        EvaluationContext c30 = new EvaluationContext(
+            HIGH_EARNER, EVAL_REFERENCE_DATE,
+            "Looking at the last 30 days you spent steadily.");
+        assertThat(dateRangeConstraint.evaluate(c30, Set.of(c)))
+            .isInstanceOf(ConstraintResult.Satisfied.class);
+    }
+
+    @Test
+    void dateRangeBoundingCatchesImplausibleWindow() {
+        FactualClaim c = new FactualClaim(
+            "date_range", "user", new BigDecimal("999999"),
+            java.util.Map.of("count", 999999, "unit", "day", "window_days", 999999),
+            0, 0);
+        ConstraintResult result =
+            dateRangeConstraint.evaluate(ctx(), Set.of(c));
+        assertThat(result).isInstanceOf(ConstraintResult.Violated.class);
+        assertThat(((ConstraintResult.Violated) result).message())
+            .contains("implausible");
+    }
+
+    @Test
+    void dateRangeBoundingCatchesOutOfWindowDate() {
+        FactualClaim c = new FactualClaim(
+            "date_range", "user", new BigDecimal("30"),
+            java.util.Map.of("count", 30, "unit", "day", "window_days", 30),
+            0, 0);
+        // ref = 2024-12-31, window = 30 days → earliest = 2024-12-01.
+        // 2024-06-15 is way outside.
+        EvaluationContext withDate = new EvaluationContext(
+            HIGH_EARNER, EVAL_REFERENCE_DATE,
+            "In the last 30 days you spent $200 — see 2024-06-15.");
+        ConstraintResult result =
+            dateRangeConstraint.evaluate(withDate, Set.of(c));
+        assertThat(result).isInstanceOf(ConstraintResult.Violated.class);
+        assertThat(((ConstraintResult.Violated) result).message())
+            .contains("2024-06-15");
     }
 }

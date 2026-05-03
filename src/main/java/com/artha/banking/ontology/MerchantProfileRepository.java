@@ -13,10 +13,12 @@ public interface MerchantProfileRepository extends JpaRepository<MerchantProfile
 
     /**
      * Find merchant by checking if the input name matches any known name variant.
-     * Uses PostgreSQL array contains operator (@>).
+     * Uses PostgreSQL array contains operator (@>). Cast is via CAST(...) rather
+     * than the {@code ::text[]} sugar — Spring's named-parameter parser reads the
+     * latter's leading colon as a parameter prefix and fails to bind.
      */
     @Query(value = "SELECT * FROM merchant_profiles " +
-                   "WHERE name_variants @> ARRAY[UPPER(:name)]::text[] " +
+                   "WHERE name_variants @> CAST(ARRAY[UPPER(:name)] AS text[]) " +
                    "LIMIT 1",
            nativeQuery = true)
     Optional<MerchantProfile> findByNameVariant(String name);

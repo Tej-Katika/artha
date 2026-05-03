@@ -96,11 +96,9 @@ class ApplicationContextSmokeTest {
     }
 
     /**
-     * Constraints axis (Week 6) — banking constraints registered.
-     * After Commit 1, three HARD ontology constraints join the first
-     * batch: RecurringCadence, CategoryMutex, BudgetArithmetic. Two
-     * SOFT claim-driven constraints (MerchantClassMatch,
-     * DateRangeBounding) land in Commit 3 with their extractor support.
+     * Constraints axis (Week 6) — full banking set: 5 HARD (3 ontology,
+     * 1 numeric, 1 enum) + 3 SOFT (claim-driven). Investments-domain
+     * constraints land in Week 8.
      */
     @Test
     void v2BankingConstraintsAreRegistered() {
@@ -114,7 +112,9 @@ class ApplicationContextSmokeTest {
                 "SpendingMagnitude",
                 "RecurringCadence",
                 "CategoryMutex",
-                "BudgetArithmetic"
+                "BudgetArithmetic",
+                "MerchantClassMatch",
+                "DateRangeBounding"
             );
     }
 
@@ -171,10 +171,9 @@ class ApplicationContextSmokeTest {
                 "banking::MarkRecurring"
             );
 
-        // Week 6 second batch: 6 of 8 banking constraints registered
-        // (MerchantClassMatch + DateRangeBounding land in Commit 3).
+        // Week 6 complete: 8 banking constraints registered.
         assertThat(constraints.size())
-            .as("Week-6 constraints — second batch")
-            .isGreaterThanOrEqualTo(6);
+            .as("Week-6 constraints — full banking set")
+            .isGreaterThanOrEqualTo(8);
     }
 }
