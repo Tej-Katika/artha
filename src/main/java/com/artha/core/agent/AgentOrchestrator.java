@@ -57,7 +57,7 @@ public class AgentOrchestrator {
     private final ViolationLogService  violationLogService;
 
     private static final int    MAX_TURNS                = 8;
-    static final         int    MAX_CONSTRAINT_RETRIES   = 2;
+    public static final  int    MAX_CONSTRAINT_RETRIES   = 2;
     private static final String API_URL                  = "https://api.anthropic.com/v1/messages";
     private static final String API_VERSION              = "2023-06-01";
     private static final String DEFAULT_DOMAIN           = "banking";
