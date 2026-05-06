@@ -67,3 +67,6 @@ data/investments/
 
 # Banking generator output — regenerable from generate_artha_data_v2.py.
 artha_users_v2.json
+
+# Eval-harness outputs — kept locally; not part of the public codebase.
+eval_results/

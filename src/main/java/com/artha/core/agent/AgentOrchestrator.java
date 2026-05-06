@@ -61,6 +61,8 @@ public class AgentOrchestrator {
     private static final String API_URL                  = "https://api.anthropic.com/v1/messages";
     private static final String API_VERSION              = "2023-06-01";
     private static final String DEFAULT_DOMAIN           = "banking";
+    private static final int    UPSTREAM_MAX_ATTEMPTS    = 4;
+    private static final long   UPSTREAM_BACKOFF_BASE_MS = 2000L;
 
     private static final String SYSTEM_PROMPT =
         "You are Artha, a personal AI financial advisor.\n" +
@@ -260,37 +262,56 @@ public class AgentOrchestrator {
     // ── existing Claude transport / tooling (unchanged) ─────────────
 
     private JsonNode callClaude(ArrayNode messages, ArrayNode tools) {
-        try {
-            ObjectNode body = objectMapper.createObjectNode();
-            body.put("model",      model);
-            body.put("max_tokens", 1024);
-            body.put("system",     SYSTEM_PROMPT);
-            body.set("messages",   messages);
-            body.set("tools",      tools);
+        ObjectNode body = objectMapper.createObjectNode();
+        body.put("model",      model);
+        body.put("max_tokens", 1024);
+        body.put("system",     SYSTEM_PROMPT);
+        body.set("messages",   messages);
+        body.set("tools",      tools);
+        String bodyStr = body.toString();
 
-            String responseBody = WebClient.builder()
-                .baseUrl(API_URL)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader("x-api-key",         apiKey)
-                .defaultHeader("anthropic-version", API_VERSION)
-                .build()
-                .post()
-                .bodyValue(body.toString())
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        for (int attempt = 1; attempt <= UPSTREAM_MAX_ATTEMPTS; attempt++) {
+            try {
+                String responseBody = WebClient.builder()
+                    .baseUrl(API_URL)
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .defaultHeader("x-api-key",         apiKey)
+                    .defaultHeader("anthropic-version", API_VERSION)
+                    .build()
+                    .post()
+                    .bodyValue(bodyStr)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
 
-            JsonNode parsed = objectMapper.readTree(responseBody);
-            logUsage(parsed.path("usage"));
-            return parsed;
+                JsonNode parsed = objectMapper.readTree(responseBody);
+                logUsage(parsed.path("usage"));
+                return parsed;
 
-        } catch (WebClientResponseException e) {
-            log.error("Claude API error — status={} body={}", e.getStatusCode(), e.getResponseBodyAsString());
-            return null;
-        } catch (Exception e) {
-            log.error("Claude call failed — {}", e.getMessage(), e);
-            return null;
+            } catch (WebClientResponseException e) {
+                int status = e.getStatusCode().value();
+                boolean retryable = (status == 529 || status == 429)
+                                    && attempt < UPSTREAM_MAX_ATTEMPTS;
+                if (retryable) {
+                    long waitMs = UPSTREAM_BACKOFF_BASE_MS * (1L << (attempt - 1));
+                    log.warn("Claude API {} on attempt {}/{} — retrying in {}ms",
+                            status, attempt, UPSTREAM_MAX_ATTEMPTS, waitMs);
+                    try { Thread.sleep(waitMs); }
+                    catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return null;
+                    }
+                    continue;
+                }
+                log.error("Claude API error — status={} body={}",
+                        e.getStatusCode(), e.getResponseBodyAsString());
+                return null;
+            } catch (Exception e) {
+                log.error("Claude call failed — {}", e.getMessage(), e);
+                return null;
+            }
         }
+        return null;
     }
 
     private String executeTool(String name, JsonNode input, String userId) {
