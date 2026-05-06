@@ -191,17 +191,21 @@ class BankingConstraintsTest {
     }
 
     @Test
-    void checkerNoSoftViolationsOnInnocuousResponse() {
+    void checkerNoClaimDrivenSoftViolationsOnInnocuousResponse() {
         // An innocuous response makes no factual claims, so claim-driven
-        // (SOFT) constraints should not fire. HARD ontology constraints
-        // run regardless of response text and are tested separately —
-        // they may legitimately fire on seed data when the state itself
-        // has integrity issues.
+        // SOFT constraints (SpendingMagnitude, AnomalyEvidence,
+        // MerchantClassMatch, DateRangeBounding) must not fire. State-
+        // driven constraints — both HARD ontology checks and the SOFT
+        // BudgetArithmetic overshoot nudge — run regardless of response
+        // text and may legitimately fire on seed data when the state
+        // itself warrants it (e.g., HIGH_EARNER is genuinely over their
+        // FOOD_AND_DRINK budget in December 2024).
         ConstraintChecker.CheckResult result = checker.check(
             "banking", HIGH_EARNER, EVAL_REFERENCE_DATE,
             "Here is a summary of your finances. Let me know if anything stands out.");
 
         assertThat(result.violations())
+            .filteredOn(v -> !"BudgetArithmetic".equals(v.constraintName()))
             .extracting(ConstraintChecker.Violation::grade)
             .doesNotContain(ConstraintGrade.SOFT);
     }
@@ -263,7 +267,7 @@ class BankingConstraintsTest {
             .isInstanceOf(ConstraintResult.Satisfied.class);
     }
 
-    // ── BudgetArithmeticConstraint (HARD numeric) ───────────────
+    // ── BudgetArithmeticConstraint (SOFT behavioral) ────────────
 
     @Test
     void budgetArithmeticSatisfiedForUserWithNoBudgets() {
@@ -301,7 +305,7 @@ class BankingConstraintsTest {
         // budget already does. Both prove the predicate fires correctly.
         assertThat(result).isInstanceOf(ConstraintResult.Violated.class);
         assertThat(((ConstraintResult.Violated) result).message())
-            .contains("exceeds allowance");
+            .contains("Budget exceeded");
     }
 
     // ── MerchantClassMatchConstraint (SOFT claim-driven) ────────

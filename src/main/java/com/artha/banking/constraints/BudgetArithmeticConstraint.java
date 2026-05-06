@@ -21,18 +21,20 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * HARD numeric check: in any calendar month covered by an active
+ * SOFT behavioral check: in any calendar month covered by an active
  * Budget, the sum of DEBITs in that category must not exceed the
  * budget's allowance (monthlyLimit + rolloverAmount when rollover is
  * enabled), beyond a small tolerance.
  *
- * Per research/ONTOLOGY_V2_SPEC.md §6.5. The spec phrasing
+ * Per research/ONTOLOGY_V2_SPEC.md §6.5. The spec's literal
  * "{@code budget.used = Σ(transactions in category in period)}" is
  * tautological in this schema — Budget has no denormalized {@code used}
- * column, so the constraint reframes the spirit of the rule as a
- * budget-overshoot check. A violation indicates either ETL drift, a
- * misbehaving Action, or a misconfigured budget — the agent should
- * surface the integrity issue rather than reason over it.
+ * column. The constraint reframes the spirit of the rule as
+ * over-budget detection, treated as a SOFT actionable signal rather
+ * than a HARD integrity abort: a real user overspending a real budget
+ * is the agent's most important opportunity to add value, not a data
+ * error to refuse over. The repair hint nudges the agent to surface
+ * the overshoot prominently in the response.
  *
  * Tolerance is {@code max($0.01, 0.1% of monthlyLimit)} to absorb
  * rounding without masking real overshoots.
@@ -49,12 +51,14 @@ public class BudgetArithmeticConstraint implements Constraint {
 
     @Override public String name()              { return "BudgetArithmetic"; }
     @Override public String domain()            { return "banking"; }
-    @Override public ConstraintGrade grade()    { return ConstraintGrade.HARD; }
+    @Override public ConstraintGrade grade()    { return ConstraintGrade.SOFT; }
     @Override public String repairHintTemplate() {
-        return "Spending in a budgeted category exceeds the budget's "
-             + "allowance for the current period. Abort the response "
-             + "and surface the budget-integrity issue rather than "
-             + "reasoning over inconsistent state.";
+        return "The user has exceeded one or more of their monthly "
+             + "budgets. Acknowledge each overshoot prominently in the "
+             + "response — name the category and cite the dollar "
+             + "amount over budget. This is meaningful actionable "
+             + "financial signal, not a data error: the numbers in the "
+             + "spending tools are accurate.";
     }
 
     @Override
@@ -104,14 +108,13 @@ public class BudgetArithmeticConstraint implements Constraint {
             BigDecimal cap = allowance.add(tolerance);
 
             if (sum.compareTo(cap) > 0) {
+                String categoryName = b.getSpendingCategory().getName();
+                BigDecimal overshoot = sum.subtract(allowance);
                 return new ConstraintResult.Violated(
-                    "Budget " + b.getId() + " (category " + categoryId
-                    + ") spent " + sum + " in " + monthStart.getMonth()
-                    + " " + monthStart.getYear() + " exceeds allowance "
-                    + allowance + " (limit " + b.getMonthlyLimit()
-                    + (Boolean.TRUE.equals(b.getRolloverEnabled())
-                        ? " + rollover " + b.getRolloverAmount() : "")
-                    + ", tolerance " + tolerance + ")",
+                    "Budget exceeded: " + categoryName + " spent $" + sum
+                    + " in " + monthStart.getMonth() + " "
+                    + monthStart.getYear() + " vs allowance $" + allowance
+                    + " — overshoot $" + overshoot,
                     repairHintTemplate());
             }
         }
