@@ -16,4 +16,6 @@ public interface TradeRepository extends JpaRepository<Trade, UUID> {
         UUID portfolioId, Instant from, Instant to);
 
     List<Trade> findBySecurityIdOrderByExecutedAtDesc(UUID securityId);
+
+    List<Trade> findByPortfolioIdAndSecurityId(UUID portfolioId, UUID securityId);
 }

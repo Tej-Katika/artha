@@ -5,12 +5,12 @@ import com.artha.core.constraint.ConstraintGrade;
 import com.artha.core.constraint.ConstraintResult;
 import com.artha.core.constraint.EvaluationContext;
 import com.artha.core.constraint.FactualClaim;
-import com.artha.investments.ontology.Lot;
-import com.artha.investments.ontology.LotRepository;
 import com.artha.investments.ontology.Portfolio;
 import com.artha.investments.ontology.PortfolioRepository;
 import com.artha.investments.ontology.Position;
 import com.artha.investments.ontology.PositionRepository;
+import com.artha.investments.ontology.Trade;
+import com.artha.investments.ontology.TradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +19,23 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 /**
- * HARD ontology-integrity check: for every {@link Position}, the sum
- * of its open {@link Lot} quantities must equal the position's
- * aggregate quantity.
+ * HARD ontology-integrity check: for every {@link Position}, the
+ * recorded quantity must equal the signed sum of its trades —
+ * Σ(BUY.quantity) − Σ(SELL.quantity) — for the same (portfolio, security)
+ * pair.
  *
- * RecordTradeAction enforces this in its postcondition, so a violation
- * here means either a bypassed action (manual SQL, buggy import), a
- * future SELL implementation that mis-closed lots, or rounding drift
- * that exceeds the BigDecimal tolerance. Either way the agent cannot
- * safely report position-level data, so the violation is HARD.
+ * <p>v2 scope: trade-based audit. The position-vs-trade reconstruction
+ * is the right ledger invariant for v2 because the synthetic generator
+ * (and the BUY-only RecordTradeAction) populates trades but does not
+ * maintain a lot-level FIFO ledger. Lot-level audit (sum of open lots
+ * == position.quantity) is reinstated in v3 alongside SELL accounting,
+ * where lot closures need their own consistency check distinct from
+ * trade-vs-position drift.
+ *
+ * <p>A violation here means a bypassed write path (manual SQL, buggy
+ * import) or rounding drift exceeding the BigDecimal tolerance — the
+ * agent cannot safely report position-level data, so the violation is
+ * HARD.
  */
 @Component
 @RequiredArgsConstructor
@@ -37,15 +45,15 @@ public class TradeAuditConsistencyConstraint implements Constraint {
 
     private final PortfolioRepository portfolioRepo;
     private final PositionRepository  positionRepo;
-    private final LotRepository       lotRepo;
+    private final TradeRepository     tradeRepo;
 
     @Override public String name()              { return "TradeAuditConsistency"; }
     @Override public String domain()            { return "investments"; }
     @Override public ConstraintGrade grade()    { return ConstraintGrade.HARD; }
     @Override public String repairHintTemplate() {
-        return "Position quantity does not match the sum of open lots — "
-             + "the trade ledger is inconsistent; abort and surface the "
-             + "integrity issue.";
+        return "Position quantity does not match the signed sum of "
+             + "trades — the trade ledger is inconsistent; abort and "
+             + "surface the integrity issue.";
     }
 
     @Override
@@ -53,18 +61,20 @@ public class TradeAuditConsistencyConstraint implements Constraint {
     public ConstraintResult evaluate(EvaluationContext ctx, Set<FactualClaim> claims) {
         for (Portfolio p : portfolioRepo.findByUserId(ctx.userId())) {
             for (Position pos : positionRepo.findByPortfolioId(p.getId())) {
-                BigDecimal openLotsTotal = lotRepo
-                    .findByPositionIdAndClosedAtIsNullOrderByAcquiredAtAsc(pos.getId())
+                BigDecimal tradeSignedSum = tradeRepo
+                    .findByPortfolioIdAndSecurityId(p.getId(), pos.getSecurity().getId())
                     .stream()
-                    .map(Lot::getQuantity)
+                    .map(t -> "SELL".equals(t.getSide())
+                        ? t.getQuantity().negate()
+                        : t.getQuantity())
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-                if (openLotsTotal.subtract(pos.getQuantity()).abs().compareTo(TOLERANCE) > 0) {
+                if (tradeSignedSum.subtract(pos.getQuantity()).abs().compareTo(TOLERANCE) > 0) {
                     return new ConstraintResult.Violated(
                         "Position " + pos.getId()
                         + " (" + pos.getSecurity().getTicker()
                         + ") quantity=" + pos.getQuantity()
-                        + " but sum of open lots=" + openLotsTotal,
+                        + " but signed sum of trades=" + tradeSignedSum,
                         repairHintTemplate());
                 }
             }
