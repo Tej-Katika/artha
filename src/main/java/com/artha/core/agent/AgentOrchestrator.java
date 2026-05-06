@@ -1,5 +1,6 @@
 package com.artha.core.agent;
 
+import com.artha.core.ReferenceDateProvider;
 import com.artha.core.constraint.ConstraintChecker;
 import com.artha.core.constraint.ConstraintChecker.CheckResult;
 import com.artha.core.constraint.ConstraintChecker.Violation;
@@ -51,10 +52,11 @@ public class AgentOrchestrator {
     @Value("${artha.anthropic.model:claude-haiku-4-5-20251001}")
     private String model;
 
-    private final ToolRegistry         toolRegistry;
-    private final ObjectMapper         objectMapper;
-    private final ConstraintChecker    constraintChecker;
-    private final ViolationLogService  violationLogService;
+    private final ToolRegistry           toolRegistry;
+    private final ObjectMapper           objectMapper;
+    private final ConstraintChecker      constraintChecker;
+    private final ViolationLogService    violationLogService;
+    private final ReferenceDateProvider  referenceDateProvider;
 
     private static final int    MAX_TURNS                = 8;
     public static final  int    MAX_CONSTRAINT_RETRIES   = 2;
@@ -175,7 +177,13 @@ public class AgentOrchestrator {
             return new CheckResult(List.of(), 0);
         }
         try {
-            return constraintChecker.check(domain, userUuid, Instant.now(), text);
+            // Use the eval-pinned reference date when ARTHA_EVAL_REFERENCE_DATE
+            // is set so windowed checks (SpendingMagnitude's last-365d
+            // debit total, etc.) target the synthetic data window — not
+            // wall-clock, which on a 2026 run lands far past the 2024
+            // seed data and silently zeros out every windowed query.
+            return constraintChecker.check(
+                domain, userUuid, referenceDateProvider.now(), text);
         } catch (RuntimeException ex) {
             log.warn("Constraint check threw — skipping: {}", ex.getMessage());
             return new CheckResult(List.of(), 0);
