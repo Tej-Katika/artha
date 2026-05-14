@@ -27,8 +27,14 @@ from decimal import Decimal
 
 # -- DB config -----------------------------------------------------------------
 
-DB_CONFIG = dict(host="localhost", port=5432, dbname="postgres",
-                 user="postgres", password="artha123")
+import os as _os_db
+DB_CONFIG = dict(
+    host=_os_db.environ.get("PGHOST", "localhost"),
+    port=int(_os_db.environ.get("PGPORT", "5432")),
+    dbname=_os_db.environ.get("PGDATABASE", "postgres"),
+    user=_os_db.environ.get("PGUSER", "postgres"),
+    password=_os_db.environ.get("PGPASSWORD", "finwise123"),
+)
 
 # -- Constants -----------------------------------------------------------------
 
@@ -214,6 +220,89 @@ ARCHETYPES = {
                           "7-Eleven","T-Mobile","Lyft","Uber","Instacart"],
     },
 }
+
+# -- BLS calibration overlay ---------------------------------------------------
+# Loads data/calibration/archetype_profiles.json (built by
+# data/calibration/pull_bls_ces.py against BLS CES PUMD 2024) and rewrites
+# each archetype's category share weights with BLS-derived shares.
+#
+# Design: PRESERVE v2's category list per archetype (which categories are
+# listed reflects intentional behavioral signaling — e.g., overspender
+# deliberately omits HOUSING). REPLACE only the share weights with BLS
+# data. Categories v2 lists but BLS doesn't calibrate (LOAN_PAYMENT,
+# INVESTMENTS, CHILDCARE, TAXES, MARKETING) keep their original v2 share;
+# the BLS-calibrated subset is renormalized to fill the remaining budget.
+#
+# If the calibration file is missing, falls back to v2 hardcoded shares
+# silently — keeps the script runnable on a fresh checkout.
+
+import os as _os
+from pathlib import Path as _Path
+
+_CALIBRATION_PATH = _Path(__file__).parent / "data" / "calibration" / "archetype_profiles.json"
+
+
+def _apply_bls_calibration(archetypes):
+    """Mutate `archetypes` dict in place: rewrite each archetype's
+    `categories` list with BLS-calibrated share weights."""
+    if _os.environ.get("ARTHA_NO_CALIBRATION") == "1":
+        print("[bls] ARTHA_NO_CALIBRATION=1 — skipping BLS overlay")
+        return
+    if not _CALIBRATION_PATH.exists():
+        print(f"[bls] no calibration file at {_CALIBRATION_PATH.name} — using v2 hardcoded shares")
+        return
+
+    profiles = json.loads(_CALIBRATION_PATH.read_text())["archetypes"]
+    print(f"[bls] loaded calibration for {len(profiles)} archetypes from {_CALIBRATION_PATH.name}")
+
+    n_calibrated = 0
+    for arch_name, arch_cfg in archetypes.items():
+        bls_profile = profiles.get(arch_name)
+        if bls_profile is None:
+            print(f"[bls]   {arch_name}: no BLS profile — keeping hardcoded")
+            continue
+
+        bls_shares = {
+            cat: stats["share"]
+            for cat, stats in bls_profile["categories"].items()
+            if stats.get("share", 0) > 0
+        }
+
+        original_cats = arch_cfg["categories"]
+        cal = [(c, l, s) for c, l, s in original_cats if c in bls_shares]
+        uncal = [(c, l, s) for c, l, s in original_cats if c not in bls_shares]
+
+        if not cal:
+            print(f"[bls]   {arch_name}: no BLS overlap — keeping hardcoded")
+            continue
+
+        uncal_total = sum(s for _, _, s in uncal)
+        # Reserve at least 5% for the calibrated subset even if uncalibrated
+        # categories sum >= 95% (defensive; shouldn't happen with v2 archetypes).
+        cal_budget = max(1.0 - uncal_total, 0.05)
+        bls_subset_total = sum(bls_shares[c] for c, _, _ in cal)
+        if bls_subset_total <= 0:
+            continue
+
+        new_cal = [
+            (c, l, round((bls_shares[c] / bls_subset_total) * cal_budget, 4))
+            for c, l, _ in cal
+        ]
+        arch_cfg["categories"] = uncal + new_cal
+        n_calibrated += 1
+        n_shifted = sum(
+            1 for (_, _, s_old), (_, _, s_new)
+            in zip(original_cats, arch_cfg["categories"])
+            if abs(s_old - s_new) > 0.05
+        )
+        print(f"[bls]   {arch_name}: {len(cal)} cats calibrated, "
+              f"{len(uncal)} kept; {n_shifted} shifted >5%")
+
+    print(f"[bls] applied calibration to {n_calibrated}/{len(archetypes)} archetypes")
+
+
+_apply_bls_calibration(ARCHETYPES)
+
 
 # -- ID helpers ----------------------------------------------------------------
 

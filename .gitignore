@@ -70,3 +70,9 @@ artha_users_v2.json
 
 # Eval-harness outputs — kept locally; not part of the public codebase.
 eval_results/
+
+# BLS PUMD raw archives and extracts — ~700 MB. Re-download from the BLS
+# Consumer Expenditure Survey PUMD page (manual browser download; BLS WAF
+# blocks automated fetches). data/calibration/pull_bls_ces.py rebuilds
+# archetype_profiles.json from these files.
+data/calibration/raw/
