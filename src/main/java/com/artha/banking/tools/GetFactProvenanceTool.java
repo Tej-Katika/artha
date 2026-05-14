@@ -1,5 +1,6 @@
 package com.artha.banking.tools;
 
+import com.artha.core.FeatureFlags;
 import com.artha.core.agent.ArthaTool;
 import com.artha.core.agent.FinancialTool;
 import com.artha.core.agent.ToolContext;
@@ -39,6 +40,7 @@ import java.util.UUID;
 public class GetFactProvenanceTool implements FinancialTool {
 
     private final ProvenanceService provenanceService;
+    private final FeatureFlags      flags;
 
     @Override
     public String getName() { return "get_fact_provenance"; }
@@ -79,6 +81,12 @@ public class GetFactProvenanceTool implements FinancialTool {
     public ToolResult execute(JsonNode input, ToolContext context) {
         long startMs = System.currentTimeMillis();
         try {
+            if (!flags.provenanceEnabled()) {
+                return ToolResult.error(
+                    "Provenance axis disabled for this run (ablation Condition C). "
+                    + "No source/rule/confidence citation is available.");
+            }
+
             UUID factId = UUID.fromString(input.get("fact_id").asText());
 
             Optional<Provenance> resolved = provenanceService.why(factId);

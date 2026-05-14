@@ -1,5 +1,6 @@
 package com.artha.core.agent;
 
+import com.artha.core.FeatureFlags;
 import com.artha.core.ReferenceDateProvider;
 import com.artha.core.constraint.ConstraintChecker;
 import com.artha.core.constraint.ConstraintChecker.CheckResult;
@@ -57,6 +58,7 @@ public class AgentOrchestrator {
     private final ConstraintChecker      constraintChecker;
     private final ViolationLogService    violationLogService;
     private final ReferenceDateProvider  referenceDateProvider;
+    private final FeatureFlags           flags;
 
     private static final int    MAX_TURNS                = 8;
     public static final  int    MAX_CONSTRAINT_RETRIES   = 2;
@@ -174,6 +176,12 @@ public class AgentOrchestrator {
 
     private CheckResult checkConstraints(String domain, UUID userUuid, String text) {
         if (userUuid == null) {
+            return new CheckResult(List.of(), 0);
+        }
+        if (!flags.constraintsEnabled()) {
+            // Constraints axis disabled (ablation Condition D): skip
+            // the check entirely so the repair loop never engages and
+            // no ViolationLog rows are written for this session.
             return new CheckResult(List.of(), 0);
         }
         try {

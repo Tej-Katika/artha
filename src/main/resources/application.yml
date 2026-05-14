@@ -69,6 +69,16 @@ artha:
     # raw-baseline response. Used for A/B comparisons against the
     # full ontology path.
     tools-enabled: ${ARTHA_ONTOLOGY_TOOLS_ENABLED:true}
+  # ── Per-axis ablation flags ───────────────────────────────────────
+  # Each flag disables one axis of the three-axis architecture for
+  # ablation runs (Conditions B/C/D vs the full-system Condition A).
+  # Leave all true in production. See FeatureFlags.java for semantics.
+  actions:
+    enabled: ${ARTHA_ACTIONS_ENABLED:true}      # Condition B: false
+  provenance:
+    enabled: ${ARTHA_PROVENANCE_ENABLED:true}   # Condition C: false
+  constraints:
+    enabled: ${ARTHA_CONSTRAINTS_ENABLED:true}  # Condition D: false
 
 # ── Logging ───────────────────────────────────────────────────────
 logging:

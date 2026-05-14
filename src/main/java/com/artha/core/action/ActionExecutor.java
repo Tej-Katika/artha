@@ -1,5 +1,6 @@
 package com.artha.core.action;
 
+import com.artha.core.FeatureFlags;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class ActionExecutor {
 
     private final ActionAuditRepository auditRepo;
     private final ObjectMapper          objectMapper;
+    private final FeatureFlags          flags;
 
     /**
      * Execute an Action and return its output.
@@ -47,6 +49,8 @@ public class ActionExecutor {
      * @return the action's output on SUCCESS
      * @throws PreconditionViolation if P(input) failed
      * @throws PostconditionViolation if Q(input, output) failed
+     * @throws ActionsDisabledException if the Actions axis is disabled
+     *         (ablation Condition B)
      * @throws RuntimeException if E(input) threw — wrapped via cause
      */
     public <I, O> O run(Action<I, O> action,
@@ -54,6 +58,12 @@ public class ActionExecutor {
                         String actor,
                         UUID userId,
                         String sessionId) {
+
+        if (!flags.actionsEnabled()) {
+            throw new ActionsDisabledException(
+                "Actions axis is disabled for this run (ablation Condition B). "
+                + "Action '" + action.name() + "' cannot be invoked.");
+        }
 
         Instant startedAt = Instant.now();
         ActionAudit audit = new ActionAudit();
