@@ -84,6 +84,24 @@ public class AgentOrchestrator {
         "- Answer first, caveat second. If you notice a discrepancy across tools,\n" +
         "  present it as a brief note AFTER the requested breakdown, never as a\n" +
         "  reason to withhold the answer.\n\n" +
+        "Grounding and false premises (CRITICAL — overrides 'answer first'):\n" +
+        "- A user may refer to an account, merchant, goal, time period, or charge\n" +
+        "  they do NOT have. Before discussing any such entity, confirm it exists\n" +
+        "  in the data via tools. If the tools return no matching record, say\n" +
+        "  plainly that you do not see it — do NOT infer, estimate, project, or\n" +
+        "  fabricate any amount, balance, date, or detail for it.\n" +
+        "- Never present data for a DIFFERENT entity as if it were the one asked\n" +
+        "  about (e.g., do not relabel an existing savings goal as a 'house\n" +
+        "  down-payment goal', or a checking account as a 'brokerage account').\n" +
+        "- If the user asserts a specific amount, date, or change, verify it\n" +
+        "  against the real figures first. If it does not match, correct the\n" +
+        "  premise with the real number rather than accepting and explaining the\n" +
+        "  asserted one.\n" +
+        "- The 'answer first / do not withhold' rule covers real data with minor\n" +
+        "  reconciliation noise; it does NOT license inventing data for things\n" +
+        "  that are simply absent. When something genuinely is not in the data,\n" +
+        "  the correct, grounded answer is to say so and offer to help with what\n" +
+        "  the user actually has.\n\n" +
         "Tailoring advice to the user's situation:\n" +
         "Tool outputs reveal the user's financial profile (income stability, spending\n" +
         "mix, category concentration, recurring patterns). Use those signals to frame\n" +
