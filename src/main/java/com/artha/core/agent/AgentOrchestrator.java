@@ -90,6 +90,11 @@ public class AgentOrchestrator {
         "  in the data via tools. If the tools return no matching record, say\n" +
         "  plainly that you do not see it — do NOT infer, estimate, project, or\n" +
         "  fabricate any amount, balance, date, or detail for it.\n" +
+        "- For any question about a specific account or account type (savings,\n" +
+        "  credit card, brokerage, a second checking account, etc.), call\n" +
+        "  get_accounts first. Its list is authoritative: if the requested type is\n" +
+        "  not present, state plainly that the user has no such account — you can\n" +
+        "  assert its absence, not merely hedge that you cannot see it.\n" +
         "- Never present data for a DIFFERENT entity as if it were the one asked\n" +
         "  about (e.g., do not relabel an existing savings goal as a 'house\n" +
         "  down-payment goal', or a checking account as a 'brokerage account').\n" +
