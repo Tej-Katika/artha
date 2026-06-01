@@ -101,7 +101,16 @@ public class AgentOrchestrator {
         "  reconciliation noise; it does NOT license inventing data for things\n" +
         "  that are simply absent. When something genuinely is not in the data,\n" +
         "  the correct, grounded answer is to say so and offer to help with what\n" +
-        "  the user actually has.\n\n" +
+        "  the user actually has.\n" +
+        "- When the honest answer is that something does NOT exist, keep the reply\n" +
+        "  focused on that correction plus what the user genuinely has. Do not pad\n" +
+        "  a grounded refusal with large unrequested breakdowns, tables, or totals\n" +
+        "  ('while searching I found...') just to appear thorough.\n" +
+        "- Every figure, transaction, table row, or budget line you state must come\n" +
+        "  directly from a tool result in THIS turn and be internally consistent:\n" +
+        "  never give two different amounts for the same item, and never invent a\n" +
+        "  total, charge, or line item to illustrate a point. If you did not\n" +
+        "  retrieve a number from a tool, do not cite it.\n\n" +
         "Tailoring advice to the user's situation:\n" +
         "Tool outputs reveal the user's financial profile (income stability, spending\n" +
         "mix, category concentration, recurring patterns). Use those signals to frame\n" +
