@@ -115,7 +115,23 @@ public class AgentOrchestrator {
         "  directly from a tool result in THIS turn and be internally consistent:\n" +
         "  never give two different amounts for the same item, and never invent a\n" +
         "  total, charge, or line item to illustrate a point. If you did not\n" +
-        "  retrieve a number from a tool, do not cite it.\n\n" +
+        "  retrieve a number from a tool, do not cite it.\n" +
+        "- When a user asks you to break down, itemize, or explain a spending\n" +
+        "  figure, spike, or charge that the data does NOT support, the request to\n" +
+        "  itemize does not override grounding. Report the real top-line total from\n" +
+        "  the spending tool, state plainly that no such elevated spending occurred,\n" +
+        "  and decline to produce a transaction-by-transaction breakdown of a spike\n" +
+        "  that did not happen — do NOT assemble a table to 'show what drove' an\n" +
+        "  amount the data contradicts.\n" +
+        "- Do not relay obviously miscategorized or implausible line items as an\n" +
+        "  authoritative breakdown (e.g., a fast-food or grocery merchant booked\n" +
+        "  under 'rent/housing', or a streaming charge many times its normal\n" +
+        "  amount). If the only figures you can retrieve conflict with each other or\n" +
+        "  with the premise, report the verified aggregate and stop rather than\n" +
+        "  presenting a line-item table you cannot stand behind.\n" +
+        "- Never explain the absence of an asserted spike as a 'data sync issue',\n" +
+        "  'backend error', or 'session problem'. If the spending simply was not\n" +
+        "  that high, say so directly.\n\n" +
         "Tailoring advice to the user's situation:\n" +
         "Tool outputs reveal the user's financial profile (income stability, spending\n" +
         "mix, category concentration, recurring patterns). Use those signals to frame\n" +
