@@ -2,6 +2,7 @@ package com.artha.core.agent;
 
 import com.artha.core.FeatureFlags;
 import com.artha.core.ReferenceDateProvider;
+import com.artha.core.agent.llm.LlmTransport;
 import com.artha.core.constraint.ConstraintChecker;
 import com.artha.core.constraint.ConstraintChecker.CheckResult;
 import com.artha.core.constraint.ConstraintChecker.Violation;
@@ -13,13 +14,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,11 +43,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AgentOrchestrator {
 
-    @Value("${artha.anthropic.api-key}")
-    private String apiKey;
-
-    @Value("${artha.anthropic.model:claude-haiku-4-5-20251001}")
-    private String model;
+    /** Agent backbone: {@code anthropic} (default) | {@code openai} | {@code gemini}. */
+    @Value("${artha.agent.provider:anthropic}")
+    private String agentProvider;
 
     private final ToolRegistry           toolRegistry;
     private final ObjectMapper           objectMapper;
@@ -59,14 +53,11 @@ public class AgentOrchestrator {
     private final ViolationLogService    violationLogService;
     private final ReferenceDateProvider  referenceDateProvider;
     private final FeatureFlags           flags;
+    private final List<LlmTransport>     transports;
 
     private static final int    MAX_TURNS                = 8;
     public static final  int    MAX_CONSTRAINT_RETRIES   = 2;
-    private static final String API_URL                  = "https://api.anthropic.com/v1/messages";
-    private static final String API_VERSION              = "2023-06-01";
     private static final String DEFAULT_DOMAIN           = "banking";
-    private static final int    UPSTREAM_MAX_ATTEMPTS    = 4;
-    private static final long   UPSTREAM_BACKOFF_BASE_MS = 2000L;
 
     private static final String SYSTEM_PROMPT =
         "You are Artha, a personal AI financial advisor.\n" +
@@ -180,9 +171,10 @@ public class AgentOrchestrator {
         messages.add(userMsg);
 
         ArrayNode tools = buildToolDefinitions();
+        LlmTransport transport = selectTransport();
 
         for (int turn = 0; turn < MAX_TURNS; turn++) {
-            JsonNode response = callClaude(messages, tools);
+            JsonNode response = transport.call(messages, tools, SYSTEM_PROMPT);
             if (response == null) {
                 violationLogService.markRepaired(sessionViolationIds, false);
                 return "I'm having trouble connecting right now. Please try again in a moment.";
@@ -355,59 +347,22 @@ public class AgentOrchestrator {
         return sb.toString();
     }
 
-    // ── existing Claude transport / tooling (unchanged) ─────────────
+    // ── transport selection ─────────────────────────────────────────
 
-    private JsonNode callClaude(ArrayNode messages, ArrayNode tools) {
-        ObjectNode body = objectMapper.createObjectNode();
-        body.put("model",      model);
-        body.put("max_tokens", 1024);
-        body.put("system",     SYSTEM_PROMPT);
-        body.set("messages",   messages);
-        body.set("tools",      tools);
-        String bodyStr = body.toString();
-
-        for (int attempt = 1; attempt <= UPSTREAM_MAX_ATTEMPTS; attempt++) {
-            try {
-                String responseBody = WebClient.builder()
-                    .baseUrl(API_URL)
-                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .defaultHeader("x-api-key",         apiKey)
-                    .defaultHeader("anthropic-version", API_VERSION)
-                    .build()
-                    .post()
-                    .bodyValue(bodyStr)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-
-                JsonNode parsed = objectMapper.readTree(responseBody);
-                logUsage(parsed.path("usage"));
-                return parsed;
-
-            } catch (WebClientResponseException e) {
-                int status = e.getStatusCode().value();
-                boolean retryable = (status == 529 || status == 429)
-                                    && attempt < UPSTREAM_MAX_ATTEMPTS;
-                if (retryable) {
-                    long waitMs = UPSTREAM_BACKOFF_BASE_MS * (1L << (attempt - 1));
-                    log.warn("Claude API {} on attempt {}/{} — retrying in {}ms",
-                            status, attempt, UPSTREAM_MAX_ATTEMPTS, waitMs);
-                    try { Thread.sleep(waitMs); }
-                    catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                        return null;
-                    }
-                    continue;
-                }
-                log.error("Claude API error — status={} body={}",
-                        e.getStatusCode(), e.getResponseBodyAsString());
-                return null;
-            } catch (Exception e) {
-                log.error("Claude call failed — {}", e.getMessage(), e);
-                return null;
+    /**
+     * Resolve the configured agent backbone. The orchestrator loop is
+     * provider-agnostic: each {@link LlmTransport} returns Anthropic-shaped
+     * {@code {stop_reason, content[]}}, so only the transport differs across
+     * model families (used for the cross-family agent ablation).
+     */
+    private LlmTransport selectTransport() {
+        for (LlmTransport t : transports) {
+            if (t.provider().equalsIgnoreCase(agentProvider)) {
+                return t;
             }
         }
-        return null;
+        throw new IllegalStateException(
+            "No LlmTransport registered for artha.agent.provider=" + agentProvider);
     }
 
     private String executeTool(String name, JsonNode input, String userId) {

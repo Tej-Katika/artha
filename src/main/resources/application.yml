@@ -50,12 +50,29 @@ server:
 # Set ANTHROPIC_API_KEY as an environment variable on your machine
 # Windows: setx ANTHROPIC_API_KEY "sk-ant-..."
 artha:
+  # ── Agent backbone selection ─────────────────────────────────────
+  # provider: which model family drives the tool-calling loop.
+  #   anthropic (default) | openai | gemini
+  # Used for the cross-family agent ablation. Set via ARTHA_AGENT_PROVIDER.
+  agent:
+    provider: ${ARTHA_AGENT_PROVIDER:anthropic}
   anthropic:
     api-key: ${ANTHROPIC_API_KEY:not-set}
     model: claude-sonnet-4-6
     max-tokens: 4096
     max-tool-iterations: 8
     temperature: 0.3
+  # ── Alternate agent backbones (cross-family ablation only) ───────
+  openai:
+    api-key: ${OPENAI_API_KEY:not-set}
+    model: ${ARTHA_OPENAI_MODEL:gpt-5}
+    base-url: https://api.openai.com/v1/chat/completions
+    max-completion-tokens: 4096
+  gemini:
+    api-key: ${GEMINI_API_KEY:not-set}
+    model: ${ARTHA_GEMINI_MODEL:gemini-2.5-pro}
+    base-url: https://generativelanguage.googleapis.com/v1beta/models
+    max-output-tokens: 4096
   # ── Evaluation overrides ─────────────────────────────────────────
   # reference-date: when set to an ISO-8601 date, tool query windows
   # ("last 30 days", "this month", etc.) anchor on that date instead
