@@ -214,6 +214,19 @@ public class OpenAiTransport implements LlmTransport {
             }
         }
 
+        // Cost instrumentation: GPT-5 bills reasoning tokens as output, and
+        // reasoning volume is the dominant cost uncertainty for the planted
+        // run. Log per-call usage so a micro-measure can sum it from the log.
+        JsonNode usage = parsed.path("usage");
+        if (!usage.isMissingNode()) {
+            JsonNode rd = usage.path("completion_tokens_details").path("reasoning_tokens");
+            log.info("OpenAI usage — prompt={} completion={} reasoning={} total={}",
+                    usage.path("prompt_tokens").asInt(),
+                    usage.path("completion_tokens").asInt(),
+                    rd.isMissingNode() ? 0 : rd.asInt(),
+                    usage.path("total_tokens").asInt());
+        }
+
         ObjectNode out = objectMapper.createObjectNode();
         out.put("stop_reason", hasToolCalls ? "tool_use" : "end_turn");
         out.set("content", content);
